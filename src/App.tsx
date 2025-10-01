@@ -16,7 +16,7 @@ const ProtectedRouteWeb: React.FC = () => {
   return (
     <div className="flex flex-col w-full" style={{ height: "100vh", backgroundColor: '#007bff' }}>
       {/* <!-- Header --> */}
-      <BackToTop/>
+      <BackToTop />
       <HeaderWeb />
       <NavWeb />
       <Outlet />
@@ -31,7 +31,7 @@ const ProtectedRouteAdmin: React.FC = () => {
   return (
     <div className="flex flex-col w-full" style={{ height: "100vh", backgroundColor: '#007bff' }}>
       {/* <!-- Header --> */}
-      <BackToTop/>
+      <BackToTop />
       <HeaderAdmin />
       <NavAdmin />
       <Outlet />
@@ -52,8 +52,7 @@ const App: React.FC = () => {
           </Route>
           <Route path='/admin' element={<ProtectedRouteAdmin />}>
             <Route >
-              <Route index element={<Navigate to="/admin" replace />} />
-              <Route path="/admin" element={<Admin />} />
+              <Route index element={<Admin />} />
             </Route>
           </Route>
         </Routes>
