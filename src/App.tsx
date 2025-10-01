@@ -4,6 +4,8 @@ import { HashRouter, Route, Routes, Navigate, Outlet, BrowserRouter } from 'reac
 import { FooterAdmin, HeaderAdmin, NavAdmin } from './components/dashboard';
 import { FooterWeb, HeaderWeb, NavWeb } from './components/web';
 
+import BackToTop from './components/BackToTop';
+
 
 const Home = React.lazy(() => import('./pages/web/home'));
 
@@ -14,6 +16,7 @@ const ProtectedRouteWeb: React.FC = () => {
   return (
     <div className="flex flex-col w-full" style={{ height: "100vh", backgroundColor: '#007bff' }}>
       {/* <!-- Header --> */}
+      <BackToTop/>
       <HeaderWeb />
       <NavWeb />
       <Outlet />
@@ -28,6 +31,7 @@ const ProtectedRouteAdmin: React.FC = () => {
   return (
     <div className="flex flex-col w-full" style={{ height: "100vh", backgroundColor: '#007bff' }}>
       {/* <!-- Header --> */}
+      <BackToTop/>
       <HeaderAdmin />
       <NavAdmin />
       <Outlet />
