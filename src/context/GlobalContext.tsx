@@ -21,6 +21,16 @@ import {
 import { LuSettings2 } from "react-icons/lu";
 import { IoMdSearch } from "react-icons/io";
 
+import imgBanner1 from "../assets/img/banner.png"
+
+export interface Image {
+    imgBanner1: string;
+}
+
+const defaultImage: Image = {
+    imgBanner1: imgBanner1
+}
+
 export interface Icons {
     iconMenu: JSX.Element;
     iconClose: JSX.Element;
@@ -107,6 +117,7 @@ export interface ResUploadFile {
 
 export interface GlobalState {
     icons: Icons;
+    imgs: Image;
 
     resProduct: ResProduct[];// dùng cho list, filter
     setResProduct: React.Dispatch<React.SetStateAction<ResProduct[]>>;
@@ -144,9 +155,13 @@ export interface GlobalState {
     resUploadFile: ResUploadFile | undefined;
     setResUploadFile: React.Dispatch<React.SetStateAction<ResUploadFile | undefined>>;
 
+    ordersList: ResProduct[];
+
+    setOrdersList: React.Dispatch<React.SetStateAction<ResProduct[]>>;
+
     isMobile: boolean;
     ordersNumber: number;
-    setOrdersNumber : (orders: number) => void
+    setOrdersNumber: (orders: number) => void
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -168,6 +183,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
     const [ordersNumber, setOrdersNumber] = useState<number>(0)
 
+    const [ordersList, setOrdersList] = useState<ResProduct[]>([])
+
     const value = {
         icons: defaultIcons,
         isMobile,
@@ -183,7 +200,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         resRefreshToken, setResRefrshToken,
         resLocations, setResLocations,
         resUploadFile, setResUploadFile,
-        ordersNumber, setOrdersNumber
+        ordersNumber, setOrdersNumber,
+        ordersList, setOrdersList,
+        imgs: defaultImage
     }
 
     return (

@@ -132,7 +132,11 @@ const HeaderWeb: React.FC = () => {
                         onChange={(e) => setKey(e.target.value)}
                         onKeyDown={handleKeyPress}
                     />
-                    <button className='content-end relative'>
+                    <button className='content-end relative'
+                    onClick={()=>{
+                        navigate("/cart")
+                    }}
+                    >
                         <span className='text-white text-3xl'>{icons.iconCart}</span>
                         <span className='absolute text-white -top-3 -right-3 w-6 h-6 rounded-full bg-white content-center'>
                             <p className='text-orange-700 text-center text-sm font-bold'>{ordersNumber}</p>
