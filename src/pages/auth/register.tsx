@@ -1,9 +1,9 @@
 import React from "react";
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
     return (
         <></>
     )
 }
 
-export default Login
+export default Register

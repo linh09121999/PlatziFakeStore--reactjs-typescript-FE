@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrangeMart - Thương Mại Điện Tử</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --orange-700: #c2410c;
+            --orange-600: #ea580c;
+            --orange-500: #f97316;
+            --orange-400: #fb923c;
+            --orange-100: #ffedd5;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-100: #f3f4f6;
+            --white: #ffffff;
+        }
+        
+        body {
+            background-color: var(--gray-100);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-top {
+            background-color: var(--orange-700);
+            color: var(--white);
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .header-top-content {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .header-main {
+            padding: 15px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--orange-700);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+        }
+        
+        .search-bar {
+            display: flex;
+            flex: 1;
+            max-width: 600px;
+            margin: 0 20px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid var(--orange-500);
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .search-bar button {
+            background-color: var(--orange-700);
+            color: var(--white);
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background-color: var(--orange-600);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: var(--gray-700);
+            transition: color 0.3s;
+        }
+        
+        .action-item:hover {
+            color: var(--orange-700);
+        }
+        
+        .action-item i {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .action-item span {
+            font-size: 12px;
+        }
+        
+        nav {
+            background-color: var(--orange-700);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        
+        nav ul li a:hover {
+            background-color: var(--orange-600);
+        }
+        
+        /* Banner Styles */
+        .banner {
+            background: linear-gradient(to right, var(--orange-700), var(--orange-500));
+            color: var(--white);
+            padding: 60px 0;
+            margin-bottom: 40px;
+        }
+        
+        .banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .banner-text {
+            flex: 1;
+            max-width: 600px;
+        }
+        
+        .banner-text h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .banner-text p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .banner-btn {
+            display: inline-block;
+            background-color: var(--white);
+            color: var(--orange-700);
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .banner-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .banner-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .banner-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 40px 0;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            color: var(--gray-800);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--orange-700);
+        }
+        
+        .view-all {
+            color: var(--orange-700);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Categories Styles */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .category {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 180px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .category img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .category h3 {
+            padding: 15px 10px;
+            font-size: 16px;
+            color: var(--gray-800);
+        }
+        
+        /* Products Styles */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .product {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .product:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--orange-700);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1;
+        }
+        
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+        
+        .product img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product:hover img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: var(--gray-800);
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-rating {
+            color: var(--orange-500);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .current-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--orange-700);
+        }
+        
+        .original-price {
+            font-size: 14px;
+            color: var(--gray-700);
+            text-decoration: line-through;
+        }
+        
+        .discount {
+            font-size: 12px;
+            color: var(--orange-700);
+            font-weight: bold;
+        }
+        
+        .add-to-cart {
+            display: block;
+            width: 100%;
+            background-color: var(--orange-700);
+            color: var(--white);
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background-color: var(--orange-600);
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--gray-800);
+            color: var(--white);
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: var(--orange-400);
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: block;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: var(--orange-400);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--orange-700);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .banner-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .banner-text {
+                margin-bottom: 30px;
+            }
+            
+            .header-content {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                margin: 15px 0 0;
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-top-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+            }
+            
+            .header-actions {
+                gap: 10px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                flex: 1 0 50%;
+            }
+            
+            nav ul li a {
+                text-align: center;
+                padding: 12px 10px;
+            }
+            
+            .categories {
+                gap: 15px;
+            }
+            
+            .category {
+                width: calc(50% - 15px);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .banner-text h1 {
+                font-size: 32px;
+            }
+            
+            .category {
+                width: 100%;
+            }
+            
+            .products {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <div class="container header-top-content">
+                <div>Miễn phí vận chuyển cho đơn hàng từ 500.000đ</div>
+                <div>Hotline: 1900 1234</div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-shopping-bag"></i>
+                        OrangeMart
+                    </div>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="header-actions">
+                        <div class="action-item">
+                            <i class="fas fa-user"></i>
+                            <span>Tài khoản</span>
+                        </div>
+                        <div class="action-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Yêu thích</span>
+                        </div>
+                        <div class="action-item">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Giỏ hàng</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Trang chủ</a></li>
+                    <li><a href="#"><i class="fas fa-list"></i> Danh mục</a></li>
+                    <li><a href="#"><i class="fas fa-bolt"></i> Khuyến mãi</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i> Sản phẩm mới</a></li>
+                    <li><a href="#"><i class="fas fa-award"></i> Thương hiệu</a></li>
+                    <li><a href="#"><i class="fas fa-headset"></i> Hỗ trợ</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <div class="container banner-content">
+            <div class="banner-text">
+                <h1>Siêu Sale Tháng 10<br>Giảm đến 50%</h1>
+                <p>Hàng ngàn sản phẩm chất lượng với mức giá tốt nhất. Ưu đãi đặc biệt chỉ có tại OrangeMart!</p>
+                <a href="#" class="banner-btn">MUA NGAY <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="banner-image">
+                <img src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Khuyến mãi">
+            </div>
+        </div>
+    </section>
+
+    <section class="categories-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Danh Mục Sản Phẩm</h2>
+                <a href="#" class="view-all">Xem tất cả <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="categories">
+                <div class="category">
+                    <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Điện tử">
+                    <h3>Điện tử</h3>
+                </div>
+                <div class="category">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Thể thao">
+                    <h3>Thể thao</h3>
+                </div>
+                <div class="category">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Thời trang">
+                    <h3>Thời trang</h3>
+                </div>
+                <div class="category">
+                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Nhà cửa">
+                    <h3>Nhà cửa</h3>
+                </div>
+                <div class="category">
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Sách">
+                    <h3>Sách</h3>
+                </div>
+                <div class="category">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Làm đẹp">
+                    <h3>Làm đẹp</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Sản Phẩm Nổi Bật</h2>
+                <a href="#" class="view-all">Xem tất cả <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="products">
+                <div class="product">
+                    <div class="product-badge">-20%</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Tai nghe">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tai nghe chụp tai cao cấp Sony WH-1000XM4</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(128)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">4.990.000đ</span>
+                            <span class="original-price">6.240.000đ</span>
+                            <span class="discount">-20%</span>
+                        </div>
+                        <button class="add-to-cart">Thêm vào giỏ hàng</button>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-badge">-15%</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Giày thể thao">
+                    </div>
+                    <div class="product-info">
+                        <h3>Giày thể thao nam Nike Air Max 270</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(95)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">2.550.000đ</span>
+                            <span class="original-price">3.000.000đ</span>
+                            <span class="discount">-15%</span>
+                        </div>
+                        <button class="add-to-cart">Thêm vào giỏ hàng</button>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-badge">Mới</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Máy ảnh">
+                    </div>
+                    <div class="product-info">
+                        <h3>Máy ảnh DSLR Canon EOS 90D + Ống kính 18-55mm</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(64)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">24.990.000đ</span>
+                        </div>
+                        <button class="add-to-cart">Thêm vào giỏ hàng</button>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-badge">-30%</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Đồng hồ">
+                    </div>
+                    <div class="product-info">
+                        <h3>Đồng hồ thông minh Apple Watch Series 8</h3>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(210)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">9.990.000đ</span>
+                            <span class="original-price">14.270.000đ</span>
+                            <span class="discount">-30%</span>
+                        </div>
+                        <button class="add-to-cart">Thêm vào giỏ hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Về OrangeMart</h3>
+                    <p>OrangeMart - Địa chỉ mua sắm trực tuyến uy tín với hàng ngàn sản phẩm chất lượng, giá tốt.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Thông tin</h3>
+                    <a href="#">Giới thiệu</a>
+                    <a href="#">Tuyển dụng</a>
+                    <a href="#">Chính sách bảo mật</a>
+                    <a href="#">Điều khoản sử dụng</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Hỗ trợ khách hàng</h3>
+                    <a href="#">Trung tâm trợ giúp</a>
+                    <a href="#">Hướng dẫn mua hàng</a>
+                    <a href="#">Chính sách đổi trả</a>
+                    <a href="#">Phương thức vận chuyển</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Liên hệ</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận 1, TP.HCM</p>
+                    <p><i class="fas fa-phone"></i> 1900 1234</p>
+                    <p><i class="fas fa-envelope"></i> info@orangemart.vn</p>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 OrangeMart. Tất cả các quyền được bảo lưu.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

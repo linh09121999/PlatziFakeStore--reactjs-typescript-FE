@@ -26,7 +26,7 @@ api.interceptors.request.use(
 
 // Interceptor xử lý response
 api.interceptors.response.use(
-    (response: AxiosResponse) => response.data,
+    (response: AxiosResponse) => response,
     (error) => {
         console.error("API Error:", error.response || error.message);
         return Promise.reject(error);

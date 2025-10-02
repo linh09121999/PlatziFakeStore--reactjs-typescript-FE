@@ -10,7 +10,7 @@ import {
     FaChevronUp,
     FaEye,
 } from "react-icons/fa";
-import { FaCalendarDays } from "react-icons/fa6";
+import { FaCalendarDays, FaCartShopping } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
 import {
     IoClose,
@@ -19,6 +19,7 @@ import {
     MdNavigateNext,
 } from "react-icons/md";
 import { LuSettings2 } from "react-icons/lu";
+import { IoMdSearch } from "react-icons/io";
 
 export interface Icons {
     iconMenu: JSX.Element;
@@ -33,6 +34,8 @@ export interface Icons {
     iconEye: JSX.Element;
     iconHome: JSX.Element;
     iconSetting: JSX.Element;
+    iconSearch: JSX.Element;
+    iconCart: JSX.Element
 }
 
 const defaultIcons: Icons = {
@@ -48,6 +51,8 @@ const defaultIcons: Icons = {
     iconEye: <FaEye className="mx-auto" />,
     iconHome: <FaHome />,
     iconSetting: <LuSettings2 className="mx-auto" />,
+    iconSearch: <IoMdSearch className="mx-auto" />,
+    iconCart: <FaCartShopping />
 }
 
 export interface Category {
@@ -140,6 +145,8 @@ export interface GlobalState {
     setResUploadFile: React.Dispatch<React.SetStateAction<ResUploadFile | undefined>>;
 
     isMobile: boolean;
+    ordersNumber: number;
+    setOrdersNumber : (orders: number) => void
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -159,6 +166,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const [resLocations, setResLocations] = useState<ResLocations[]>([]);
     const [resUploadFile, setResUploadFile] = useState<ResUploadFile>();
 
+    const [ordersNumber, setOrdersNumber] = useState<number>(0)
+
     const value = {
         icons: defaultIcons,
         isMobile,
@@ -174,6 +183,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         resRefreshToken, setResRefrshToken,
         resLocations, setResLocations,
         resUploadFile, setResUploadFile,
+        ordersNumber, setOrdersNumber
     }
 
     return (

@@ -40,17 +40,17 @@ const BackToTop: React.FC = () => {
             {isVisible && (
                 <button
                     onClick={scrollToTop}
-                    className="shadow-lg backdrop-blur-[10px] transition-all duration-300 fixed bottom-[24px] right-[30px] text-white rounded-full flex items-center justify-center z-10 css-icon"
+                    className="shadow-lg backdrop-blur-[10px] transition-all duration-300 fixed bottom-[24px] right-[30px] text-orange-700 rounded-full flex items-center justify-center z-10 css-icon"
 
                 >
-                    <CircularProgress variant="determinate" value={scrollPercent} size="50px" sx={{ color: "var(--color-white)" }} />
+                    <CircularProgress variant="determinate" value={scrollPercent} size="50px" sx={{ color: "var(--color-orange-700)" }} />
                     <Box
                         sx={{
                             position: 'absolute',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            color: "var(--color-white)",
+                            color: "var(--color-orange-700)",
                         }}
                     >
                         {icons.iconBackToTop}

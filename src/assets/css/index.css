@@ -1,0 +1,87 @@
+*.Mui-focused .MuiOutlinedInput-notchedOutline,
+*.Mui-focused .MuiPickersOutlinedInput-notchedOutline {
+    outline: none;
+    background: transparent !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+    border: none !important;
+    /* border: 1px solid rgb(255, 255, 255, 0.1) !important */
+}
+
+.MuiInputLabel-root.Mui-focused,
+.MuiInputLabel-shrink {
+    font-weight: 600 !important;
+    font-size: var(--text-xl) !important;
+    background-color: transparent !important;
+    font-family: inherit !important;
+    top: -2rem !important;
+    left: -14px !important;
+    transition: all 0.3s;
+    color: white !important;
+}
+
+.MuiInput-root::before {
+    border-bottom: 2px solid rgb(255, 255, 255, 0.2) !important
+}
+
+.MuiInput-root::after {
+    border-bottom: 2px solid var(--color-green-400) !important
+}
+
+.css-icon:hover {
+    animation: fly-1 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes fly-1 {
+    from {
+        transform: translateY(0.1em);
+    }
+
+    to {
+        transform: translateY(-0.1em);
+    }
+}
+
+.css-next:hover span{
+    animation: next-1 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes next-1 {
+    from {
+        transform: translateX(0.1em);
+    }
+
+    to {
+        transform: translateX(-0.1em);
+    }
+}
+
+.backdrop-blur-sm {
+    --tw-backdrop-blur: none !important;
+}
+
+.scroll-x {
+    scroll-behavior: smooth;
+}
+
+/* custom scrollbar */
+.scroll-x::-webkit-scrollbar {
+    height: 7px;
+    /* chiều cao thanh trượt ngang */
+}
+
+.scroll-x::-webkit-scrollbar-track {
+    background: rgb(255, 255, 255, 0.1);
+    /* màu nền track */
+    border-radius: 3px;
+}
+
+.scroll-x::-webkit-scrollbar-thumb {
+    background: rgb(255, 255, 255, 0.5);
+    /* màu nút kéo */
+    border-radius: 3px;
+}
+
+.scroll-x::-webkit-scrollbar-thumb:hover {
+    background: rgb(255, 255, 255, 0.7);
+    /* hover đậm hơn */
+}

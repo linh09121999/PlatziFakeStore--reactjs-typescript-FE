@@ -1,9 +1,9 @@
 import React from "react";
 
-const Login: React.FC = () => {
+const Categories: React.FC = () => {
     return (
         <></>
     )
 }
 
-export default Login
+export default Categories
