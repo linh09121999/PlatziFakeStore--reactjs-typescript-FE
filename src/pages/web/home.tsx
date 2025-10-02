@@ -27,7 +27,7 @@ import { useGlobal } from '../../context/GlobalContext';
 
 const Home: React.FC = () => {
     const navigate = useNavigate()
-    const { icons, setResProduct, resProduct, setResCategories, resCategories, setResProductBy,
+    const { icons, imgs, setResProduct, resProduct, setResCategories, resCategories, setResProductBy,
         ordersList, setOrdersList, setOrdersNumber, ordersNumber,
         resCategoriesBy, setResCategoriesBy
     } = useGlobal()
@@ -104,8 +104,17 @@ const Home: React.FC = () => {
         <>
             <main className="bg-gray-100 min-h-[70vh] p-5">
                 <div className="max-w-[1500px] mx-auto flex flex-col gap-10">
-                    <section>
-                        <img src="" alt="" />
+                    <section className="flex justify-between bg-gradient-to-r to-orange-600 from-orange-700 py-5 px-20 rounded-[10px]">
+                        <div className="flex flex-col gap-10 self-center">
+                            <h1 className="text-8xl font-bold text-white">Spee Shop</h1>
+                            <button onClick={() => {
+                                navigate("/products")
+                            }}
+                                className="px-4 py-1 css-next bg-white rounded-[10px] text-xl font-600 flex gap-2 items-center w-fit text-orange-700">BY NOW
+                                <span>{icons.iconNext}</span>
+                            </button>
+                        </div>
+                        <img src={imgs.imgBanner1} alt='banner' className=" h-[450px]" />
                     </section>
                     <section className=" flex flex-col gap-4">
                         <div className="md:flex md:justify-between items-center pb-2 border-b-[2px] border-b-gray-200">
