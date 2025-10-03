@@ -27,7 +27,8 @@ import {
     InputAdornment,
     FormControl,
     Autocomplete,
-    MenuItem, Menu
+    MenuItem, Menu,
+    Box, Slider
 } from '@mui/material'
 import type { SxProps, Theme } from "@mui/material/styles";
 
@@ -69,9 +70,9 @@ const Products: React.FC = () => {
             borderRadius: '10px',
             background: 'white',
             color: 'var(--color-orange-700)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
             height: '40px',
-            boxShadow: 'var(--shadow-lg)'
+            boxShadow: 'var(--shadow-lg)',
+            border: 'none',
         },
         '& .MuiOutlinedInput-notchedOutline': {
             border: 'none',
@@ -109,6 +110,61 @@ const Products: React.FC = () => {
             backgroundColor: 'var(--color-orange-700) !important',
             color: 'white !important',
             fontWeight: 600
+        },
+    }
+
+    const sxSlider: SxProps<Theme> = {
+        color: "#c2410c", // tailwind orange-700
+        '& .MuiSlider-thumb': {
+            bgcolor: '#fff',
+            border: '2px solid currentColor',
+            width: 20,
+            height: 20,
+            boxShadow: '0 0 0 8px rgba(194,65,12,0.12)',
+        },
+        '& .MuiSlider-track': {
+            border: 'none',
+        },
+        '& .MuiSlider-rail': {
+            opacity: 0.5,
+            backgroundColor: 'rgba(194,65,12,0.25)',
+        },
+        '& .MuiSlider-mark': {
+            backgroundColor: 'transparent',
+        }
+    }
+
+    const sxTextField: SxProps<Theme> = {
+        width: "50%",
+        '& .MuiOutlinedInput-root': {
+            borderRadius: "10px",
+            background: "var(--color-white)",
+            height: '40px',
+            boxShadow: 'var(--shadow-lg)',
+            padding: '3px 8px',
+            transition: 'all 0.3s',
+            fontSize: 'var(--text-xl)',
+            border: 'none',
+        },
+
+        '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+        },
+
+        '&:hover .MuiOutlinedInput-notchedOutline': {
+            outline: 'none',
+            border: 'none'
+        },
+
+        '& .MuiOutlinedInput-input': {
+            padding: 0
+        },
+
+        '& .MuiInputBase-input': {
+            color: 'black',
+            paddingLeft: '14px',
+            fontSize: 'var(--text-lg)',
+            border: 'none',
         },
     }
 
@@ -299,6 +355,15 @@ const Products: React.FC = () => {
         setSortBy("Newest");
     };
 
+    const [priceMin, setPriceMin] = React.useState<number>(20);
+    const [priceMax, setPriceMax] = React.useState<number>(37);
+
+    const handleChangeSlider = (event: Event, newValue: number | number[]) => {
+        const [min, max] = newValue as number[];
+        setPriceMin(min);
+        setPriceMax(max);
+    };
+
     return (
         <>
             <div className='w-full px-5 bg-gray-100 sticky z-[999] md:top-[120px] max-md:top-[135px]'>
@@ -366,7 +431,49 @@ const Products: React.FC = () => {
                             <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
                                 <h3 className="text-xl text-black">PRICE RANGE</h3>
                             </div>
-
+                            <div>
+                                <Slider
+                                    value={[priceMin, priceMax]}
+                                    onChange={handleChangeSlider}
+                                    min={0}
+                                    max={1000}
+                                    valueLabelDisplay="auto"
+                                    sx={sxSlider}
+                                />
+                            </div>
+                            <div className="flex justify-between gap-2 items-center">
+                                <TextField
+                                    slotProps={{
+                                        input: {
+                                            startAdornment: (
+                                                <InputAdornment position="start"
+                                                >
+                                                    {icons.iconDollar}
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                    }}
+                                    value={priceMin}
+                                    variant="outlined"
+                                    sx={sxTextField}
+                                />
+                                <p>to</p>
+                                <TextField
+                                    slotProps={{
+                                        input: {
+                                            startAdornment: (
+                                                <InputAdornment position="start"
+                                                >
+                                                    {icons.iconDollar}
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                    }}
+                                    value={priceMax}
+                                    variant="outlined"
+                                    sx={sxTextField}
+                                />
+                            </div>
                         </div>
                     </aside>
                     <section className="flex flex-col gap-6 ">
@@ -386,7 +493,7 @@ const Products: React.FC = () => {
                                     </div>
                                 }
                                 <div className="self-end flex gap-2 items-center">
-                                    <button className={`${openSortBy ? "border-orange-700" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center border-[2px] border-gray-200 h-[40px] hover:border-orange-700`}
+                                    <button className={`${openSortBy ? "border-orange-700 shadow-xl" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center bg-white shadow-lg h-[40px] hover:border-orange-700`}
                                         onClick={handleClickSortBy}
                                     >
                                         <p className="text-black text-lg">Price:</p>

@@ -8,7 +8,8 @@ import {
     FaAngleDoubleUp,
     FaChevronDown,
     FaChevronUp,
-    FaEye,
+    FaEye, FaEyeSlash,
+    FaDollarSign
 } from "react-icons/fa";
 import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
@@ -42,12 +43,14 @@ export interface Icons {
     iconUp: JSX.Element;
     iconDown: JSX.Element;
     iconEye: JSX.Element;
+    iconEyeSlash: JSX.Element;
     iconHome: JSX.Element;
     iconSetting: JSX.Element;
     iconSearch: JSX.Element;
     iconCart: JSX.Element;
     iconSortUp: JSX.Element;
     iconSortDown: JSX.Element;
+    iconDollar: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -61,12 +64,14 @@ const defaultIcons: Icons = {
     iconUp: <FaChevronUp size={14} />,
     iconDown: <FaChevronDown size={14} />,
     iconEye: <FaEye className="mx-auto" />,
+    iconEyeSlash: <FaEyeSlash className="mx-auto" />,
     iconHome: <FaHome />,
     iconSetting: <LuSettings2 className="mx-auto" />,
     iconSearch: <IoMdSearch className="mx-auto" />,
     iconCart: <FaCartShopping />,
     iconSortUp: <FaArrowUpLong />,
-    iconSortDown: <FaArrowDownLong />
+    iconSortDown: <FaArrowDownLong />,
+    iconDollar: <FaDollarSign />
 }
 
 export interface Category {
