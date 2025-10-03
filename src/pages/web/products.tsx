@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useGlobal } from '../../context/GlobalContext';
 import {
     getProducts,
@@ -21,10 +21,67 @@ import {
     getCategoriesBySlug,
 } from "../../services/userService"
 
+import {
+    TextField,
+    InputAdornment,
+    FormControl,
+    Autocomplete,
+    MenuItem, Menu
+} from '@mui/material'
+import type { SxProps, Theme } from "@mui/material/styles";
+
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 const Products: React.FC = () => {
+    const sxFormControl = {
+        minWidth: 250,
+        margin: 0
+    }
+
+    const componentsProps: SxProps<Theme> = {
+        paper: {
+            sx: {
+                background: 'white',
+                zIndex: 100,
+                '& .MuiAutocomplete-option': {
+                    minHeight: '30px !important',
+                    color: 'var(--color-orange-700)',
+                },
+                '& .MuiAutocomplete-option:hover': {
+                    backgroundColor: 'var(--color-orange-700) !important',
+                    color: 'white !important',
+                    fontWeight: 600
+                },
+                '& .MuiAutocomplete-option[aria-selected="true"]': {
+                    backgroundColor: 'var(--color-orange-700) !important',
+                    color: 'white !important',
+                    fontWeight: 600
+                }
+            }
+        }
+    }
+
+    const sxText: SxProps<Theme> = {
+        '& .MuiOutlinedInput-root': {
+            backdropFilter: 'blur(10px)',
+            borderRadius: '10px',
+            background: 'white',
+            color: 'var(--color-orange-700)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            height: '40px',
+            boxShadow: 'var(--shadow-lg)'
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+        },
+        '&:hover .MuiOutlinedInput-notchedOutline': {
+            // border: '1px solid rgba(255, 255, 255, 0.4) !important',
+            border: 'none',
+            boxShadow: 'var(--shadow-xl)'
+        },
+    }
+
     const navigate = useNavigate()
     const { icons, setResProduct, resProduct,
         setOrdersNumber, ordersNumber, setOrdersList,
@@ -42,15 +99,50 @@ const Products: React.FC = () => {
         }
     }
 
-    const getApiProduct = async (offset: number, limit: number) => {
+    const [selectSearchCategory, setSelectSearchCategory] = useState<number>(-1);
+
+    const handleChangeSearchCategory = (_: React.SyntheticEvent | null, newValue: { id: number } | null) => {
+        const idCategory = newValue ? newValue.id : undefined
+        setSelectCate(idCategory!)
+        handleProductByCatecory(idCategory!)
+    };
+
+    const handleSearchCategory = () => {
+        handleProductByCatecory(selectCate!)
+    }
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        // 1. Ngăn Menu “ăn” phím
+        e.stopPropagation();
+        // 2. Nếu bạn có logic riêng (Enter để search…) thì giữ lại:
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearchCategory();
+        }
+    };
+
+
+    const [page, setPage] = useState(0)
+    const pageSize = 12
+    const [loading, setLoading] = useState(false)
+    const [hasMore, setHasMore] = useState(true) //CHECK OUT OF STOCK
+
+    const getApiProductPage = async (offset: number, limit: number) => {
         try {
-            const res = await getProductsPage(offset, limit)
-            setResProduct(res.data)
-            console.log(res.data)
+            setLoading(true)
+            const res = await getProductsPage(offset, limit) // gọi API của bạn
+            if (res.data.length < pageSize) {
+                // ✅ nếu số sản phẩm trả về ít hơn pageSize -> hết sản phẩm
+                setHasMore(false)
+            }
+            // Nối thêm dữ liệu mới (lazy load)
+            setResProduct(prev => [...prev, ...res.data])
+
         } catch (error) {
             console.error("Lỗi khi gọi API getProductsPage", error)
             toast.error("Lỗi khi gọi API getProductsPage")
-            setResProduct([])
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -76,15 +168,21 @@ const Products: React.FC = () => {
         }
     }
 
-    const [pageSize, setPageSize] = useState<number>(10)
-    const [offset, setOffset] = useState<number>(0)
-    const [limit, setLimit] = useState<number>(10)
-    const [loading, setLoading] = useState<boolean>(false)
-
     useEffect(() => {
-        getApiProduct(offset, limit)
+        setPage(0)
+        setResProduct([])
+        getApiProductPage(0, pageSize)
         getApiCategories()
     }, [])
+
+    const handleLoadMore = () => {
+        if (!hasMore || loading) return
+        const newPage = page + 1
+        setPage(newPage)
+        const offset = newPage * pageSize
+        const limit = offset + pageSize
+        getApiProductPage(offset, limit)
+    }
 
     const handleOrder = (id: number) => {
         setOrdersNumber(ordersNumber + 1)
@@ -102,7 +200,22 @@ const Products: React.FC = () => {
         getApiProductsByCategories_Id(id)
     }
 
-    const [selectCate, setSelectCate] = useState<number>(0)
+    const [selectCate, setSelectCate] = useState<number>(-1)
+
+    const handleAllProductPage = () => {
+        setPage(0)
+        setResProduct([])
+        getApiProductPage(0, pageSize)
+        setSelectCate(-1)
+    }
+
+    const removeVietnameseTones = (str: string) => {
+        return str
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd')
+            .replace(/Đ/g, 'D');
+    }
 
     return (
         <>
@@ -115,31 +228,59 @@ const Products: React.FC = () => {
                     <div className='transition duration-300 ease css-icon'>PRODUCTS</div>
                 </div>
             </div>
-            <main className="bg-gray-100 min-h-[70vh] ">
-                <div className="max-w-[1500px] mx-auto grid md:grid-cols-[1fr_4fr] gap-5 p-5">
-                    <section className="flex flex-col">
+            <main className="bg-gray-100 min-h-[70vh]  p-5">
+                <div className="max-w-[1500px] mx-auto grid md:grid-cols-[1fr_4fr] gap-5">
+                    <aside className="sticky top-[1150px]">
                         <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
                             <h3 className="text-xl text-black/50">CATEGORIES</h3>
                         </div>
-                        <div className={`${selectCate === -1 ? "bg-orange-700 text-white font-bold" : ""} text-xl transition-all duration-300 ease cursor-pointer hover:bg-orange-700 hover:text-white hover:font-bold active:bg-orange-700 active:text-white active:font-bold`}
-                            onClick={() => {
-                                getApiProduct(offset, limit)
-                                setSelectCate(-1)
-                            }}
-                        >
-                            <p className="py-1 px-2">All</p>
+                        <div className="my-2">
+                            <FormControl className="w-full" sx={sxFormControl} size="small">
+                                <Autocomplete
+                                    disableClearable
+                                    noOptionsText="There is no category"
+                                    options={resCategories}
+                                    componentsProps={componentsProps}
+                                    getOptionLabel={(option) => option.name}
+                                    filterOptions={(options, { inputValue }) =>
+                                        options.filter((option) =>
+                                            removeVietnameseTones(option.name).toLowerCase().includes(
+                                                removeVietnameseTones(inputValue).toLowerCase()
+                                            )
+                                        )
+                                    }
+                                    value={
+                                        selectSearchCategory
+                                            ? resCategories.find((c) => c.id === selectSearchCategory) ?? undefined
+                                            : undefined
+                                    }
+                                    onChange={(handleChangeSearchCategory)}
+                                    renderInput={(params) => (
+                                        <TextField  {...params}
+                                            type="search"
+                                            placeholder="Search for categories..."
+                                            sx={sxText}
+                                            onKeyDown={handleKeyPress}
+                                            InputProps={{
+                                                ...params.InputProps,
+                                                endAdornment: (
+                                                    <InputAdornment position="end" sx={{ marginRight: '-20px', color: 'var(--color-oảnge-700)' }}>
+                                                        <button className='btn-merge'
+                                                            onClick={handleSearchCategory}
+                                                        >
+                                                            {icons.iconSearch}
+                                                        </button>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+
+                                        />
+                                    )}
+                                />
+                            </FormControl>
                         </div>
-                        {resCategories.map(cate => (
-                            <div key={cate.id} className={`${selectCate === cate.id ? "bg-orange-700 text-white font-bold" : ""} flex gap-2 text-xl transition-all duration-300 ease cursor-pointer hover:bg-orange-700 hover:text-white hover:font-bold`}
-                                onClick={() => {
-                                    handleProductByCatecory(cate.id)
-                                    setSelectCate(cate.id)
-                                }}
-                            >
-                                <p className="py-1 px-2">{cate.name}</p>
-                            </div>
-                        ))}
-                    </section>
+                        
+                    </aside>
                     <section className="  flex flex-col">
                         {resProduct === undefined ?
                             <p className="text-center text-red-800">! No data</p>
@@ -153,7 +294,7 @@ const Products: React.FC = () => {
                                             <div className="relative self-start ">
                                                 <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
                                                 <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm ">{product.category.name}</div>
-                                                <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-100"
+                                                <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
                                                     onClick={() => {
                                                         navigate("/product-similar")
                                                     }}
@@ -182,6 +323,21 @@ const Products: React.FC = () => {
                                         </div>
                                     ))}
                                 </div>
+                                {selectCate === -1 && (
+                                    <div className="text-center mt-4">
+                                        {hasMore ? (
+                                            <button
+                                                onClick={handleLoadMore}
+                                                disabled={loading}
+                                                className="px-4 py-2 bg-orange-700 text-white rounded hover:bg-orange-600"
+                                            >
+                                                {loading ? "Loading..." : "Loading more"}
+                                            </button>
+                                        ) : (
+                                            <p className="text-gray-500 mt-2">There are no more products</p>
+                                        )}
+                                    </div>
+                                )}
                             </>
                         }
                     </section>

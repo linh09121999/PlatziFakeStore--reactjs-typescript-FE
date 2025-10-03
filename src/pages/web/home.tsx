@@ -44,7 +44,7 @@ const Home: React.FC = () => {
         }
     }
 
-    const getApiProduct = async (offset: number, limit: number) => {
+    const getApiProductPage = async (offset: number, limit: number) => {
         try {
             const res = await getProductsPage(offset, limit)
             setResProduct(res.data)
@@ -80,7 +80,7 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         getApiCategories()
-        getApiProduct(0, 10)
+        getApiProductPage(0, 10)
     }, [])
 
     const handleSigleProduct = (id: number) => {
@@ -163,7 +163,7 @@ const Home: React.FC = () => {
                                     <div className="relative self-start ">
                                         <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
                                         <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm ">{product.category.name}</div>
-                                        <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-100"
+                                        <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
                                             onClick={() => {
                                                 navigate("/product-similar")
                                             }}

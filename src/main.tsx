@@ -16,11 +16,11 @@ const initializeApp = async (): Promise<void> => {
     const root = createRoot(container);
 
     root.render(
-      <StrictMode>
+      // <StrictMode>
         <GlobalProvider>
         <App />
         </GlobalProvider>
-      </StrictMode>
+      // </StrictMode>
     );
   } catch (error) {
     console.error("Lỗi khi load config:", error);
