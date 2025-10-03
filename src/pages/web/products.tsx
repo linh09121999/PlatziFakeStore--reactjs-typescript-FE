@@ -101,15 +101,23 @@ const Products: React.FC = () => {
     }
 
     const [selectCateCategoryName, setSelectCateCategoryName] = useState<string | undefined>("");
-    const [selectCateCategoryID, setSelectCateCategoryID] = useState<number | undefined>(-1)
+    const [selectCateCategoryID, setSelectCateCategoryID] = useState<number>(-1)
 
     const handleChangeSearchCategory = (_: React.SyntheticEvent | null, newValue: { id: number, name: string } | null) => {
-        const idCategory = newValue ? newValue.id : undefined
-        const nameCategory = newValue ? newValue.name : undefined
+        console.log("🔥 onChange fired:", newValue);
+        if (newValue === null) {
+            console.log("👉 Clear selection, call getApiProductPage");
+            setResProduct([]);
+            setSelectCateCategoryID(-1)
+            // getApiProductPage(0, pageSize)
+        } else {
+            const idCategory = newValue.id
+            const nameCategory = newValue ? newValue.name : undefined
+            setSelectCateCategoryID(idCategory);
+            getApiProductsByCategories_Id(idCategory)
+            setSelectCateCategoryName(nameCategory)
 
-        getApiProductsByCategories_Id(idCategory!)
-
-        setSelectCateCategoryName(nameCategory)
+        }
     };
 
     const handleSearchCategory = () => {
@@ -176,7 +184,6 @@ const Products: React.FC = () => {
         try {
             const res = await getProductsByCategories_Id(id)
             setResProduct(res.data)
-            setSelectCateCategoryID(id);
         } catch (error) {
             console.error("Lỗi khi gọi API getApiProductsByCategories_Id", error)
             toast.error("Lỗi khi gọi API getApiProductsByCategories_Id")
@@ -185,17 +192,22 @@ const Products: React.FC = () => {
     }
 
     useEffect(() => {
-        getApiProductPage(0, pageSize)
+        // getApiProductPage(0, pageSize)
         getApiCategories()
     }, [])
+
+    useEffect(() => {
+        if (selectCateCategoryID === -1) {
+            getApiProductPage(0, pageSize);
+        }
+    }, [selectCateCategoryID]);
 
     const handleLoadMore = () => {
         if (!hasMore || loading) return
         const newPage = page + 1
         setPage(newPage)
         const offset = newPage * pageSize
-        const limit = offset + pageSize
-        getApiProductPage(offset, limit)
+        getApiProductPage(offset, pageSize)
     }
 
     const handleOrder = (id: number) => {
@@ -234,11 +246,13 @@ const Products: React.FC = () => {
                     <aside className="">
                         <div className="items-center pb-2 border-b-[2px] border-b-gray-200 mb-2">
                             <h3 className="text-xl text-black">CATEGORIES</h3>
+                            <p className="text-sm text-black/50">{selectCateCategoryID === -1 ? "All" : selectCateCategoryName}</p>
+
                         </div>
                         <div className="">
                             <FormControl className="w-full" sx={sxFormControl} size="small">
                                 <Autocomplete
-                                    disableClearable
+                                    // disableClearable
                                     noOptionsText="There is no category"
                                     options={resCategories}
                                     componentsProps={componentsProps}
@@ -251,7 +265,7 @@ const Products: React.FC = () => {
                                         )
                                     }
                                     value={
-                                        selectCateCategoryID
+                                        selectCateCategoryID >= 0
                                             ? resCategories.find((c) => c.id === selectCateCategoryID) ?? undefined
                                             : undefined
                                     }
@@ -280,13 +294,7 @@ const Products: React.FC = () => {
                                 />
                             </FormControl>
                         </div>
-                        {selectCateCategoryID === -1 ?
-                            <></>
-                            :
-                            <>
-
-                            </>
-                        }
+                        
                     </aside>
                     <section className=" flex flex-col">
                         <div className="items-center pb-2 border-b-[2px] border-b-gray-200 mb-2">
@@ -295,6 +303,7 @@ const Products: React.FC = () => {
                                 <>
                                     <div>
                                         <h3 className="text-xl text-black">PRODUCTS</h3>
+                                        <p className="text-sm text-black/50">Show {resProduct.length} items found for all</p>
                                     </div>
                                 </>
                                 :
