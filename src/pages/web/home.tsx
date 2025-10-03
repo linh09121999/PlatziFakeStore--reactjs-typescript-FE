@@ -150,6 +150,7 @@ const Home: React.FC = () => {
                             <button className="text-orange-700 flex gap-1 text-lg css-next items-center"
                                 onClick={() => {
                                     navigate("/products")
+                                    setResProduct([])
                                 }}>
                                 View all
                                 <span>{icons.iconNext}</span>

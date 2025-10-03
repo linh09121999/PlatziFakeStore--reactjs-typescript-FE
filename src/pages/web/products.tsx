@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useGlobal } from '../../context/GlobalContext';
+import type { ResProduct } from "../../context/GlobalContext";
 import {
     getProducts,
     getProductsById,
@@ -99,16 +100,20 @@ const Products: React.FC = () => {
         }
     }
 
-    const [selectSearchCategory, setSelectSearchCategory] = useState<number>(-1);
+    const [selectCateCategoryName, setSelectCateCategoryName] = useState<string | undefined>("");
+    const [selectCateCategoryID, setSelectCateCategoryID] = useState<number | undefined>(-1)
 
-    const handleChangeSearchCategory = (_: React.SyntheticEvent | null, newValue: { id: number } | null) => {
+    const handleChangeSearchCategory = (_: React.SyntheticEvent | null, newValue: { id: number, name: string } | null) => {
         const idCategory = newValue ? newValue.id : undefined
-        setSelectCate(idCategory!)
-        handleProductByCatecory(idCategory!)
+        const nameCategory = newValue ? newValue.name : undefined
+
+        getApiProductsByCategories_Id(idCategory!)
+
+        setSelectCateCategoryName(nameCategory)
     };
 
     const handleSearchCategory = () => {
-        handleProductByCatecory(selectCate!)
+        getApiProductsByCategories_Id(selectCateCategoryID!)
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -130,13 +135,23 @@ const Products: React.FC = () => {
     const getApiProductPage = async (offset: number, limit: number) => {
         try {
             setLoading(true)
+            // Nếu đang filter theo category thì KHÔNG gọi API getProductPage
+            if (selectCateCategoryID !== -1) return;
+
             const res = await getProductsPage(offset, limit) // gọi API của bạn
             if (res.data.length < pageSize) {
                 // ✅ nếu số sản phẩm trả về ít hơn pageSize -> hết sản phẩm
                 setHasMore(false)
             }
             // Nối thêm dữ liệu mới (lazy load)
-            setResProduct(prev => [...prev, ...res.data])
+            // setResProduct(prev => [...prev, ...res.data])
+            setResProduct(prev => {
+                // Tránh nối trùng dữ liệu
+                const newItems = res.data.filter(
+                    (item: ResProduct) => !prev.some(p => p.id === item.id) // check theo id hoặc unique field
+                );
+                return [...prev, ...newItems];
+            });
 
         } catch (error) {
             console.error("Lỗi khi gọi API getProductsPage", error)
@@ -161,6 +176,7 @@ const Products: React.FC = () => {
         try {
             const res = await getProductsByCategories_Id(id)
             setResProduct(res.data)
+            setSelectCateCategoryID(id);
         } catch (error) {
             console.error("Lỗi khi gọi API getApiProductsByCategories_Id", error)
             toast.error("Lỗi khi gọi API getApiProductsByCategories_Id")
@@ -169,8 +185,6 @@ const Products: React.FC = () => {
     }
 
     useEffect(() => {
-        setPage(0)
-        setResProduct([])
         getApiProductPage(0, pageSize)
         getApiCategories()
     }, [])
@@ -196,19 +210,6 @@ const Products: React.FC = () => {
         navigate("/product-detail")
     }
 
-    const handleProductByCatecory = (id: number) => {
-        getApiProductsByCategories_Id(id)
-    }
-
-    const [selectCate, setSelectCate] = useState<number>(-1)
-
-    const handleAllProductPage = () => {
-        setPage(0)
-        setResProduct([])
-        getApiProductPage(0, pageSize)
-        setSelectCate(-1)
-    }
-
     const removeVietnameseTones = (str: string) => {
         return str
             .normalize('NFD')
@@ -230,11 +231,11 @@ const Products: React.FC = () => {
             </div>
             <main className="bg-gray-100 min-h-[70vh]  p-5">
                 <div className="max-w-[1500px] mx-auto grid md:grid-cols-[1fr_4fr] gap-5">
-                    <aside className="sticky top-[1150px]">
-                        <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
-                            <h3 className="text-xl text-black/50">CATEGORIES</h3>
+                    <aside className="">
+                        <div className="items-center pb-2 border-b-[2px] border-b-gray-200 mb-2">
+                            <h3 className="text-xl text-black">CATEGORIES</h3>
                         </div>
-                        <div className="my-2">
+                        <div className="">
                             <FormControl className="w-full" sx={sxFormControl} size="small">
                                 <Autocomplete
                                     disableClearable
@@ -250,8 +251,8 @@ const Products: React.FC = () => {
                                         )
                                     }
                                     value={
-                                        selectSearchCategory
-                                            ? resCategories.find((c) => c.id === selectSearchCategory) ?? undefined
+                                        selectCateCategoryID
+                                            ? resCategories.find((c) => c.id === selectCateCategoryID) ?? undefined
                                             : undefined
                                     }
                                     onChange={(handleChangeSearchCategory)}
@@ -279,10 +280,34 @@ const Products: React.FC = () => {
                                 />
                             </FormControl>
                         </div>
-                        
+                        {selectCateCategoryID === -1 ?
+                            <></>
+                            :
+                            <>
+
+                            </>
+                        }
                     </aside>
-                    <section className="  flex flex-col">
-                        {resProduct === undefined ?
+                    <section className=" flex flex-col">
+                        <div className="items-center pb-2 border-b-[2px] border-b-gray-200 mb-2">
+
+                            {selectCateCategoryID === -1 ?
+                                <>
+                                    <div>
+                                        <h3 className="text-xl text-black">PRODUCTS</h3>
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    <div className="">
+                                        <h3 className="text-xl text-black">{selectCateCategoryName?.toUpperCase()}</h3>
+                                        <p className="text-sm text-black/50">{resProduct.length} items found for "{selectCateCategoryName}"</p>
+                                    </div>
+                                </>
+                            }
+
+                        </div>
+                        {resProduct.length === 0 ?
                             <p className="text-center text-red-800">! No data</p>
                             :
                             <>
@@ -293,7 +318,7 @@ const Products: React.FC = () => {
                                         >
                                             <div className="relative self-start ">
                                                 <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
-                                                <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm ">{product.category.name}</div>
+                                                <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{product.category.name}</div>
                                                 <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
                                                     onClick={() => {
                                                         navigate("/product-similar")
@@ -323,7 +348,7 @@ const Products: React.FC = () => {
                                         </div>
                                     ))}
                                 </div>
-                                {selectCate === -1 && (
+                                {selectCateCategoryID === -1 && (
                                     <div className="text-center mt-4">
                                         {hasMore ? (
                                             <button
