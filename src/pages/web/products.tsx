@@ -243,13 +243,12 @@ const Products: React.FC = () => {
             </div>
             <main className="bg-gray-100 min-h-[70vh]  p-5">
                 <div className="max-w-[1500px] mx-auto grid md:grid-cols-[1fr_4fr] gap-5">
-                    <aside className="">
-                        <div className="items-center pb-2 border-b-[2px] border-b-gray-200 mb-2">
-                            <h3 className="text-xl text-black">CATEGORIES</h3>
-                            <p className="text-sm text-black/50">{selectCateCategoryID === -1 ? "All" : selectCateCategoryName}</p>
-
-                        </div>
-                        <div className="">
+                    <aside className="flex flex-col gap-6">
+                        <div className="flex flex-col gap-4">
+                            <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
+                                <h3 className="text-xl text-black">CATEGORIES</h3>
+                                <p className="text-sm text-black/50">{selectCateCategoryID === -1 ? "All" : selectCateCategoryName}</p>
+                            </div>
                             <FormControl className="w-full" sx={sxFormControl} size="small">
                                 <Autocomplete
                                     // disableClearable
@@ -294,10 +293,15 @@ const Products: React.FC = () => {
                                 />
                             </FormControl>
                         </div>
-                        
+                        <div className="flex flex-col gap-4">
+                            <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
+                                <h3 className="text-xl text-black">PRICE RANGE</h3>
+                            </div>
+                            
+                        </div>
                     </aside>
-                    <section className=" flex flex-col">
-                        <div className="items-center pb-2 border-b-[2px] border-b-gray-200 mb-2">
+                    <section className="flex flex-col gap-4 ">
+                        <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
 
                             {selectCateCategoryID === -1 ?
                                 <>
