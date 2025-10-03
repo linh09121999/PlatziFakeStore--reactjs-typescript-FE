@@ -116,7 +116,6 @@ const Products: React.FC = () => {
     const { icons, setResProduct, resProduct,
         setOrdersNumber, ordersNumber, setOrdersList,
         setResProductBy, setResCategories, resCategories,
-        resCategoriesBy, setResCategoriesBy,
         selectCateCategoryName, setSelectCateCategoryName,
         selectCateCategoryID, setSelectCateCategoryID
     } = useGlobal()
@@ -189,17 +188,6 @@ const Products: React.FC = () => {
         }
     }
 
-    const getApiCategoriesById = async (id: number) => {
-        try {
-            const res = await getCategoriesById(id)
-            setResCategoriesBy(res.data)
-        } catch (error) {
-            console.error("Lỗi khi gọi API getApiProductsByCategories_Id", error)
-            toast.error("Lỗi khi gọi API getApiProductsByCategories_Id")
-            setResCategoriesBy(undefined)
-        }
-    }
-
     useEffect(() => {
         getApiProductPage(0, pageSize)
         getApiCategories()
@@ -231,7 +219,6 @@ const Products: React.FC = () => {
             setSelectCateCategoryName(nameCategory)
 
             getApiProductsByCategories_Id(idCategory)
-            getApiCategoriesById(idCategory)
         }
     };
 
@@ -382,117 +369,117 @@ const Products: React.FC = () => {
 
                         </div>
                     </aside>
-                    <section className="flex flex-col gap-4 ">
-                        <div className="items-center pb-2 border-b-[2px] border-b-gray-200 md:flex md:justify-between">
+                    <section className="flex flex-col gap-6 ">
+                        <div className="flex flex-col gap-4 ">
 
-                            {selectCateCategoryID === -1 ?
-                                <div>
-                                    <h3 className="text-xl text-black">PRODUCTS</h3>
-                                    <p className="text-sm text-black/50">{selectCateCategoryName === "all" ? "Show " : ""} {resProduct.length} items found for {selectCateCategoryName}</p>
+                            <div className="items-center pb-2 border-b-[2px] border-b-gray-200 md:flex md:justify-between">
+
+                                {selectCateCategoryID === -1 ?
+                                    <div>
+                                        <h3 className="text-xl text-black">PRODUCTS</h3>
+                                        <p className="text-sm text-black/50">{selectCateCategoryName === "all" ? "Show " : ""} {resProduct.length} items found for {selectCateCategoryName}</p>
+                                    </div>
+                                    :
+                                    <div >
+                                        <h3 className="text-xl text-black">{selectCateCategoryName?.toUpperCase()}</h3>
+                                        <p className="text-sm text-black/50">{resProduct.length} items found for "{selectCateCategoryName}"</p>
+                                    </div>
+                                }
+                                <div className="self-end flex gap-2 items-center">
+                                    <button className={`${openSortBy ? "border-orange-700" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center border-[2px] border-gray-200 h-[40px] hover:border-orange-700`}
+                                        onClick={handleClickSortBy}
+                                    >
+                                        <p className="text-black text-lg">Price:</p>
+                                        <p className="w-[120px] text-start">{sortBy}</p>
+                                        <span className="transtion-all duration-300 ease">{openSortBy ? icons.iconUp : icons.iconDown}</span>
+                                    </button>
+                                    <Menu
+                                        anchorEl={anchorElSortBy}
+                                        open={openSortBy}
+                                        onClose={handleCloseSortBy}
+                                        PaperProps={PaperProps}
+                                        MenuListProps={MenuListProps}
+                                    >
+                                        <MenuItem
+                                            onClick={handleSortDefault}
+                                            sx={sxMenuItem}
+                                        >Default</MenuItem>
+                                        <MenuItem
+                                            onClick={handleSortHigh}
+                                            sx={sxMenuItem}
+                                        >Highest</MenuItem>
+                                        <MenuItem
+                                            onClick={handleSordLow}
+                                            sx={sxMenuItem}
+                                        >Lowest</MenuItem>
+                                        <MenuItem
+                                            onClick={handleSortNewest}
+                                            sx={sxMenuItem}
+                                        >Newest</MenuItem>
+                                    </Menu>
                                 </div>
-                                :
-                                <div >
-                                    <h3 className="text-xl text-black">{selectCateCategoryName?.toUpperCase()}</h3>
-                                    <p className="text-sm text-black/50">{resProduct.length} items found for "{selectCateCategoryName}"</p>
-                                </div>
-                            }
-                            <div className="self-end flex gap-2 items-center">
-                                <button className={`${openSortBy ? "border-orange-700" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center border-[2px] border-gray-200 h-[40px] hover:border-orange-700`}
-                                    onClick={handleClickSortBy}
-                                >
-                                    <p className="text-black text-lg">Price:</p>
-                                    <p className="w-[120px] text-start">{sortBy}</p>
-                                    <span className="transtion-all duration-300 ease">{openSortBy ? icons.iconUp : icons.iconDown}</span>
-                                </button>
-                                <Menu
-                                    anchorEl={anchorElSortBy}
-                                    open={openSortBy}
-                                    onClose={handleCloseSortBy}
-                                    PaperProps={PaperProps}
-                                    MenuListProps={MenuListProps}
-                                >
-                                    <MenuItem
-                                        onClick={handleSortDefault}
-                                        sx={sxMenuItem}
-                                    >Default</MenuItem>
-                                    <MenuItem
-                                        onClick={handleSortHigh}
-                                        sx={sxMenuItem}
-                                    >Highest</MenuItem>
-                                    <MenuItem
-                                        onClick={handleSordLow}
-                                        sx={sxMenuItem}
-                                    >Lowest</MenuItem>
-                                    <MenuItem
-                                        onClick={handleSortNewest}
-                                        sx={sxMenuItem}
-                                    >Newest</MenuItem>
-                                </Menu>
+
                             </div>
+                            {resProduct.length === 0 ?
+                                <p className="text-center text-red-800">! No data</p>
+                                :
+                                <>
+                                    <div className={`grid md:grid-cols-4 gap-5`}>
+                                        {resProduct?.map(product => (
+                                            <div key={product.id} className="bg-white relative grid rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl "
 
-                        </div>
-                        {resProduct.length === 0 ?
-                            <p className="text-center text-red-800">! No data</p>
-                            :
-                            <>
-                                <div className="grid md:grid-cols-4 gap-5">
-                                    {resProduct?.map(product => (
-                                        <div key={product.id} className="bg-white relative grid rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl "
-
-                                        >
-                                            <div className="relative self-start ">
-                                                <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
-                                                <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{product.category.name}</div>
-                                                <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
-                                                    onClick={() => {
-                                                        navigate("/product-similar")
-                                                    }}
-                                                >
-                                                    SIMILAR
-                                                </button>
-                                                <div className="px-3 pt-3">
-                                                    <p className="text-start font-bold text-lg text-black/70">{product.title}</p>
-                                                    <p className="text-start text-orange-700 font-bold text-xl">$ {product.price} </p>
+                                            >
+                                                <div className="relative self-start ">
+                                                    <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
+                                                    <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{product.category.name}</div>
+                                                    <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
+                                                        onClick={() => {
+                                                            navigate("/product-similar")
+                                                        }}
+                                                    >
+                                                        SIMILAR
+                                                    </button>
+                                                    <div className="px-3 pt-3">
+                                                        <p className="text-start font-bold text-lg text-black/70">{product.title}</p>
+                                                        <p className="text-start text-orange-700 font-bold text-xl">$ {product.price} </p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between p-3 self-end gap-2">
+                                                    <button className="border-[1px] border-orange-700 rounded-[10px] px-4 py-2 text-orange-700"
+                                                        onClick={() => {
+                                                            handleSigleProduct(product.id)
+                                                        }}
+                                                    >{icons.iconEye}</button>
+                                                    <button className="bg-orange-700 text-white w-full justify-center px-4 py-2 rounded-[10px] relative flex gap-2 items-center transition-all duration-300 ease"
+                                                        onClick={() => {
+                                                            handleOrder(product.id)
+                                                        }}
+                                                    >{icons.iconCart}
+                                                        <p className="">Add To Card</p>
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div className="flex justify-between p-3 self-end gap-2">
-                                                <button className="border-[1px] border-orange-700 rounded-[10px] px-4 py-2 text-orange-700"
-                                                    onClick={() => {
-                                                        handleSigleProduct(product.id)
-                                                    }}
-                                                >{icons.iconEye}</button>
-                                                <button className="bg-orange-700 text-white w-full justify-center px-4 py-2 rounded-[10px] relative flex gap-2 items-center transition-all duration-300 ease"
-                                                    onClick={() => {
-                                                        handleOrder(product.id)
-                                                    }}
-                                                >{icons.iconCart}
-                                                    <p className="">Add To Card</p>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                {selectCateCategoryID === -1 ?
-                                    <div className="text-center mt-4">
-                                        {hasMore ? (
-                                            <button
-                                                onClick={handleLoadMore}
-                                                disabled={loading}
-                                                className="px-4 py-2 bg-orange-700 text-white rounded hover:bg-orange-600"
-                                            >
-                                                {loading ? "Loading..." : "Loading more"}
-                                            </button>
-                                        ) : (
-                                            <p className="text-gray-500 mt-2">There are no more products</p>
-                                        )}
+                                        ))}
                                     </div>
-
-                                    :
-                                    <></>
-                                }
-
-                            </>
+                                </>
+                            }
+                        </div>
+                        {selectCateCategoryID === -1 &&
+                            <div className="text-center">
+                                {hasMore ? (
+                                    <button
+                                        onClick={handleLoadMore}
+                                        disabled={loading}
+                                        className="px-4 py-2 border-[1px] border-orange-700 text-orange-700 rounded-[10px] hover:bg-orange-600"
+                                    >
+                                        {loading ? "Loading..." : "Loading more"}
+                                    </button>
+                                ) : (
+                                    <p className="text-gray-500 mt-2">There are no more products</p>
+                                )}
+                            </div>
                         }
+
                     </section>
                 </div>
             </main>
