@@ -10,7 +10,7 @@ import {
     FaChevronUp,
     FaEye,
 } from "react-icons/fa";
-import { FaCalendarDays, FaCartShopping } from "react-icons/fa6";
+import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
 import {
     IoClose,
@@ -45,7 +45,9 @@ export interface Icons {
     iconHome: JSX.Element;
     iconSetting: JSX.Element;
     iconSearch: JSX.Element;
-    iconCart: JSX.Element
+    iconCart: JSX.Element;
+    iconSortUp: JSX.Element;
+    iconSortDown: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -56,13 +58,15 @@ const defaultIcons: Icons = {
     iconNext: <MdNavigateNext size={24} />,
     iconUser: <FaUser />,
     iconCalendar: <FaCalendarDays />,
-    iconUp: <FaChevronUp />,
-    iconDown: <FaChevronDown />,
+    iconUp: <FaChevronUp size={14} />,
+    iconDown: <FaChevronDown size={14} />,
     iconEye: <FaEye className="mx-auto" />,
     iconHome: <FaHome />,
     iconSetting: <LuSettings2 className="mx-auto" />,
     iconSearch: <IoMdSearch className="mx-auto" />,
-    iconCart: <FaCartShopping />
+    iconCart: <FaCartShopping />,
+    iconSortUp: <FaArrowUpLong />,
+    iconSortDown: <FaArrowDownLong />
 }
 
 export interface Category {
@@ -79,7 +83,9 @@ export interface ResProduct {
     price: number;
     description: string;
     category: Category;
-    images: string[]
+    images: string[];
+    creationAt: string;
+    updatedAt:string;
 }
 
 export interface ResAddProduct extends ResProduct {

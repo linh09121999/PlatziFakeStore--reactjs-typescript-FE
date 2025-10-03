@@ -83,6 +83,35 @@ const Products: React.FC = () => {
         },
     }
 
+    const PaperProps: SxProps<Theme> = {
+        sx: {
+            borderRadius: '10px',
+            boxShadow: '0px 4px 12px rgba(0,0,0,0.15)',
+            maxWidth: 'calc(100%)',
+            background: 'white',
+            zIndex: 100,
+        },
+    }
+
+    const MenuListProps: SxProps<Theme> = {
+        sx: {
+            paddingY: 0.5,
+        },
+    }
+
+    const sxMenuItem: SxProps<Theme> = {
+        justifyContent: 'start',
+        paddingY: '10px',
+        paddingLeft: '20px',
+        color: 'black',
+        zIndex: 100,
+        '&:hover': {
+            backgroundColor: 'var(--color-orange-700) !important',
+            color: 'white !important',
+            fontWeight: 600
+        },
+    }
+
     const navigate = useNavigate()
     const { icons, setResProduct, resProduct,
         setOrdersNumber, ordersNumber, setOrdersList,
@@ -104,12 +133,9 @@ const Products: React.FC = () => {
     const [selectCateCategoryID, setSelectCateCategoryID] = useState<number>(-1)
 
     const handleChangeSearchCategory = (_: React.SyntheticEvent | null, newValue: { id: number, name: string } | null) => {
-        console.log("🔥 onChange fired:", newValue);
         if (newValue === null) {
-            console.log("👉 Clear selection, call getApiProductPage");
             setResProduct([]);
             setSelectCateCategoryID(-1)
-            // getApiProductPage(0, pageSize)
         } else {
             const idCategory = newValue.id
             const nameCategory = newValue ? newValue.name : undefined
@@ -121,7 +147,7 @@ const Products: React.FC = () => {
     };
 
     const handleSearchCategory = () => {
-        getApiProductsByCategories_Id(selectCateCategoryID!)
+        getApiProductsByCategories_Id(selectCateCategoryID)
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -192,7 +218,7 @@ const Products: React.FC = () => {
     }
 
     useEffect(() => {
-        // getApiProductPage(0, pageSize)
+        getApiProductPage(0, pageSize)
         getApiCategories()
     }, [])
 
@@ -229,6 +255,48 @@ const Products: React.FC = () => {
             .replace(/đ/g, 'd')
             .replace(/Đ/g, 'D');
     }
+
+    const [anchorElSortBy, setAnchorElSortBy] = useState<null | HTMLElement>(null);
+    const openSortBy = Boolean(anchorElSortBy);
+    const handleClickSortBy = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorElSortBy(event.currentTarget);
+    };
+    const handleCloseSortBy = () => {
+        setAnchorElSortBy(null);
+    };
+
+    const [sortBy, setSortBy] = useState<string>("Default")
+
+    const handleSortDefault = () => {
+        setResProduct([...resProduct].sort(
+            (a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
+        ));
+        handleCloseSortBy()
+        setSortBy("Default")
+    }
+
+    // giam dan
+    const handleSortHigh = () => {
+        setResProduct([...resProduct].sort((a, b) => b.price - a.price));
+        handleCloseSortBy()
+        setSortBy("Highest")
+    }
+
+    // tang dan
+    const handleSordLow = () => {
+        setResProduct([...resProduct].sort((a, b) => a.price - b.price));
+        handleCloseSortBy()
+        setSortBy("Lowest")
+    }
+
+    // Mới nhất (ngày gần nhất trước)
+    const handleSortNewest = () => {
+        setResProduct([...resProduct].sort(
+            (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        ));
+        handleCloseSortBy();
+        setSortBy("Newest");
+    };
 
     return (
         <>
@@ -297,27 +365,56 @@ const Products: React.FC = () => {
                             <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
                                 <h3 className="text-xl text-black">PRICE RANGE</h3>
                             </div>
-                            
+
                         </div>
                     </aside>
                     <section className="flex flex-col gap-4 ">
-                        <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
+                        <div className="items-center pb-2 border-b-[2px] border-b-gray-200 md:flex md:justify-between">
 
                             {selectCateCategoryID === -1 ?
-                                <>
-                                    <div>
-                                        <h3 className="text-xl text-black">PRODUCTS</h3>
-                                        <p className="text-sm text-black/50">Show {resProduct.length} items found for all</p>
-                                    </div>
-                                </>
+                                <div>
+                                    <h3 className="text-xl text-black">PRODUCTS</h3>
+                                    <p className="text-sm text-black/50">Show {resProduct.length} items found for all</p>
+                                </div>
                                 :
-                                <>
-                                    <div className="">
-                                        <h3 className="text-xl text-black">{selectCateCategoryName?.toUpperCase()}</h3>
-                                        <p className="text-sm text-black/50">{resProduct.length} items found for "{selectCateCategoryName}"</p>
-                                    </div>
-                                </>
+                                <div >
+                                    <h3 className="text-xl text-black">{selectCateCategoryName?.toUpperCase()}</h3>
+                                    <p className="text-sm text-black/50">{resProduct.length} items found for "{selectCateCategoryName}"</p>
+                                </div>
                             }
+                            <div className="self-end flex gap-2 items-center">
+                                <button className={`${openSortBy ? "border-orange-700" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center border-[2px] border-gray-200 h-[40px] hover:border-orange-700`}
+                                    onClick={handleClickSortBy}
+                                >
+                                    <p className="text-black text-lg">Price:</p>
+                                    <p className="w-[120px] text-start">{sortBy}</p>
+                                    <span className="transtion-all duration-300 ease">{openSortBy ? icons.iconUp : icons.iconDown}</span>
+                                </button>
+                                <Menu
+                                    anchorEl={anchorElSortBy}
+                                    open={openSortBy}
+                                    onClose={handleCloseSortBy}
+                                    PaperProps={PaperProps}
+                                    MenuListProps={MenuListProps}
+                                >
+                                    <MenuItem
+                                        onClick={handleSortDefault}
+                                        sx={sxMenuItem}
+                                    >Default</MenuItem>
+                                    <MenuItem
+                                        onClick={handleSortHigh}
+                                        sx={sxMenuItem}
+                                    >Highest</MenuItem>
+                                    <MenuItem
+                                        onClick={handleSordLow}
+                                        sx={sxMenuItem}
+                                    >Lowest</MenuItem>
+                                    <MenuItem
+                                        onClick={handleSortNewest}
+                                        sx={sxMenuItem}
+                                    >Newest</MenuItem>
+                                </Menu>
+                            </div>
 
                         </div>
                         {resProduct.length === 0 ?
