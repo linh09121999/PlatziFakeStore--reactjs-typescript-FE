@@ -85,7 +85,7 @@ export interface ResProduct {
     category: Category;
     images: string[];
     creationAt: string;
-    updatedAt:string;
+    updatedAt: string;
 }
 
 export interface ResAddProduct extends ResProduct {
@@ -167,7 +167,12 @@ export interface GlobalState {
 
     isMobile: boolean;
     ordersNumber: number;
-    setOrdersNumber: (orders: number) => void
+    setOrdersNumber: (orders: number) => void;
+
+    selectCateCategoryName: string | undefined;
+    setSelectCateCategoryName: (select: string | undefined) => void;
+    selectCateCategoryID: number;
+    setSelectCateCategoryID: (select: number) => void;
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -191,6 +196,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
     const [ordersList, setOrdersList] = useState<ResProduct[]>([])
 
+    const [selectCateCategoryID, setSelectCateCategoryID] = useState<number>(-1)
+    const [selectCateCategoryName, setSelectCateCategoryName] = useState<string | undefined>("");
+
     const value = {
         icons: defaultIcons,
         isMobile,
@@ -208,7 +216,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         resUploadFile, setResUploadFile,
         ordersNumber, setOrdersNumber,
         ordersList, setOrdersList,
-        imgs: defaultImage
+        imgs: defaultImage,
+        selectCateCategoryName, setSelectCateCategoryName,
+        selectCateCategoryID, setSelectCateCategoryID
     }
 
     return (

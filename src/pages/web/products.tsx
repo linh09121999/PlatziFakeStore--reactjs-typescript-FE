@@ -115,7 +115,10 @@ const Products: React.FC = () => {
     const navigate = useNavigate()
     const { icons, setResProduct, resProduct,
         setOrdersNumber, ordersNumber, setOrdersList,
-        setResProductBy, setResCategories, resCategories
+        setResProductBy, setResCategories, resCategories,
+        resCategoriesBy, setResCategoriesBy,
+        selectCateCategoryName, setSelectCateCategoryName,
+        selectCateCategoryID, setSelectCateCategoryID
     } = useGlobal()
 
     const getApiCategories = async () => {
@@ -128,38 +131,6 @@ const Products: React.FC = () => {
             setResCategories([])
         }
     }
-
-    const [selectCateCategoryName, setSelectCateCategoryName] = useState<string | undefined>("");
-    const [selectCateCategoryID, setSelectCateCategoryID] = useState<number>(-1)
-
-    const handleChangeSearchCategory = (_: React.SyntheticEvent | null, newValue: { id: number, name: string } | null) => {
-        if (newValue === null) {
-            setResProduct([]);
-            setSelectCateCategoryID(-1)
-        } else {
-            const idCategory = newValue.id
-            const nameCategory = newValue ? newValue.name : undefined
-            setSelectCateCategoryID(idCategory);
-            getApiProductsByCategories_Id(idCategory)
-            setSelectCateCategoryName(nameCategory)
-
-        }
-    };
-
-    const handleSearchCategory = () => {
-        getApiProductsByCategories_Id(selectCateCategoryID)
-    }
-
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        // 1. Ngăn Menu “ăn” phím
-        e.stopPropagation();
-        // 2. Nếu bạn có logic riêng (Enter để search…) thì giữ lại:
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            handleSearchCategory();
-        }
-    };
-
 
     const [page, setPage] = useState(0)
     const pageSize = 12
@@ -187,6 +158,7 @@ const Products: React.FC = () => {
                 return [...prev, ...newItems];
             });
 
+            setSelectCateCategoryName("all")
         } catch (error) {
             console.error("Lỗi khi gọi API getProductsPage", error)
             toast.error("Lỗi khi gọi API getProductsPage")
@@ -217,6 +189,17 @@ const Products: React.FC = () => {
         }
     }
 
+    const getApiCategoriesById = async (id: number) => {
+        try {
+            const res = await getCategoriesById(id)
+            setResCategoriesBy(res.data)
+        } catch (error) {
+            console.error("Lỗi khi gọi API getApiProductsByCategories_Id", error)
+            toast.error("Lỗi khi gọi API getApiProductsByCategories_Id")
+            setResCategoriesBy(undefined)
+        }
+    }
+
     useEffect(() => {
         getApiProductPage(0, pageSize)
         getApiCategories()
@@ -234,7 +217,38 @@ const Products: React.FC = () => {
         setPage(newPage)
         const offset = newPage * pageSize
         getApiProductPage(offset, pageSize)
+        setSortBy("Default")
     }
+
+    const handleChangeSearchCategory = (_: React.SyntheticEvent | null, newValue: { id: number, name: string } | null) => {
+        if (newValue === null) {
+            setResProduct([]);
+            setSelectCateCategoryID(-1)
+        } else {
+            const idCategory = newValue.id
+            const nameCategory = newValue ? newValue.name : undefined
+            setSelectCateCategoryID(idCategory)
+            setSelectCateCategoryName(nameCategory)
+
+            getApiProductsByCategories_Id(idCategory)
+            getApiCategoriesById(idCategory)
+        }
+    };
+
+    const handleSearchCategory = () => {
+        getApiProductsByCategories_Id(selectCateCategoryID)
+    }
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        // 1. Ngăn Menu “ăn” phím
+        e.stopPropagation();
+        // 2. Nếu bạn có logic riêng (Enter để search…) thì giữ lại:
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearchCategory();
+        }
+    };
+
 
     const handleOrder = (id: number) => {
         setOrdersNumber(ordersNumber + 1)
@@ -374,7 +388,7 @@ const Products: React.FC = () => {
                             {selectCateCategoryID === -1 ?
                                 <div>
                                     <h3 className="text-xl text-black">PRODUCTS</h3>
-                                    <p className="text-sm text-black/50">Show {resProduct.length} items found for all</p>
+                                    <p className="text-sm text-black/50">{selectCateCategoryName === "all" ? "Show " : ""} {resProduct.length} items found for {selectCateCategoryName}</p>
                                 </div>
                                 :
                                 <div >
@@ -458,7 +472,7 @@ const Products: React.FC = () => {
                                         </div>
                                     ))}
                                 </div>
-                                {selectCateCategoryID === -1 && (
+                                {selectCateCategoryID === -1 ?
                                     <div className="text-center mt-4">
                                         {hasMore ? (
                                             <button
@@ -472,7 +486,11 @@ const Products: React.FC = () => {
                                             <p className="text-gray-500 mt-2">There are no more products</p>
                                         )}
                                     </div>
-                                )}
+
+                                    :
+                                    <></>
+                                }
+
                             </>
                         }
                     </section>

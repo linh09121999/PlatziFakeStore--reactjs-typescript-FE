@@ -50,7 +50,7 @@ const HeaderWeb: React.FC = () => {
         },
     }
 
-    const { icons, setResProduct, ordersNumber } = useGlobal()
+    const { icons, setResProduct, ordersNumber, setSelectCateCategoryName, setSelectCateCategoryID } = useGlobal()
 
     const [key, setKey] = useState<string>("")
 
@@ -71,6 +71,8 @@ const HeaderWeb: React.FC = () => {
             return;
         }
         getApiFilterProductByTitle(key)
+        setSelectCateCategoryName(key)
+        setSelectCateCategoryID(-1)
         navigate("/products")
     }
 
@@ -133,9 +135,9 @@ const HeaderWeb: React.FC = () => {
                         onKeyDown={handleKeyPress}
                     />
                     <button className='content-end relative'
-                    onClick={()=>{
-                        navigate("/cart")
-                    }}
+                        onClick={() => {
+                            navigate("/cart")
+                        }}
                     >
                         <span className='text-white text-3xl'>{icons.iconCart}</span>
                         <span className='absolute text-white -top-3 -right-3 w-6 h-6 rounded-full bg-white content-center'>
