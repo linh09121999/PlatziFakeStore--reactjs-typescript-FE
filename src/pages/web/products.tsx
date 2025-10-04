@@ -166,7 +166,7 @@ const Products: React.FC = () => {
         selectCateCategoryName, setSelectCateCategoryName,
         selectCateCategoryID, setSelectCateCategoryID,
         resCategoriesBy, setResCategoriesBy,
-        pageSize
+        pageSize, imgs
     } = useGlobal()
 
     const getApiCategories = async () => {
@@ -542,6 +542,11 @@ const Products: React.FC = () => {
         filterRangeProduct(priceMin, valuePriceMax)
     }
 
+    const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        e.currentTarget.onerror = null; // tránh vòng lặp vô hạn
+        e.currentTarget.src = "https://placehold.co/600x400" //imgs.imgDefault; // ảnh mặc định (nên để trong public/images)
+    };
+
     return (
         <>
             <div className='w-full px-5 bg-gray-100 sticky z-[999] md:top-[120px] max-md:top-[135px]'>
@@ -703,7 +708,9 @@ const Products: React.FC = () => {
 
                             {selectCateCategoryID >= 0 &&
                                 <div className="flex rounded-[10px] bg-white overflow-hidden shadow-lg">
-                                    <img src={resCategoriesBy?.image} alt={resCategoriesBy?.name} className="w-[250px]" />
+                                    <img src={resCategoriesBy?.image} alt={resCategoriesBy?.name} className="w-[250px]"
+                                        onError={handleImgError}
+                                    />
                                     <div>
                                         <p className="text-2xl font-bold p-5">{resCategoriesBy?.name}</p>
                                     </div>
@@ -719,7 +726,9 @@ const Products: React.FC = () => {
 
                                             >
                                                 <div className="relative self-start ">
-                                                    <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
+                                                    <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70"
+                                                        onError={handleImgError}
+                                                    />
                                                     <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{product.category.name}</div>
                                                     <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
                                                         onClick={() => {

@@ -23,13 +23,16 @@ import { LuSettings2 } from "react-icons/lu";
 import { IoMdSearch } from "react-icons/io";
 
 import imgBanner1 from "../assets/img/banner.png"
+import imgDefault from "../assets/img/no_img.png"
 
 export interface Image {
     imgBanner1: string;
+    imgDefault: string
 }
 
 const defaultImage: Image = {
-    imgBanner1: imgBanner1
+    imgBanner1: imgBanner1,
+    imgDefault: imgDefault
 }
 
 export interface Icons {
