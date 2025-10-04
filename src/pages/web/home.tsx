@@ -71,6 +71,11 @@ const Home: React.FC = () => {
         navigate("/products")
     }
 
+    const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        e.currentTarget.onerror = null; // tránh vòng lặp vô hạn
+        e.currentTarget.src = imgs.imgDefault;//"https://placehold.co/600x400" //imgs.imgDefault; // ảnh mặc định (nên để trong public/images)
+    };
+
     return (
         <>
             <main className="bg-gray-100 min-h-[70vh] p-5">
@@ -78,12 +83,13 @@ const Home: React.FC = () => {
                     <section className="flex justify-between bg-gradient-to-r to-orange-600 from-orange-700 py-5 px-20 rounded-[10px]">
                         <div className="flex flex-col gap-10 self-center">
                             <h1 className="text-8xl font-bold text-white">Spee Shop</h1>
+                            <p className="text-xl text-white/70">Stop waiting. Start shopping. Spee provides a fast, smooth, and engaging online shopping experience. Featuring an optimized interface, a smart search system, and lightning-fast order processing, Spee is the go-to for smart shoppers who appreciate efficiency and class.</p>
                             <button onClick={handleProduct}
                                 className="px-4 py-1 css-next bg-white rounded-[10px] text-xl font-600 flex gap-2 items-center w-fit text-orange-700">BY NOW
                                 <span>{icons.iconNext}</span>
                             </button>
                         </div>
-                        <img src={imgs.imgBanner1} alt='banner' className=" h-[450px]" />
+                        <img src={imgs.imgBanner1} alt='banner' className=" h-[450px]" onError={handleImgError}/>
                     </section>
                     <section className=" flex flex-col gap-4">
                         <div className="md:flex md:justify-between items-center pb-2 border-b-[2px] border-b-gray-200">
@@ -100,7 +106,7 @@ const Home: React.FC = () => {
                         <div className="grid grid-cols-5 gap-5 ">
                             {resCategories?.slice(0, 5).map(cate => (
                                 <div key={cate.id} className="bg-white relative rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl">
-                                    <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
+                                    <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" onError={handleImgError}/>
                                     <h3 className="p-3 text-lg text-black/70 font-bold group-hover:opacity-70">{cate?.name}</h3>
                                     <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-100"
                                         onClick={() => {

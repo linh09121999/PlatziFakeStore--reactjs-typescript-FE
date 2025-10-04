@@ -544,7 +544,7 @@ const Products: React.FC = () => {
 
     const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.onerror = null; // tránh vòng lặp vô hạn
-        e.currentTarget.src = "https://placehold.co/600x400" //imgs.imgDefault; // ảnh mặc định (nên để trong public/images)
+        e.currentTarget.src = imgs.imgDefault;//"https://placehold.co/600x400" // // ảnh mặc định (nên để trong public/images)
     };
 
     return (
@@ -708,11 +708,12 @@ const Products: React.FC = () => {
 
                             {selectCateCategoryID >= 0 &&
                                 <div className="flex rounded-[10px] bg-white overflow-hidden shadow-lg">
-                                    <img src={resCategoriesBy?.image} alt={resCategoriesBy?.name} className="w-[250px]"
+                                    <img src={resCategoriesBy?.image} alt={resCategoriesBy?.name} className="w-[250px] "
                                         onError={handleImgError}
                                     />
-                                    <div>
+                                    <div className="">
                                         <p className="text-2xl font-bold p-5">{resCategoriesBy?.name}</p>
+                                        <p></p>
                                     </div>
                                 </div>
                             }
