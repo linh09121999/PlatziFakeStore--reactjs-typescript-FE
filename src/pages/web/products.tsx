@@ -183,10 +183,17 @@ const Products: React.FC = () => {
     const [page, setPage] = useState(0)
     const [loading, setLoading] = useState(false)
     const [hasMore, setHasMore] = useState(true) //CHECK OUT OF STOCK
+    const [checkRangePrice, setCheckRangePrice] = useState<boolean>(false)
+
+    const [priceMin, setPriceMin] = React.useState<number>(0);
+    const [priceMax, setPriceMax] = React.useState<number>(0);
 
     const getApiProductPage = async (offset: number, limit: number) => {
         try {
             setLoading(true)
+            setCheckRangePrice(false)
+            setPriceMin(0)
+            setPriceMax(0)
             const res = await getProductsPage(offset, limit)
             if (res.data.length < pageSize) {
                 setHasMore(false)
@@ -211,6 +218,9 @@ const Products: React.FC = () => {
     const getApiFilterProductByTitle_Page = async (title: string, offset: number, limit: number) => {
         try {
             setLoading(true)
+            setCheckRangePrice(false)
+            setPriceMin(0)
+            setPriceMax(0)
             const res = await getFilterProductByTitle_Page(title, offset, limit)
             if (res.data.length < pageSize) {
                 setHasMore(false)
@@ -235,6 +245,9 @@ const Products: React.FC = () => {
     const getApiFilterProductByCategoryId_Page = async (id: number, offset: number, limit: number) => {
         try {
             setLoading(true)
+            setCheckRangePrice(false)
+            setPriceMin(0)
+            setPriceMax(0)
             const res = await getFilterProductByCategoryId_Page(id, offset, limit)
             if (res.data.length < pageSize) {
                 setHasMore(false)
@@ -416,11 +429,6 @@ const Products: React.FC = () => {
         handleCloseSortBy();
         setSortBy("Newest");
     };
-
-    const [priceMin, setPriceMin] = React.useState<number>(0);
-    const [priceMax, setPriceMax] = React.useState<number>(0);
-
-    const [checkRangePrice, setCheckRangePrice] = useState<boolean>(false)
 
     const getApiFilterPriceRange_Page = async (price_min: number, price_max: number, limit: number, offset: number) => {
         try {
