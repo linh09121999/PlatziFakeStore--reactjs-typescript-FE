@@ -54,6 +54,11 @@ const Home: React.FC = () => {
         setResProduct([])
     }
 
+    const handleCategori = () => {
+        setResCategories([])
+        navigate("/categories")
+    }
+
     const handleSigleProduct = (id: number) => {
         navigate("/product-detail")
     }
@@ -95,9 +100,7 @@ const Home: React.FC = () => {
                         <div className="md:flex md:justify-between items-center pb-2 border-b-[2px] border-b-gray-200">
                             <h3 className="text-xl text-black/50">CATEGORIES</h3>
                             <button className="text-orange-700 flex gap-1 text-lg css-next items-center"
-                                onClick={() => {
-                                    navigate("/categories")
-                                }}>
+                                onClick={handleCategori}>
                                 View all
                                 <span>{icons.iconNext}</span>
                             </button>
