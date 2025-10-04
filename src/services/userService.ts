@@ -42,6 +42,7 @@ export const getCategoriesBySlug = (slug: string) => api.get(`/api/v1/categories
 export const postCategories = () => api.post(`/api/v1/categories`) //add 
 export const putCategoriesById = (id: number) => api.put(`/api/v1/categories/${id}`) // edit
 export const deleteCategoriesById = (id: number) => api.delete(`/api/v1/categories/${id}`) //delete
+export const getCategoriesPage = (offset: number, limit: number) => api.get(`/api/v1/categories/?offset=${offset}&limit=${limit}`)
 
 export const getLocations = () => api.get(`/api/v1/locations`)
 export const getLocationsByOrigin = (origin: number[]) => api.get(`/api/v1/locations?origin=${origin}`) //vd origin:6.2071641,-75.5720321
