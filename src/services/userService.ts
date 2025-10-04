@@ -29,8 +29,9 @@ export const getFilterProductByPriceRange = (price_min: number, price_max: numbe
 export const getFilterProductByCategoryId = (categoryId: number) => api.get(`/api/v1/products/?categoryId=${categoryId}`) //tìm kiến theo categoryId
 export const getFilterProductByCategorySlug = (categorySlug: string) => api.get(`/api/v1/products/?categorySlug=${categorySlug}`) //tìm kiến theo categorySlug
 export const getFllterProductTitle_PriceRange_CategoryId = (title: string, price_min: number, price_max: number, categoryId: number) => api.get(`/api/v1/products/?title=${title}&price_min=${price_min}&price_max=${price_max}&categoryId=${categoryId}`)
-export const getFilterPriceRange_CategoryId_Page = (price_min: number, price_max: number, categoryId: number, offset: number, limit: number) => api.get(`/api/v1/products/?price_min=${price_min}&price_max=${price_max}&categoryId=${categoryId}&limit=${limit}&offset=${offset}`)
-export const getFilterPriceRange_Page = (price_min: number, price_max: number,offset: number, limit: number) => api.get(`/api/v1/products/?price_min=${price_min}&price_max=${price_max}&limit=${limit}&offset=${offset}`)
+export const getFilterPriceRange_CategoryId_Page = (price_min: number, price_max: number, categoryId: number, limit: number, offset: number) => api.get(`/api/v1/products/?price_min=${price_min}&price_max=${price_max}&categoryId=${categoryId}&limit=${limit}&offset=${offset}`)
+export const getFilterPriceRange_Page = (price_min: number, price_max: number, limit: number, offset: number) => api.get(`/api/v1/products/?price_min=${price_min}&price_max=${price_max}&limit=${limit}&offset=${offset}`)
+export const getFilterPriceRange_CategoryId = (price_min: number, price_max: number, categoryId: number) => api.get(`/api/v1/products/?price_min=${price_min}&price_max=${price_max}&categoryId=${categoryId}`)
 
 export const getCategories = () => api.get(`/api/v1/categories`) //list chu de
 export const getCategoriesById = (id: number) => api.get(`/api/v1/categories/${id}`) //1 chu de theo id
@@ -42,7 +43,7 @@ export const deleteCategoriesById = (id: number) => api.delete(`/api/v1/categori
 export const getLocations = () => api.get(`/api/v1/locations`)
 export const getLocationsByOrigin = (origin: number[]) => api.get(`/api/v1/locations?origin=${origin}`) //vd origin:6.2071641,-75.5720321
 export const getLocationsLimit = (size: string) => api.get(`/api/v1/locations?size=${size}`) // lay so luong diem
-export const getLocationsRadius = (origin: number[], radius:number) => api.get(`/api/v1/locations?origin=${origin}&radius=${radius}`)
+export const getLocationsRadius = (origin: number[], radius: number) => api.get(`/api/v1/locations?origin=${origin}&radius=${radius}`)
 
 export const postUploadFile = () => api.post(`/api/v1/files/upload`)
 export const getFile = (fileName: string) => api.get(`/api/v1/files/${fileName}`)

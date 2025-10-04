@@ -21,6 +21,7 @@ import {
     getCategories,
     getCategoriesById,
     getCategoriesBySlug,
+    getFilterPriceRange_CategoryId
 } from "../../services/userService"
 
 import {
@@ -260,7 +261,10 @@ const Products: React.FC = () => {
         const newPage = page + 1
         setPage(newPage)
         const offset = newPage * pageSize
-        getApiProductPage(offset, pageSize)
+        checkRangePrice ?
+            getApiFilterPriceRange_Page(priceMin, priceMax, pageSize, offset)
+            :
+            getApiProductPage(offset, pageSize)
         setSortBy("Default")
     }
 
@@ -355,14 +359,83 @@ const Products: React.FC = () => {
         setSortBy("Newest");
     };
 
-    const [priceMin, setPriceMin] = React.useState<number>(20);
-    const [priceMax, setPriceMax] = React.useState<number>(37);
+    const [priceMin, setPriceMin] = React.useState<number>(0);
+    const [priceMax, setPriceMax] = React.useState<number>(0);
+
+    const [checkRangePrice, setCheckRangePrice] = useState<boolean>(false)
+
+    const getApiFilterPriceRange_Page = async (priceMin: number, priceMax: number, limit: number, offset: number) => {
+        try {
+            setLoading(true)
+            setCheckRangePrice(true)
+            if (selectCateCategoryID !== -1) return;
+
+            const res = await getFilterPriceRange_Page(priceMin, priceMax, limit, offset)
+            if (res.data.length < pageSize) {
+                setHasMore(false)
+            }
+            setResProduct(prev => {
+                // Tránh nối trùng dữ liệu
+                const newItems = res.data.filter(
+                    (item: ResProduct) => !prev.some(p => p.id === item.id)
+                );
+                return [...prev, ...newItems];
+            });
+
+            setSelectCateCategoryName("all")
+        } catch (error) {
+            console.error("Lỗi khi gọi API getFilterPriceRange_Page", error)
+            toast.error("Lỗi khi gọi API getFilterPriceRange_Page")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const getApiFilterPriceRange_CategoryId = async (price_min: number, price_max: number, categoryId: number) => {
+        try {
+            const res = await getFilterPriceRange_CategoryId(price_min, price_max, categoryId)
+            setResProduct(res.data)
+        } catch (error) {
+            console.error("Lỗi khi gọi API getFilterPriceRange_CategoryId", error)
+            toast.error("Lỗi khi gọi API getFilterPriceRange_CategoryId")
+            setResProduct([])
+        }
+    }
+
+    const filterRangeProduct = (priceMin: number, priceMax: number) => {
+        if (selectCateCategoryID === -1) {
+            setResProduct([]);
+            getApiFilterPriceRange_Page(priceMin, priceMax, pageSize, 0)
+        } else {
+            getApiFilterPriceRange_CategoryId(priceMin, priceMax, selectCateCategoryID)
+
+        }
+    }
+
+    const handleChangeSliderCommitted = (event: Event | React.SyntheticEvent, newValue: number | number[]) => {
+        const [min, max] = newValue as number[];
+        filterRangeProduct(min, max)
+    }
 
     const handleChangeSlider = (event: Event, newValue: number | number[]) => {
         const [min, max] = newValue as number[];
         setPriceMin(min);
         setPriceMax(max);
     };
+
+    const handleChangeInputPriceMin = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const valuePriceMin = Number(e.target.value)
+        if (valuePriceMin > priceMax) return
+        setPriceMin(valuePriceMin || 0)
+        filterRangeProduct(valuePriceMin, priceMax)
+    }
+
+    const handleChangeInputPriceMax = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const valuePriceMax = Number(e.target.value)
+        if (valuePriceMax < priceMin) return
+        setPriceMax(valuePriceMax || 0)
+        filterRangeProduct(priceMin, valuePriceMax)
+    }
 
     return (
         <>
@@ -435,6 +508,7 @@ const Products: React.FC = () => {
                                 <Slider
                                     value={[priceMin, priceMax]}
                                     onChange={handleChangeSlider}
+                                    onChangeCommitted={handleChangeSliderCommitted}
                                     min={0}
                                     max={1000}
                                     valueLabelDisplay="auto"
@@ -456,7 +530,7 @@ const Products: React.FC = () => {
                                     value={priceMin}
                                     variant="outlined"
                                     sx={sxTextField}
-                                    onChange={(n: React.ChangeEvent<HTMLInputElement>) => setPriceMin(Number(n.target.value) || 0)}
+                                    onChange={handleChangeInputPriceMin}
                                 />
                                 <p>to</p>
                                 <TextField
@@ -473,7 +547,7 @@ const Products: React.FC = () => {
                                     value={priceMax}
                                     variant="outlined"
                                     sx={sxTextField}
-                                    onChange={(n: React.ChangeEvent<HTMLInputElement>) => setPriceMax(Number(n.target.value) || 0)}
+                                    onChange={handleChangeInputPriceMax}
                                 />
                             </div>
                         </div>
