@@ -19,7 +19,6 @@ const Categories = React.lazy(() => import('./pages/web/categories'))
 const ProductDetail = React.lazy(() => import('./pages/web/product-detail'))
 const ProductSimilar = React.lazy(() => import('./pages/web/product-similar'))
 const Cart = React.lazy(() => import('./pages/web/cart'))
-const CategoryDetail = React.lazy(() => import('./pages/web/category-detail'))
 
 const Admin = React.lazy(() => import('./pages/dashboard/dashboard'));
 
@@ -70,7 +69,6 @@ const App: React.FC = () => {
             <Route path='/product-detail' element={<ProductDetail />} />
             <Route path='/product-similar' element={<ProductSimilar />} />
             <Route path='/cart' element={<Cart />} />
-            <Route path='/category-detail' element={<CategoryDetail />} />
           </Route>
           <Route path='/admin' element={<ProtectedRouteAdmin />}>
             <Route >

@@ -3,25 +3,15 @@ import { useGlobal } from '../../context/GlobalContext';
 import type { ResProduct } from "../../context/GlobalContext";
 import NumberTextField from "../../components/numberTextField";
 import {
-    getProducts,
     getProductsById,
-    getProductsBySlug,
     getProductsPage,
-    getProductsRelatedById,
-    getProductsRelatedBySlug,
-    getProductsByCategories_Id,
-    getFilterProductByTitle,
-    getFilterProductByPrice,
-    getFilterProductByPriceRange,
-    getFilterProductByCategoryId,
-    getFilterProductByCategorySlug,
-    getFllterProductTitle_PriceRange_CategoryId,
+    getFilterProductByTitle_Page,
     getFilterPriceRange_CategoryId_Page,
     getFilterPriceRange_Page,
     getCategories,
     getCategoriesById,
-    getCategoriesBySlug,
-    getFilterPriceRange_CategoryId
+    getFilterProductByCategoryId_Page,
+    getFilterPriceRange_Title_Page
 } from "../../services/userService"
 
 import {
@@ -174,7 +164,9 @@ const Products: React.FC = () => {
         setOrdersNumber, ordersNumber, setOrdersList,
         setResProductBy, setResCategories, resCategories,
         selectCateCategoryName, setSelectCateCategoryName,
-        selectCateCategoryID, setSelectCateCategoryID
+        selectCateCategoryID, setSelectCateCategoryID,
+        resCategoriesBy, setResCategoriesBy,
+        pageSize
     } = useGlobal()
 
     const getApiCategories = async () => {
@@ -189,23 +181,16 @@ const Products: React.FC = () => {
     }
 
     const [page, setPage] = useState(0)
-    const pageSize = 12
     const [loading, setLoading] = useState(false)
     const [hasMore, setHasMore] = useState(true) //CHECK OUT OF STOCK
 
     const getApiProductPage = async (offset: number, limit: number) => {
         try {
             setLoading(true)
-            // Nếu đang filter theo category thì KHÔNG gọi API getProductPage
-            if (selectCateCategoryID !== -1) return;
-
-            const res = await getProductsPage(offset, limit) // gọi API của bạn
+            const res = await getProductsPage(offset, limit)
             if (res.data.length < pageSize) {
-                // ✅ nếu số sản phẩm trả về ít hơn pageSize -> hết sản phẩm
                 setHasMore(false)
             }
-            // Nối thêm dữ liệu mới (lazy load)
-            // setResProduct(prev => [...prev, ...res.data])
             setResProduct(prev => {
                 // Tránh nối trùng dữ liệu
                 const newItems = res.data.filter(
@@ -223,36 +208,73 @@ const Products: React.FC = () => {
         }
     }
 
-    const getApiProductById = async (id: number) => {
+    const getApiFilterProductByTitle_Page = async (title: string, offset: number, limit: number) => {
         try {
-            const res = await getProductsById(id)
-            setResProductBy(res.data)
+            setLoading(true)
+            const res = await getFilterProductByTitle_Page(title, offset, limit)
+            if (res.data.length < pageSize) {
+                setHasMore(false)
+            }
+            setResProduct(prev => {
+                // Tránh nối trùng dữ liệu
+                const newItems = res.data.filter(
+                    (item: ResProduct) => !prev.some(p => p.id === item.id) // check theo id hoặc unique field
+                );
+                return [...prev, ...newItems];
+            });
+
+            setSelectCateCategoryName(title)
         } catch (error) {
-            console.error("Lỗi khi gọi API getProductsById", error)
-            toast.error("Lỗi khi gọi API getProductsById")
-            setResProductBy(undefined)
+            console.error("Lỗi khi gọi API getFilterProductByTitle_Page", error)
+            toast.error("Lỗi khi gọi API getFilterProductByTitle_Page")
+        } finally {
+            setLoading(false)
         }
     }
 
-    const getApiProductsByCategories_Id = async (id: number) => {
+    const getApiFilterProductByCategoryId_Page = async (id: number, offset: number, limit: number) => {
         try {
-            const res = await getProductsByCategories_Id(id)
-            setResProduct(res.data)
+            setLoading(true)
+            const res = await getFilterProductByCategoryId_Page(id, offset, limit)
+            if (res.data.length < pageSize) {
+                setHasMore(false)
+            }
+            setResProduct(prev => {
+                // Tránh nối trùng dữ liệu
+                const newItems = res.data.filter(
+                    (item: ResProduct) => !prev.some(p => p.id === item.id) // check theo id hoặc unique field
+                );
+                return [...prev, ...newItems];
+            });
+
         } catch (error) {
-            console.error("Lỗi khi gọi API getApiProductsByCategories_Id", error)
-            toast.error("Lỗi khi gọi API getApiProductsByCategories_Id")
-            setResProduct([])
+            console.error("Lỗi khi gọi API getFilterProductByCategoryId_Page", error)
+            toast.error("Lỗi khi gọi API getFilterProductByCategoryId_Page")
+        } finally {
+            setLoading(false)
         }
     }
 
     useEffect(() => {
-        getApiProductPage(0, pageSize)
+        if (selectCateCategoryID === -1) {
+            getApiProductPage(0, pageSize);
+        } else if (selectCateCategoryID === -2) {
+            getApiFilterProductByTitle_Page(selectCateCategoryName!, 0, pageSize)
+        } else {
+            getApiFilterProductByCategoryId_Page(selectCateCategoryID, 0, pageSize)
+            getApiCategoriesById(selectCateCategoryID)
+        }
         getApiCategories()
     }, [])
 
     useEffect(() => {
         if (selectCateCategoryID === -1) {
             getApiProductPage(0, pageSize);
+        } else if (selectCateCategoryID === -2) {
+            getApiFilterProductByTitle_Page(selectCateCategoryName!, 0, pageSize)
+        } else {
+            getApiFilterProductByCategoryId_Page(selectCateCategoryID, 0, pageSize)
+            getApiCategoriesById(selectCateCategoryID)
         }
     }, [selectCateCategoryID]);
 
@@ -261,29 +283,55 @@ const Products: React.FC = () => {
         const newPage = page + 1
         setPage(newPage)
         const offset = newPage * pageSize
-        checkRangePrice ?
-            getApiFilterPriceRange_Page(priceMin, priceMax, pageSize, offset)
-            :
-            getApiProductPage(offset, pageSize)
+        if (checkRangePrice) {
+            if (selectCateCategoryID === -1) {
+                getApiFilterPriceRange_Page(priceMin, priceMax, pageSize, offset)
+            } else if (selectCateCategoryID === -2) {
+                getApiFilterPriceRange_Title_Page(selectCateCategoryName!, priceMin, priceMax, pageSize, offset)
+            } else {
+                getApiFilterPriceRange_CategoryId_Page(priceMin, priceMax, selectCateCategoryID, pageSize, offset)
+            }
+        }
+        else {
+            if (selectCateCategoryID === -1) {
+                getApiProductPage(offset, pageSize);
+            } else if (selectCateCategoryID === -2) {
+                getApiFilterProductByTitle_Page(selectCateCategoryName!, offset, pageSize)
+            } else {
+                getApiFilterProductByCategoryId_Page(selectCateCategoryID, offset, pageSize)
+            }
+        }
         setSortBy("Default")
     }
 
+    const getApiCategoriesById = async (id: number) => {
+        try {
+            const res = await getCategoriesById(id)
+            setResCategoriesBy(res.data)
+        } catch (error) {
+            console.error("Lỗi khi gọi API getCategoriesById", error)
+            toast.error("Lỗi khi gọi API getCategoriesById")
+            setResCategoriesBy(undefined)
+        }
+    }
+
     const handleChangeSearchCategory = (_: React.SyntheticEvent | null, newValue: { id: number, name: string } | null) => {
+        setResProduct([]);
         if (newValue === null) {
-            setResProduct([]);
             setSelectCateCategoryID(-1)
         } else {
             const idCategory = newValue.id
             const nameCategory = newValue ? newValue.name : undefined
             setSelectCateCategoryID(idCategory)
             setSelectCateCategoryName(nameCategory)
-
-            getApiProductsByCategories_Id(idCategory)
+            getApiFilterProductByCategoryId_Page(idCategory, 0, pageSize)
+            getApiCategoriesById(idCategory)
         }
     };
 
     const handleSearchCategory = () => {
-        getApiProductsByCategories_Id(selectCateCategoryID)
+        setResProduct([]);
+        getApiFilterProductByCategoryId_Page(selectCateCategoryID, 0, pageSize)
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -296,7 +344,6 @@ const Products: React.FC = () => {
         }
     };
 
-
     const handleOrder = (id: number) => {
         setOrdersNumber(ordersNumber + 1)
         const productToAdd = resProduct.find(product => product.id === id)
@@ -307,6 +354,17 @@ const Products: React.FC = () => {
     const handleSigleProduct = (id: number) => {
         getApiProductById(id)
         navigate("/product-detail")
+    }
+
+    const getApiProductById = async (id: number) => {
+        try {
+            const res = await getProductsById(id)
+            setResProductBy(res.data)
+        } catch (error) {
+            console.error("Lỗi khi gọi API getProductsById", error)
+            toast.error("Lỗi khi gọi API getProductsById")
+            setResProductBy(undefined)
+        }
     }
 
     const removeVietnameseTones = (str: string) => {
@@ -364,13 +422,12 @@ const Products: React.FC = () => {
 
     const [checkRangePrice, setCheckRangePrice] = useState<boolean>(false)
 
-    const getApiFilterPriceRange_Page = async (priceMin: number, priceMax: number, limit: number, offset: number) => {
+    const getApiFilterPriceRange_Page = async (price_min: number, price_max: number, limit: number, offset: number) => {
         try {
             setLoading(true)
             setCheckRangePrice(true)
-            if (selectCateCategoryID !== -1) return;
 
-            const res = await getFilterPriceRange_Page(priceMin, priceMax, limit, offset)
+            const res = await getFilterPriceRange_Page(price_min, price_max, limit, offset)
             if (res.data.length < pageSize) {
                 setHasMore(false)
             }
@@ -391,24 +448,64 @@ const Products: React.FC = () => {
         }
     }
 
-    const getApiFilterPriceRange_CategoryId = async (price_min: number, price_max: number, categoryId: number) => {
+    const getApiFilterPriceRange_Title_Page = async (title: string, price_min: number, price_max: number, limit: number, offset: number) => {
         try {
-            const res = await getFilterPriceRange_CategoryId(price_min, price_max, categoryId)
-            setResProduct(res.data)
+            setLoading(true)
+            setCheckRangePrice(true)
+
+            const res = await getFilterPriceRange_Title_Page(title, price_min, price_max, limit, offset)
+            if (res.data.length < pageSize) {
+                setHasMore(false)
+            }
+            setResProduct(prev => {
+                // Tránh nối trùng dữ liệu
+                const newItems = res.data.filter(
+                    (item: ResProduct) => !prev.some(p => p.id === item.id)
+                );
+                return [...prev, ...newItems];
+            });
+
         } catch (error) {
-            console.error("Lỗi khi gọi API getFilterPriceRange_CategoryId", error)
-            toast.error("Lỗi khi gọi API getFilterPriceRange_CategoryId")
-            setResProduct([])
+            console.error("Lỗi khi gọi API getFilterPriceRange_Title_Page", error)
+            toast.error("Lỗi khi gọi API getFilterPriceRange_Title_Page")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const getApiFilterPriceRange_CategoryId_Page = async (price_min: number, price_max: number, categoryId: number, limit: number, offset: number) => {
+        try {
+            setLoading(true)
+            setCheckRangePrice(true)
+
+            const res = await getFilterPriceRange_CategoryId_Page(price_min, price_max, categoryId, limit, offset)
+            if (res.data.length < pageSize) {
+                setHasMore(false)
+            }
+            setResProduct(prev => {
+                // Tránh nối trùng dữ liệu
+                const newItems = res.data.filter(
+                    (item: ResProduct) => !prev.some(p => p.id === item.id)
+                );
+                return [...prev, ...newItems];
+            });
+
+        } catch (error) {
+            console.error("Lỗi khi gọi API getFilterPriceRange_CategoryId_Page", error)
+            toast.error("Lỗi khi gọi API getFilterPriceRange_CategoryId_Page")
+        } finally {
+            setLoading(false)
         }
     }
 
     const filterRangeProduct = (priceMin: number, priceMax: number) => {
+        setResProduct([]);
         if (selectCateCategoryID === -1) {
-            setResProduct([]);
             getApiFilterPriceRange_Page(priceMin, priceMax, pageSize, 0)
+        } else if (selectCateCategoryID === -2) {
+            getApiFilterPriceRange_Title_Page(selectCateCategoryName!, priceMin, priceMax, pageSize, 0)
         } else {
-            getApiFilterPriceRange_CategoryId(priceMin, priceMax, selectCateCategoryID)
-
+            getApiFilterPriceRange_CategoryId_Page(priceMin, priceMax, selectCateCategoryID, pageSize, 0)
         }
     }
 
@@ -556,18 +653,10 @@ const Products: React.FC = () => {
                         <div className="flex flex-col gap-4 ">
 
                             <div className="items-center pb-2 border-b-[2px] border-b-gray-200 md:flex md:justify-between">
-
-                                {selectCateCategoryID === -1 ?
-                                    <div>
-                                        <h3 className="text-xl text-black">PRODUCTS</h3>
-                                        <p className="text-sm text-black/50">{selectCateCategoryName === "all" ? "Show " : ""} {resProduct.length} items found for {selectCateCategoryName}</p>
-                                    </div>
-                                    :
-                                    <div >
-                                        <h3 className="text-xl text-black">{selectCateCategoryName?.toUpperCase()}</h3>
-                                        <p className="text-sm text-black/50">{resProduct.length} items found for "{selectCateCategoryName}"</p>
-                                    </div>
-                                }
+                                <div>
+                                    <h3 className="text-xl text-black">PRODUCTS</h3>
+                                    <p className="text-sm text-black/50">{selectCateCategoryName === "all" ? "Show " : ""} {resProduct.length} items found for {selectCateCategoryName}</p>
+                                </div>
                                 <div className="self-end flex gap-2 items-center">
                                     <button className={`${openSortBy ? "border-orange-700 shadow-xl" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center bg-white h-[40px] shadow-lg hover:border-orange-700`}
                                         onClick={handleClickSortBy}
@@ -603,6 +692,15 @@ const Products: React.FC = () => {
                                 </div>
 
                             </div>
+
+                            {selectCateCategoryID >= 0 &&
+                                <div className="flex rounded-[10px] bg-white overflow-hidden shadow-lg">
+                                    <img src={resCategoriesBy?.image} alt={resCategoriesBy?.name} className="w-[250px]" />
+                                    <div>
+                                        <p className="text-2xl font-bold p-5">{resCategoriesBy?.name}</p>
+                                    </div>
+                                </div>
+                            }
                             {resProduct.length === 0 ?
                                 <p className="text-center text-red-800">! No data</p>
                                 :
@@ -647,21 +745,20 @@ const Products: React.FC = () => {
                                 </>
                             }
                         </div>
-                        {selectCateCategoryID === -1 &&
-                            <div className="text-center">
-                                {hasMore ? (
-                                    <button
-                                        onClick={handleLoadMore}
-                                        disabled={loading}
-                                        className="px-4 py-2 border-[1px] border-orange-700 text-orange-700 rounded-[10px] hover:bg-orange-600"
-                                    >
-                                        {loading ? "Loading..." : "Loading more"}
-                                    </button>
-                                ) : (
-                                    <p className="text-gray-500 mt-2">There are no more products</p>
-                                )}
-                            </div>
-                        }
+                        <div className="text-center">
+                            {hasMore ? (
+                                <button
+                                    onClick={handleLoadMore}
+                                    disabled={loading}
+                                    className="px-4 py-2 border-[1px] border-orange-700 text-orange-700 rounded-[10px] hover:bg-orange-600"
+                                >
+                                    {loading ? "Loading..." : "Loading more"}
+                                </button>
+                            ) : (
+                                <p className="text-gray-500 mt-2">There are no more products</p>
+                            )}
+                        </div>
+
 
                     </section>
                 </div>

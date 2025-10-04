@@ -180,6 +180,7 @@ export interface GlobalState {
     setSelectCateCategoryName: (select: string | undefined) => void;
     selectCateCategoryID: number;
     setSelectCateCategoryID: (select: number) => void;
+    pageSize: number
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -205,6 +206,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
     const [selectCateCategoryID, setSelectCateCategoryID] = useState<number>(-1)
     const [selectCateCategoryName, setSelectCateCategoryName] = useState<string | undefined>("");
+    const pageSize = 12
 
     const value = {
         icons: defaultIcons,
@@ -225,7 +227,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         ordersList, setOrdersList,
         imgs: defaultImage,
         selectCateCategoryName, setSelectCateCategoryName,
-        selectCateCategoryID, setSelectCateCategoryID
+        selectCateCategoryID, setSelectCateCategoryID,
+        pageSize
     }
 
     return (

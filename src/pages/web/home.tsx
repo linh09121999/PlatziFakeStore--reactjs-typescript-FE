@@ -1,23 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-    getProducts,
-    getProductsById,
-    getProductsBySlug,
     getProductsPage,
-    getProductsRelatedById,
-    getProductsRelatedBySlug,
-    getProductsByCategories_Id,
-    getFilterProductByTitle,
-    getFilterProductByPrice,
-    getFilterProductByPriceRange,
-    getFilterProductByCategoryId,
-    getFilterProductByCategorySlug,
-    getFllterProductTitle_PriceRange_CategoryId,
-    getFilterPriceRange_CategoryId_Page,
-    getFilterPriceRange_Page,
     getCategories,
-    getCategoriesById,
-    getCategoriesBySlug,
 } from "../../services/userService"
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -29,7 +13,9 @@ const Home: React.FC = () => {
     const navigate = useNavigate()
     const { icons, imgs, setResProduct, resProduct, setResCategories, resCategories, setResProductBy,
         ordersList, setOrdersList, setOrdersNumber, ordersNumber,
-        resCategoriesBy, setResCategoriesBy
+        resCategoriesBy, setResCategoriesBy,
+        selectCateCategoryName, setSelectCateCategoryName,
+        selectCateCategoryID, setSelectCateCategoryID,
     } = useGlobal()
 
 
@@ -56,35 +42,19 @@ const Home: React.FC = () => {
         }
     }
 
-    const getApiProductById = async (id: number) => {
-        try {
-            const res = await getProductsById(id)
-            setResProductBy(res.data)
-        } catch (error) {
-            console.error("Lỗi khi gọi API getProductsById", error)
-            toast.error("Lỗi khi gọi API getProductsById")
-            setResProductBy(undefined)
-        }
-    }
-
-    const getApiCategoriesById = async (id: number) => {
-        try {
-            const res = await getCategoriesById(id)
-            setResCategoriesBy(res.data)
-        } catch (error) {
-            console.error("Lỗi khi gọi API getCategoriesById", error)
-            toast.error("Lỗi khi gọi API getCategoriesById")
-            setResCategoriesBy(undefined)
-        }
-    }
-
     useEffect(() => {
         getApiCategories()
         getApiProductPage(0, 10)
     }, [])
 
+    const handleProduct = () => {
+        navigate("/products")
+        setSelectCateCategoryID(-1)
+        setSelectCateCategoryName("all")
+        setResProduct([])
+    }
+
     const handleSigleProduct = (id: number) => {
-        getApiProductById(id)
         navigate("/product-detail")
     }
 
@@ -95,9 +65,10 @@ const Home: React.FC = () => {
         setOrdersList(prev => [...prev, productToAdd]);
     }
 
-    const handleCateGoriesById = (id: number) => {
-        getApiCategoriesById(id)
-        navigate("/category-detail")
+    const handleCateGoriesById = (id: number, name: string) => {
+        setSelectCateCategoryID(id)
+        setSelectCateCategoryName(name)
+        navigate("/products")
     }
 
     return (
@@ -107,9 +78,7 @@ const Home: React.FC = () => {
                     <section className="flex justify-between bg-gradient-to-r to-orange-600 from-orange-700 py-5 px-20 rounded-[10px]">
                         <div className="flex flex-col gap-10 self-center">
                             <h1 className="text-8xl font-bold text-white">Spee Shop</h1>
-                            <button onClick={() => {
-                                navigate("/products")
-                            }}
+                            <button onClick={handleProduct}
                                 className="px-4 py-1 css-next bg-white rounded-[10px] text-xl font-600 flex gap-2 items-center w-fit text-orange-700">BY NOW
                                 <span>{icons.iconNext}</span>
                             </button>
@@ -135,7 +104,7 @@ const Home: React.FC = () => {
                                     <h3 className="p-3 text-lg text-black/70 font-bold group-hover:opacity-70">{cate?.name}</h3>
                                     <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-100"
                                         onClick={() => {
-                                            handleCateGoriesById(cate.id)
+                                            handleCateGoriesById(cate.id, cate.name)
                                         }}
                                     >
                                         DETAIL
@@ -148,10 +117,7 @@ const Home: React.FC = () => {
                         <div className="md:flex md:justify-between items-center pb-2 border-b-[2px] border-b-gray-200">
                             <h3 className="text-xl text-black/50">PRODUCTS</h3>
                             <button className="text-orange-700 flex gap-1 text-lg css-next items-center"
-                                onClick={() => {
-                                    navigate("/products")
-                                    setResProduct([])
-                                }}>
+                                onClick={handleProduct}>
                                 View all
                                 <span>{icons.iconNext}</span>
                             </button>

@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGlobal } from '../../context/GlobalContext';
 import type { ResProduct } from '../../context/GlobalContext';
 
-import { getFilterProductByTitle } from '../../services/userService';
+import { getFilterProductByTitle, getFilterProductByTitle_Page } from '../../services/userService';
 
 const HeaderWeb: React.FC = () => {
     const navigate = useNavigate()
@@ -50,29 +50,19 @@ const HeaderWeb: React.FC = () => {
         },
     }
 
-    const { icons, setResProduct, ordersNumber, setSelectCateCategoryName, setSelectCateCategoryID } = useGlobal()
+    const { icons, setResProduct, ordersNumber, setSelectCateCategoryName, setSelectCateCategoryID,
+        pageSize
+    } = useGlobal()
 
     const [key, setKey] = useState<string>("")
-
-    const getApiFilterProductByTitle = async (key: string) => {
-        try {
-            const res = await getFilterProductByTitle(key)
-            setResProduct(res.data)
-        } catch (error) {
-            console.error("Lỗi khi gọi API getFilterProductByTitle", error)
-            toast.error("")
-            setResProduct([])
-        }
-    }
 
     const handleSearch = async () => {
         if (!key.trim()) {
             toast.error("You have not entered the search keyword")
             return;
         }
-        getApiFilterProductByTitle(key)
         setSelectCateCategoryName(key)
-        setSelectCateCategoryID(-1)
+        setSelectCateCategoryID(-2)
         navigate("/products")
     }
 

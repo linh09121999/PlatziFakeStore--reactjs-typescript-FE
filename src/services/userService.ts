@@ -24,14 +24,17 @@ export const getProductsRelatedBySlug = (slug: string) => api.get(`/api/v1/produ
 export const getProductsByCategories_Id = (id: number) => api.get(`/api/v1/categories/${id}/products`)
 
 export const getFilterProductByTitle = (title: string) => api.get(`/api/v1/products/?title=${title}`) //tìm kiến theo title
+export const getFilterProductByTitle_Page = (title: string, offset: number, limit: number) => api.get(`/api/v1/products/?title=${title}&offset=${offset}&limit=${limit}`)
 export const getFilterProductByPrice = (price: number) => api.get(`/api/v1/products/?price=${price}`) //tìm kiến theo price
 export const getFilterProductByPriceRange = (price_min: number, price_max: number) => api.get(`/api/v1/products/?price_min=${price_min}&price_max=${price_max}`) //tìm kiếm theo khoản giá
 export const getFilterProductByCategoryId = (categoryId: number) => api.get(`/api/v1/products/?categoryId=${categoryId}`) //tìm kiến theo categoryId
+export const getFilterProductByCategoryId_Page = (categoryId: number, offset: number, limit: number) => api.get(`/api/v1/products/?categoryId=${categoryId}&offset=${offset}&limit=${limit}`)
 export const getFilterProductByCategorySlug = (categorySlug: string) => api.get(`/api/v1/products/?categorySlug=${categorySlug}`) //tìm kiến theo categorySlug
-export const getFllterProductTitle_PriceRange_CategoryId = (title: string, price_min: number, price_max: number, categoryId: number) => api.get(`/api/v1/products/?title=${title}&price_min=${price_min}&price_max=${price_max}&categoryId=${categoryId}`)
+export const getFillterProductTitle_PriceRange_CategoryId = (title: string, price_min: number, price_max: number, categoryId: number) => api.get(`/api/v1/products/?title=${title}&price_min=${price_min}&price_max=${price_max}&categoryId=${categoryId}`)
 export const getFilterPriceRange_CategoryId_Page = (price_min: number, price_max: number, categoryId: number, limit: number, offset: number) => api.get(`/api/v1/products/?price_min=${price_min}&price_max=${price_max}&categoryId=${categoryId}&limit=${limit}&offset=${offset}`)
 export const getFilterPriceRange_Page = (price_min: number, price_max: number, limit: number, offset: number) => api.get(`/api/v1/products/?price_min=${price_min}&price_max=${price_max}&limit=${limit}&offset=${offset}`)
 export const getFilterPriceRange_CategoryId = (price_min: number, price_max: number, categoryId: number) => api.get(`/api/v1/products/?price_min=${price_min}&price_max=${price_max}&categoryId=${categoryId}`)
+export const getFilterPriceRange_Title_Page = (title: string, price_min: number, price_max: number, limit: number, offset: number) => api.get(`/api/v1/products/?title=${title}&price_min=${price_min}&price_max=${price_max}&limit=${limit}&offset=${offset}`)
 
 export const getCategories = () => api.get(`/api/v1/categories`) //list chu de
 export const getCategoriesById = (id: number) => api.get(`/api/v1/categories/${id}`) //1 chu de theo id
