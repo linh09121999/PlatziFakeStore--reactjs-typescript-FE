@@ -768,7 +768,7 @@ const Products: React.FC = () => {
                                 <button
                                     onClick={handleLoadMore}
                                     disabled={loading}
-                                    className="px-4 py-2 border-[1px] border-orange-700 text-orange-700 rounded-[10px] hover:bg-orange-600"
+                                    className="px-4 py-2 border-[1px] border-orange-700 text-orange-700 rounded-[10px] hover:bg-orange-600 hover:text-white"
                                 >
                                     {loading ? "Loading..." : "Loading more"}
                                 </button>

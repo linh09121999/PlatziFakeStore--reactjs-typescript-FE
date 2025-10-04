@@ -27,19 +27,19 @@ const Categories: React.FC = () => {
         pageSize, imgs
     } = useGlobal()
 
-    // const getApiCategories = async () => {
-    //     try {
-    //         const res = await getCategories()
-    //         setResCategories(res.data)
-    //     } catch (error) {
-    //         console.error("Lỗi khi gọi API getCategories", error)
-    //         toast.error("Lỗi khi gọi API getCategories")
-    //         setResCategories([])
-    //     }
-    // }
+    const getApiCategories = async () => {
+        try {
+            const res = await getCategories()
+            setResCategories(res.data)
+        } catch (error) {
+            console.error("Lỗi khi gọi API getCategories", error)
+            toast.error("Lỗi khi gọi API getCategories")
+            setResCategories([])
+        }
+    }
 
     useEffect(() => {
-        // getApiCategories()
+        getApiCategories()
     }, [])
 
     const handleCateGoriesById = (id: number, name: string) => {
@@ -65,21 +65,25 @@ const Categories: React.FC = () => {
                 </div>
             </div>
             <main className="bg-gray-100 min-h-[70vh]  p-5">
-                <div className="max-w-[1500px] mx-auto grid md:grid-cols-5 gap-5">
-                    {resCategories?.map(cate => (
-                        <div key={cate.id} className="bg-white relative rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl">
-                            <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" onError={handleImgError} />
-                            <h3 className="p-3 text-lg text-black/70 font-bold group-hover:opacity-70">{cate?.name}</h3>
-                            <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-100"
-                                onClick={() => {
-                                    handleCateGoriesById(cate.id, cate.name)
-                                }}
-                            >
-                                DETAIL
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                {resCategories.length === 0 ?
+                    <p className="text-center text-red-800">! No data</p>
+                    :
+                    <div className="max-w-[1500px] mx-auto grid md:grid-cols-5 gap-5">
+                        {resCategories?.map(cate => (
+                            <div key={cate.id} className="bg-white relative rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl">
+                                <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" onError={handleImgError} />
+                                <h3 className="p-3 text-lg text-black/70 font-bold group-hover:opacity-70">{cate?.name}</h3>
+                                <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-100"
+                                    onClick={() => {
+                                        handleCateGoriesById(cate.id, cate.name)
+                                    }}
+                                >
+                                    DETAIL
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                }
             </main>
             <ToastContainer position="top-right" autoClose={3000} />
         </>

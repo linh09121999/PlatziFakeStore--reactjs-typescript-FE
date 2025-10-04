@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
     getProductsPage,
     getCategories,
-    getCategoriesPage
 } from "../../services/userService"
 
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import { useGlobal } from '../../context/GlobalContext';
-import type { Category } from "../../context/GlobalContext";
 
 const Home: React.FC = () => {
     const navigate = useNavigate()
@@ -17,16 +15,17 @@ const Home: React.FC = () => {
         ordersList, setOrdersList, setOrdersNumber, ordersNumber,
         resCategoriesBy, setResCategoriesBy,
         selectCateCategoryName, setSelectCateCategoryName,
-        selectCateCategoryID, setSelectCateCategoryID
+        selectCateCategoryID, setSelectCateCategoryID,
     } = useGlobal()
 
-    const getApiCategoriesPage = async (offset: number, limit: number) => {
+
+    const getApiCategories = async () => {
         try {
-            const res = await getCategoriesPage(offset, limit)
+            const res = await getCategories()
             setResCategories(res.data)
         } catch (error) {
-            console.error("Lỗi khi gọi API getProductsPage", error)
-            toast.error("Lỗi khi gọi API getProductsPage")
+            console.error("Lỗi khi gọi API getCategories", error)
+            toast.error("Lỗi khi gọi API getCategories")
             setResCategories([])
         }
     }
@@ -35,6 +34,7 @@ const Home: React.FC = () => {
         try {
             const res = await getProductsPage(offset, limit)
             setResProduct(res.data)
+            console.log(res.data)
         } catch (error) {
             console.error("Lỗi khi gọi API getProductsPage", error)
             toast.error("Lỗi khi gọi API getProductsPage")
@@ -43,7 +43,7 @@ const Home: React.FC = () => {
     }
 
     useEffect(() => {
-        getApiCategoriesPage(0, 5)
+        getApiCategories()
         getApiProductPage(0, 10)
     }, [])
 
@@ -52,11 +52,6 @@ const Home: React.FC = () => {
         setSelectCateCategoryID(-1)
         setSelectCateCategoryName("all")
         setResProduct([])
-    }
-
-    const handleCategori = () => {
-        setResCategories([])
-        navigate("/categories")
     }
 
     const handleSigleProduct = (id: number) => {
@@ -94,22 +89,24 @@ const Home: React.FC = () => {
                                 <span>{icons.iconNext}</span>
                             </button>
                         </div>
-                        <img src={imgs.imgBanner1} alt='banner' className=" h-[450px]" onError={handleImgError} />
+                        <img src={imgs.imgBanner1} alt='banner' className=" h-[450px]" onError={handleImgError}/>
                     </section>
                     <section className=" flex flex-col gap-4">
                         <div className="md:flex md:justify-between items-center pb-2 border-b-[2px] border-b-gray-200">
                             <h3 className="text-xl text-black/50">CATEGORIES</h3>
                             <button className="text-orange-700 flex gap-1 text-lg css-next items-center"
-                                onClick={handleCategori}>
+                                onClick={() => {
+                                    navigate("/categories")
+                                }}>
                                 View all
                                 <span>{icons.iconNext}</span>
                             </button>
                         </div>
                         {/* flex wrap justify-center */}
                         <div className="grid grid-cols-5 gap-5 ">
-                            {resCategories?.map(cate => (
+                            {resCategories?.slice(0, 5).map(cate => (
                                 <div key={cate.id} className="bg-white relative rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl">
-                                    <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" onError={handleImgError} />
+                                    <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" onError={handleImgError}/>
                                     <h3 className="p-3 text-lg text-black/70 font-bold group-hover:opacity-70">{cate?.name}</h3>
                                     <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-100"
                                         onClick={() => {
