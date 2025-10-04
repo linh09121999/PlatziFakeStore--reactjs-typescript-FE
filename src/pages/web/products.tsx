@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useGlobal } from '../../context/GlobalContext';
 import type { ResProduct } from "../../context/GlobalContext";
+import NumberTextField from "../../components/numberTextField";
 import {
     getProducts,
     getProductsById,
@@ -162,7 +163,6 @@ const Products: React.FC = () => {
 
         '& .MuiInputBase-input': {
             color: 'black',
-            paddingLeft: '14px',
             fontSize: 'var(--text-lg)',
             border: 'none',
         },
@@ -456,6 +456,7 @@ const Products: React.FC = () => {
                                     value={priceMin}
                                     variant="outlined"
                                     sx={sxTextField}
+                                    onChange={(n: React.ChangeEvent<HTMLInputElement>) => setPriceMin(Number(n.target.value) || 0)}
                                 />
                                 <p>to</p>
                                 <TextField
@@ -472,6 +473,7 @@ const Products: React.FC = () => {
                                     value={priceMax}
                                     variant="outlined"
                                     sx={sxTextField}
+                                    onChange={(n: React.ChangeEvent<HTMLInputElement>) => setPriceMax(Number(n.target.value) || 0)}
                                 />
                             </div>
                         </div>
@@ -493,7 +495,7 @@ const Products: React.FC = () => {
                                     </div>
                                 }
                                 <div className="self-end flex gap-2 items-center">
-                                    <button className={`${openSortBy ? "border-orange-700 shadow-xl" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center bg-white shadow-lg h-[40px] hover:border-orange-700`}
+                                    <button className={`${openSortBy ? "border-orange-700 shadow-xl" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center bg-white h-[40px] shadow-lg hover:border-orange-700`}
                                         onClick={handleClickSortBy}
                                     >
                                         <p className="text-black text-lg">Price:</p>
