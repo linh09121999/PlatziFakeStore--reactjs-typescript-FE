@@ -5,7 +5,7 @@ import {
     Menu,
     MenuItem,
     IconButton,
-    Button,
+    Button, Badge
 } from '@mui/material'
 import type { SxProps, Theme } from "@mui/material/styles";
 import { ToastContainer, toast } from 'react-toastify';
@@ -48,6 +48,15 @@ const HeaderWeb: React.FC = () => {
             fontSize: 'var(--text-lg)',
             border: 'none',
         },
+    }
+
+    const sxBadge: SxProps<Theme> = {
+        "& .MuiBadge-badge": {
+            background: 'white',
+            color: "var(--color-orange-700)",
+            fontWeight: 'bold',
+            fontSize: 'var(--text-sm)'
+        }
     }
 
     const { icons, setResProduct, ordersNumber, setSelectCateCategoryName, setSelectCateCategoryID,
@@ -129,10 +138,9 @@ const HeaderWeb: React.FC = () => {
                             navigate("/cart")
                         }}
                     >
-                        <span className='text-white text-3xl'>{icons.iconCart}</span>
-                        <span className='absolute text-white -top-3 -right-3 w-6 h-6 rounded-full bg-white content-center'>
-                            <p className='text-orange-700 text-center text-sm font-bold'>{ordersNumber}</p>
-                        </span>
+                        <Badge badgeContent={ordersNumber} sx={sxBadge}>
+                            <span className='text-white text-3xl'>{icons.iconCart}</span>
+                        </Badge >
                     </button>
                 </div>
             </header>
