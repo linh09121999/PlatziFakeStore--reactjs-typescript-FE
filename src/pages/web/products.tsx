@@ -288,22 +288,22 @@ const Products: React.FC = () => {
         getApiCategories()
     }, [])
 
-    useEffect(() => {
-        if (id === -1) {
-            getApiProductPage(0, pageSize);
-            setSelectCateCategoryName("all")
-            setSelectCateCategoryID(-1)
-        } else if (id === -2) {
-            getApiFilterProductByTitle_Page(name, 0, pageSize)
-            setSelectCateCategoryID(-2)
-            setSelectCateCategoryName(name)
-        } else {
-            getApiFilterProductByCategoryId_Page(id, 0, pageSize)
-            setSelectCateCategoryID(id)
-            setSelectCateCategoryName(name)
-            getApiCategoriesById(id)
-        }
-    }, [selectCateCategoryID]);
+    // useEffect(() => {
+    //     if (id === -1) {
+    //         getApiProductPage(0, pageSize);
+    //         setSelectCateCategoryName("all")
+    //         setSelectCateCategoryID(-1)
+    //     } else if (id === -2) {
+    //         getApiFilterProductByTitle_Page(name, 0, pageSize)
+    //         setSelectCateCategoryID(-2)
+    //         setSelectCateCategoryName(name)
+    //     } else {
+    //         getApiFilterProductByCategoryId_Page(id, 0, pageSize)
+    //         setSelectCateCategoryID(id)
+    //         setSelectCateCategoryName(name)
+    //         getApiCategoriesById(id)
+    //     }
+    // }, [selectCateCategoryID]);
 
     const handleLoadMore = () => {
         if (!hasMore || loading) return

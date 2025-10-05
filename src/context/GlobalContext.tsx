@@ -141,6 +141,9 @@ export interface GlobalState {
     resProductBy: ResProduct | undefined;// dùng cho 1 sản phẩm, add, edit;
     setResProductBy: React.Dispatch<React.SetStateAction<ResProduct | undefined>>;
 
+    resProductRelateBy: ResProduct[];// dùng cho list, filter
+    setResProductRelateBy: React.Dispatch<React.SetStateAction<ResProduct[]>>;
+
     resAddProduct: ResAddProduct | undefined; //khi xem các sp đã thêm
     setResAddProduct: React.Dispatch<React.SetStateAction<ResAddProduct | undefined>>;
 
@@ -194,6 +197,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const isMobile = useMediaQuery("(max-width:768px)");
     const [resProduct, setResProduct] = useState<ResProduct[]>([]);
     const [resProductBy, setResProductBy] = useState<ResProduct>();
+    const [resProductRelateBy, setResProductRelateBy] = useState<ResProduct[]>([])
     const [resAddProduct, setResAddProduct] = useState<ResAddProduct>();
     const [resCategories, setResCategories] = useState<Category[]>([]);
     const [resCategoriesBy, setResCategoriesBy] = useState<Category>();
@@ -236,7 +240,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         selectCateCategoryName, setSelectCateCategoryName,
         selectCateCategoryID, setSelectCateCategoryID,
         selectProductID, setSelectProductId,
-        pageSize
+        pageSize,
+        resProductRelateBy, setResProductRelateBy
     }
 
     return (
