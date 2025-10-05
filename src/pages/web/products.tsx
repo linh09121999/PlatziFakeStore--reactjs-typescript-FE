@@ -711,13 +711,22 @@ const Products: React.FC = () => {
                             </div>
 
                             {selectCateCategoryID >= 0 &&
-                                <div className="flex rounded-[10px] bg-white overflow-hidden shadow-lg">
-                                    <img src={resCategoriesBy?.image} alt={resCategoriesBy?.name} className="w-[250px] "
+                                <div className="group relative w-full h-[320px] rounded-xl overflow-hidden shadow-md hover:shadow-xl cursor-pointer transition-all duration-300">
+                                    <img
+                                        src={resCategoriesBy?.image}
+                                        alt={resCategoriesBy?.name}
                                         onError={handleImgError}
+                                        className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
                                     />
-                                    <div className="">
-                                        <p className="text-2xl font-bold p-5">{resCategoriesBy?.name}</p>
-                                        <p></p>
+
+                                    {/* Lớp phủ mờ tối để chữ dễ đọc */}
+                                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
+
+                                    {/* Text overlay */}
+                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                                        <h3 className="text-white/50 text-5xl font-semibold drop-shadow-md transition-all duration-300 group-hover:text-white group-hover:text-6xl">
+                                            {resCategoriesBy?.name}
+                                        </h3>
                                     </div>
                                 </div>
                             }
