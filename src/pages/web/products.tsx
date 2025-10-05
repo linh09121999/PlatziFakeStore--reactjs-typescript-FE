@@ -559,7 +559,7 @@ const Products: React.FC = () => {
                         onClick={() => navigate("/")}
                         className='transition duration-300 ease css-icon'>{icons.iconHome}</div>
                     <span>{icons.iconNext}</span>
-                    <div className='transition duration-300 ease css-icon'>PRODUCTS</div>
+                    <div className='transition duration-300 ease css-icon'>Products</div>
                 </div>
             </div>
             <main className="bg-gray-100 min-h-[70vh]  p-5">
@@ -616,7 +616,7 @@ const Products: React.FC = () => {
                         </div>
                         <div className="flex flex-col gap-4">
                             <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
-                                <h3 className="text-xl text-black">PRICE RANGE</h3>
+                                <h3 className="text-xl">PRICE RANGE</h3>
                             </div>
                             <div>
                                 <Slider

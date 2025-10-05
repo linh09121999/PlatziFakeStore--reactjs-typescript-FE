@@ -97,7 +97,7 @@ const Home: React.FC = () => {
                     </section>
                     <section className=" flex flex-col gap-4">
                         <div className="md:flex md:justify-between items-center pb-2 border-b-[2px] border-b-gray-200">
-                            <h3 className="text-xl text-black/50">CATEGORIES</h3>
+                            <h3 className="text-xl">CATEGORIES</h3>
                             <button className="text-orange-700 flex gap-1 text-lg css-next items-center"
                                 onClick={() => {
                                     navigate("/categories")
@@ -125,7 +125,7 @@ const Home: React.FC = () => {
                     </section>
                     <section className=" flex flex-col gap-4">
                         <div className="md:flex md:justify-between items-center pb-2 border-b-[2px] border-b-gray-200">
-                            <h3 className="text-xl text-black/50">PRODUCTS</h3>
+                            <h3 className="text-xl">PRODUCTS</h3>
                             <button className="text-orange-700 flex gap-1 text-lg css-next items-center"
                                 onClick={handleProduct}>
                                 View all
@@ -138,7 +138,7 @@ const Home: React.FC = () => {
 
                                 >
                                     <div className="relative self-start ">
-                                        <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
+                                        <img src={product.images[0]} alt={product.title} onError={handleImgError} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
                                         <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{product.category.name}</div>
                                         <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
                                             onClick={() => {

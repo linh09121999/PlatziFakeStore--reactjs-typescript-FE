@@ -61,7 +61,7 @@ const Categories: React.FC = () => {
                         onClick={() => navigate("/")}
                         className='transition duration-300 ease css-icon'>{icons.iconHome}</div>
                     <span>{icons.iconNext}</span>
-                    <div className='transition duration-300 ease css-icon'>CATEGORIES</div>
+                    <div className='transition duration-300 ease css-icon'>Categories</div>
                 </div>
             </div>
             <main className="bg-gray-100 min-h-[70vh]  p-5">
