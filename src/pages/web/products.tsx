@@ -271,7 +271,7 @@ const Products: React.FC = () => {
     const location = useLocation();
     const { id, name } = location.state || {};
     useEffect(() => {
-        if (id === -1) {
+        if (id === -1 || id === undefined) {
             getApiProductPage(0, pageSize);
             setSelectCateCategoryName("all")
             setSelectCateCategoryID(-1)
@@ -746,23 +746,18 @@ const Products: React.FC = () => {
                                                     <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{product.category.name}</div>
                                                     <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
                                                         onClick={() => {
-                                                            navigate("/product-similar")
+                                                            handleSigleProduct(product.id)
                                                         }}
                                                     >
-                                                        SIMILAR
+                                                        DETAIL
                                                     </button>
                                                     <div className="px-3 pt-3">
                                                         <p className="text-start font-bold text-lg text-black/70">{product.title}</p>
                                                         <p className="text-start text-orange-700 font-bold text-xl">$ {product.price} </p>
                                                     </div>
                                                 </div>
-                                                <div className="flex justify-between p-3 self-end gap-2">
-                                                    <button className="border-[1px] border-orange-700 rounded-[10px] px-4 py-2 text-orange-700"
-                                                        onClick={() => {
-                                                            handleSigleProduct(product.id)
-                                                        }}
-                                                    >{icons.iconEye}</button>
-                                                    <button className="bg-orange-700 text-white w-full justify-center px-4 py-2 rounded-[10px] relative flex gap-2 items-center transition-all duration-300 ease"
+                                                <div className="flex p-3 self-end gap-2">
+                                                    <button className="bg-orange-700 text-white w-full justify-center px-4 py-2 rounded-[8px] relative flex gap-2 items-center transition-all duration-300 ease"
                                                         onClick={() => {
                                                             handleOrder(product.id)
                                                         }}

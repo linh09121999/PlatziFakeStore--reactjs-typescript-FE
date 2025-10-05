@@ -46,7 +46,7 @@ const ProductDetail: React.FC = () => {
     const { idProduct } = location.state || {};
 
     useEffect(() => {
-        if (idProduct === -1) {
+        if (idProduct === undefined) {
             navigate("/")
         }
         else {

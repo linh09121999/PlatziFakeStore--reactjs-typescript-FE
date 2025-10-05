@@ -112,7 +112,7 @@ const Home: React.FC = () => {
                                 <div key={cate.id} className="bg-white relative rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl">
                                     <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" onError={handleImgError} />
                                     <h3 className="p-3 text-lg text-black/70 font-bold group-hover:opacity-70">{cate?.name}</h3>
-                                    <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-100"
+                                    <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
                                         onClick={() => {
                                             handleCateGoriesById(cate.id, cate.name)
                                         }}
@@ -139,26 +139,21 @@ const Home: React.FC = () => {
                                 >
                                     <div className="relative self-start ">
                                         <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
-                                        <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm ">{product.category.name}</div>
+                                        <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{product.category.name}</div>
                                         <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
                                             onClick={() => {
-                                                navigate("/product-similar")
+                                                handleSigleProduct(product.id)
                                             }}
                                         >
-                                            SIMILAR
+                                            DETAIL
                                         </button>
                                         <div className="px-3 pt-3">
                                             <p className="text-start font-bold text-lg text-black/70">{product.title}</p>
                                             <p className="text-start text-orange-700 font-bold text-xl">$ {product.price} </p>
                                         </div>
                                     </div>
-                                    <div className="flex justify-between p-3 self-end gap-2">
-                                        <button className="border-[1px] border-orange-700 rounded-[10px] px-4 py-2 text-orange-700"
-                                            onClick={() => {
-                                                handleSigleProduct(product.id)
-                                            }}
-                                        >{icons.iconEye}</button>
-                                        <button className="bg-orange-700 text-white w-full justify-center px-4 py-2 rounded-[10px] relative flex gap-2 items-center transition-all duration-300 ease"
+                                    <div className="flex p-3 self-end gap-2">
+                                        <button className="bg-orange-700 text-white w-full justify-center px-4 py-2 rounded-[8px] relative flex gap-2 items-center transition-all duration-300 ease"
                                             onClick={() => {
                                                 handleOrder(product.id)
                                             }}
