@@ -53,11 +53,22 @@ const ProductDetail: React.FC = () => {
         }
     }, [])
 
+    const handleProductRelateDetail = (id: number) => {
+        getApiSigleProduct(id)
+        setSelectProductId(id)
+        getApiProductsRelatedById(id)
+    }
+
     const [imageProduct, setImageProduct] = useState<number>(0)
 
     const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.onerror = null; // tránh vòng lặp vô hạn
         e.currentTarget.src = imgs.imgDefault;//"https://placehold.co/600x400" //imgs.imgDefault; // ảnh mặc định (nên để trong public/images)
+    }
+
+    const handleOrderByDetail = () => {
+        setOrdersNumber(ordersNumber + 1)
+        setOrdersList(prev => [...prev, resProductBy!]);
     }
 
     const handleOrder = (id: number) => {
@@ -106,8 +117,14 @@ const ProductDetail: React.FC = () => {
                                 <p className="text-orange-700 text-4xl font-bold">$ {resProductBy?.price}</p>
                             </div>
                             <div className="flex gap-4">
-                                <button className="text-xl text-orange-700 border-[1px] border-orange-700 px-4 py-2 rounded-[10px] font-600">Buy Now</button>
-                                <button className="text-xl bg-orange-700 text-white px-4 py-2 rounded-[10px] flex gap-2 items-center">{icons.iconCart}
+                                <button className="text-xl text-orange-700 border-[1px] border-orange-700 px-4 py-2 rounded-[10px] font-600"
+                                    onClick={() => {
+                                        navigate("/login")
+                                    }}
+                                >Buy Now</button>
+                                <button className="text-xl bg-orange-700 text-white px-4 py-2 rounded-[10px] flex gap-2 items-center"
+                                    onClick={handleOrderByDetail}
+                                >{icons.iconCart}
                                     <p className="">Add To Card</p>
                                 </button>
                             </div>
@@ -119,38 +136,43 @@ const ProductDetail: React.FC = () => {
                     </section>
                     <section className="flex flex-col gap-5">
                         <h3 className="text-xl pb-2 border-b-[2px] border-b-gray-200">RELATED PRODUCTS</h3>
-                        <div className="grid grid-cols-5 gap-5 ">
-                            {resProductRelateBy.map(productRelate => (
-                                <div key={productRelate.id} className="bg-white relative grid rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl "
+                        {resProductRelateBy.length === 0 ?
+                            <p className="text-center text-red-800">! No data</p>
+                            :
 
-                                >
-                                    <div className="relative self-start ">
-                                        <img src={productRelate.images[0]} alt={productRelate.title} onError={handleImgError} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
-                                        <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{productRelate.category.name}</div>
-                                        <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
-                                            onClick={() => {
-                                                getApiSigleProduct(productRelate.id)
-                                            }}
-                                        >
-                                            DETAIL
-                                        </button>
-                                        <div className="px-3 pt-3">
-                                            <p className="text-start font-bold text-lg text-black/70">{productRelate.title}</p>
-                                            <p className="text-start text-orange-700 font-bold text-xl">$ {productRelate.price} </p>
+                            <div className="grid grid-cols-5 gap-5 ">
+                                {resProductRelateBy.map(productRelate => (
+                                    <div key={productRelate.id} className="bg-white relative grid rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl "
+
+                                    >
+                                        <div className="relative self-start ">
+                                            <img src={productRelate.images[0]} alt={productRelate.title} onError={handleImgError} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" />
+                                            <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{productRelate.category.name}</div>
+                                            <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
+                                                onClick={() => {
+                                                    handleProductRelateDetail(productRelate.id)
+                                                }}
+                                            >
+                                                DETAIL
+                                            </button>
+                                            <div className="px-3 pt-3">
+                                                <p className="text-start font-bold text-lg text-black/70">{productRelate.title}</p>
+                                                <p className="text-start text-orange-700 font-bold text-xl">$ {productRelate.price} </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex p-3 self-end gap-2">
+                                            <button className="bg-orange-700 text-white w-full justify-center px-4 py-2 rounded-[8px] relative flex gap-2 items-center transition-all duration-300 ease"
+                                                onClick={() => {
+                                                    handleOrder(productRelate.id)
+                                                }}
+                                            >{icons.iconCart}
+                                                <p className="">Add To Card</p>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div className="flex p-3 self-end gap-2">
-                                        <button className="bg-orange-700 text-white w-full justify-center px-4 py-2 rounded-[8px] relative flex gap-2 items-center transition-all duration-300 ease"
-                                            onClick={() => {
-                                                handleOrder(productRelate.id)
-                                            }}
-                                        >{icons.iconCart}
-                                            <p className="">Add To Card</p>
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                        }
                     </section>
                 </div>
             </main>
