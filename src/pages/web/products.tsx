@@ -25,7 +25,7 @@ import {
 import type { SxProps, Theme } from "@mui/material/styles";
 
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Products: React.FC = () => {
     const sxFormControl = {
@@ -268,26 +268,40 @@ const Products: React.FC = () => {
         }
     }
 
+    const location = useLocation();
+    const { id, name } = location.state || {};
     useEffect(() => {
-        if (selectCateCategoryID === -1) {
+        if (id === -1) {
             getApiProductPage(0, pageSize);
-        } else if (selectCateCategoryID === -2) {
-            getApiFilterProductByTitle_Page(selectCateCategoryName!, 0, pageSize)
+            setSelectCateCategoryName("all")
+            setSelectCateCategoryID(-1)
+        } else if (id === -2) {
+            getApiFilterProductByTitle_Page(name, 0, pageSize)
+            setSelectCateCategoryID(-2)
+            setSelectCateCategoryName(name)
         } else {
-            getApiFilterProductByCategoryId_Page(selectCateCategoryID, 0, pageSize)
-            getApiCategoriesById(selectCateCategoryID)
+            getApiFilterProductByCategoryId_Page(id, 0, pageSize)
+            setSelectCateCategoryID(id)
+            setSelectCateCategoryName(name)
+            getApiCategoriesById(id)
         }
         getApiCategories()
     }, [])
 
     useEffect(() => {
-        if (selectCateCategoryID === -1) {
+        if (id === -1) {
             getApiProductPage(0, pageSize);
-        } else if (selectCateCategoryID === -2) {
-            getApiFilterProductByTitle_Page(selectCateCategoryName!, 0, pageSize)
+            setSelectCateCategoryName("all")
+            setSelectCateCategoryID(-1)
+        } else if (id === -2) {
+            getApiFilterProductByTitle_Page(name, 0, pageSize)
+            setSelectCateCategoryID(-2)
+            setSelectCateCategoryName(name)
         } else {
-            getApiFilterProductByCategoryId_Page(selectCateCategoryID, 0, pageSize)
-            getApiCategoriesById(selectCateCategoryID)
+            getApiFilterProductByCategoryId_Page(id, 0, pageSize)
+            setSelectCateCategoryID(id)
+            setSelectCateCategoryName(name)
+            getApiCategoriesById(id)
         }
     }, [selectCateCategoryID]);
 
@@ -365,19 +379,9 @@ const Products: React.FC = () => {
     }
 
     const handleSigleProduct = (id: number) => {
-        getApiProductById(id)
-        navigate("/product-detail")
-    }
-
-    const getApiProductById = async (id: number) => {
-        try {
-            const res = await getProductsById(id)
-            setResProductBy(res.data)
-        } catch (error) {
-            console.error("Lỗi khi gọi API getProductsById", error)
-            toast.error("Lỗi khi gọi API getProductsById")
-            setResProductBy(undefined)
-        }
+        navigate("/product-detail", {
+            state: { idProduct: id }
+        })
     }
 
     const removeVietnameseTones = (str: string) => {

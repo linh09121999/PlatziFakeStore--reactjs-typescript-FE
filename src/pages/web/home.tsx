@@ -16,6 +16,7 @@ const Home: React.FC = () => {
         resCategoriesBy, setResCategoriesBy,
         selectCateCategoryName, setSelectCateCategoryName,
         selectCateCategoryID, setSelectCateCategoryID,
+        setSelectProductId
     } = useGlobal()
 
 
@@ -48,14 +49,16 @@ const Home: React.FC = () => {
     }, [])
 
     const handleProduct = () => {
-        navigate("/products")
-        setSelectCateCategoryID(-1)
-        setSelectCateCategoryName("all")
+        navigate("/products", {
+            state: { id: -1, name: "all" }
+        })
         setResProduct([])
     }
 
     const handleSigleProduct = (id: number) => {
-        navigate("/product-detail")
+        navigate("/product-detail", {
+            state: { idProduct: id }
+        })
     }
 
     const handleOrder = (id: number) => {
@@ -66,9 +69,10 @@ const Home: React.FC = () => {
     }
 
     const handleCateGoriesById = (id: number, name: string) => {
-        setSelectCateCategoryID(id)
-        setSelectCateCategoryName(name)
-        navigate("/products")
+        navigate("/products", {
+            state: { id, name }
+        })
+        setResProduct([])
     }
 
     const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -89,7 +93,7 @@ const Home: React.FC = () => {
                                 <span>{icons.iconNext}</span>
                             </button>
                         </div>
-                        <img src={imgs.imgBanner1} alt='banner' className=" h-[450px]" onError={handleImgError}/>
+                        <img src={imgs.imgBanner1} alt='banner' className=" h-[450px]" onError={handleImgError} />
                     </section>
                     <section className=" flex flex-col gap-4">
                         <div className="md:flex md:justify-between items-center pb-2 border-b-[2px] border-b-gray-200">
@@ -106,7 +110,7 @@ const Home: React.FC = () => {
                         <div className="grid grid-cols-5 gap-5 ">
                             {resCategories?.slice(0, 5).map(cate => (
                                 <div key={cate.id} className="bg-white relative rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl">
-                                    <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" onError={handleImgError}/>
+                                    <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" onError={handleImgError} />
                                     <h3 className="p-3 text-lg text-black/70 font-bold group-hover:opacity-70">{cate?.name}</h3>
                                     <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-100"
                                         onClick={() => {

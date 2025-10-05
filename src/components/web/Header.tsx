@@ -61,9 +61,9 @@ const HeaderWeb: React.FC = () => {
             toast.error("You have not entered the search keyword")
             return;
         }
-        setSelectCateCategoryName(key)
-        setSelectCateCategoryID(-2)
-        navigate("/products")
+        navigate("/products", {
+            state: { id: -2, name: key }
+        })
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

@@ -43,9 +43,9 @@ const Categories: React.FC = () => {
     }, [])
 
     const handleCateGoriesById = (id: number, name: string) => {
-        setSelectCateCategoryID(id)
-        setSelectCateCategoryName(name)
-        navigate("/products")
+        navigate("/products", {
+            state: { id, name }
+        })
     }
 
     const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
