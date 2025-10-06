@@ -114,7 +114,7 @@ const Cart: React.FC = () => {
     return (
         <>
             {/* Breadcrumb */}
-            <div className="w-full px-5 bg-gray-100 sticky z-[999] md:top-[120px] max-md:top-[135px]">
+            <div className="w-full px-5 bg-gray-100 sticky z-[999] md:top-[120px] max-md:top-[142px]">
                 <div className="flex gap-2 max-w-[1500px] mx-auto items-center text-orange-700 py-[10px] text-xl max-md:text-lg">
                     <div
                         onClick={() => navigate("/")}
