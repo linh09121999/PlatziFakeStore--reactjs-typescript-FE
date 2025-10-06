@@ -269,6 +269,7 @@ const Products: React.FC = () => {
     const location = useLocation();
     const { id, name } = location.state || {};
     useEffect(() => {
+        setResProduct([])
         if (id === -1 || id === undefined) {
             getApiProductPage(0, pageSize);
             setSelectCateCategoryName("all")
@@ -768,7 +769,7 @@ const Products: React.FC = () => {
                                 </div>
 
                             </div>
-                            <div className=" sticky z-90 top-[183px] bg-gray-100 sm:hidden">
+                            <div className=" sticky z-90 top-[190px] bg-gray-100 sm:hidden">
                                 <div className="grid grid-cols-4 text-lg pb-[10px] gap-2">
                                     <button
                                         className={`${sortBy === "Default" ? "text-orange-700 border-[1px] border-orange-700" : ""} py-1 rounded-[10px] bg-white shadow-lg`}
@@ -786,7 +787,7 @@ const Products: React.FC = () => {
                             </div>
 
                             {selectCateCategoryID >= 0 &&
-                                <div className="group relative w-full h-[320px] rounded-xl overflow-hidden shadow-md hover:shadow-xl cursor-pointer transition-all duration-300">
+                                <div className="group relative w-full h-[320px] max-md:h-[230px] max-sm:h-[180px] rounded-xl overflow-hidden shadow-md hover:shadow-xl cursor-pointer transition-all duration-300">
                                     <img
                                         src={resCategoriesBy?.image}
                                         alt={resCategoriesBy?.name}
@@ -799,7 +800,7 @@ const Products: React.FC = () => {
 
                                     {/* Text overlay */}
                                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                                        <h3 className="text-white/50 text-5xl font-semibold drop-shadow-md transition-all duration-300 group-hover:text-white group-hover:text-6xl">
+                                        <h3 className="text-white/50 text-5xl max-md:text-3xl max-sm:text-2xl font-semibold drop-shadow-md transition-all duration-300 group-hover:text-white group-hover:text-6xl group-hover:max-md:text-4px group-hover:max-sm:text-3xl">
                                             {resCategoriesBy?.name}
                                         </h3>
                                     </div>
