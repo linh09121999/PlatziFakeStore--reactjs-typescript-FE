@@ -138,9 +138,12 @@ const Cart: React.FC = () => {
                                             onError={handleImgError}
                                             className="relative h-[160px] transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70"
                                         />
-                                        <div className="grid gap-2 p-5">
-                                            <p className="text-xl text-start">{list.title}</p>
-                                            <p className="text-xl text-start">$ {list.price}</p>
+                                        <div className="flex gap-2 p-5 justify-between items-center w-full">
+                                            <div className="flex flex-col gap-4">
+                                                <p className="text-2xl text-start font-bold">{list.title}</p>
+                                                <p className="text-xl text-start text-orange-700 bg-orange-700/20 w-fit py-1 px-6  rounded-full font-bold border-[1px] border-orange-700/20 shadow-lg">$ {list.price}</p>
+                                            </div>
+
                                             <div className="flex gap-4 items-center">
                                                 <div className="flex">
                                                     <button
@@ -198,11 +201,11 @@ const Cart: React.FC = () => {
                             </div>
                             <div className="flex justify-between text-lg">
                                 <p>Shipping fee</p>
-                                <p>$0</p>
+                                <p>$ 0</p>
                             </div>
                             <div className="flex justify-between text-lg">
                                 <p>Discount</p>
-                                <p>$0</p>
+                                <p>$ 0</p>
                             </div>
                         </div>
                         <div className="pt-2 border-t-[1px] border-t-gray-300 flex justify-between text-xl">
