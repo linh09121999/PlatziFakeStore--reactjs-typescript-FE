@@ -53,7 +53,8 @@ const HeaderWeb: React.FC = () => {
         }
     }
 
-    const { icons,ordersNumber
+    const { icons, ordersNumber,
+        imgs
     } = useGlobal()
 
     const [key, setKey] = useState<string>("")
@@ -103,7 +104,7 @@ const HeaderWeb: React.FC = () => {
                 </div>
                 <div className='max-w-[1500px] mx-auto py-5 md:flex md:justify-between items-center gap-4'>
                     <div className='flex gap-2 items-center'>
-                        <img alt='logo' className='h-12' src="../src/assets/logoHeader.png" />
+                        <img alt='logo' className='h-12' src={imgs.logo} />
                         <p className='text-3xl text-white font-bold'>SPEE SHOP</p>
                     </div>
                     <TextField
