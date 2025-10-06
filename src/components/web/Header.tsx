@@ -111,7 +111,7 @@ const HeaderWeb: React.FC = () => {
                 <div className='max-w-[1500px] mx-auto py-5 md:flex md:justify-between items-center gap-4'>
                     <div className='flex gap-2 items-center'>
                         <img alt='logo' className='h-12' src="../src/assets/logoHeader.png" />
-                        <p className='text-3xl text-white'>Spee Shop</p>
+                        <p className='text-3xl text-white font-bold'>SPEE SHOP</p>
                     </div>
                     <TextField
                         placeholder="Search for products..."
