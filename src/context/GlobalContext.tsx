@@ -17,10 +17,11 @@ import {
     IoClose,
 } from "react-icons/io5";
 import {
-    MdNavigateNext,
+    MdNavigateNext, MdHorizontalRule
 } from "react-icons/md";
 import { LuSettings2 } from "react-icons/lu";
 import { IoMdSearch } from "react-icons/io";
+import { RiAddFill } from "react-icons/ri";
 
 import imgBanner1 from "../assets/img/banner.png"
 import imgDefault from "../assets/img/no_img.png"
@@ -54,6 +55,8 @@ export interface Icons {
     iconSortUp: JSX.Element;
     iconSortDown: JSX.Element;
     iconDollar: JSX.Element;
+    iconIncrease: JSX.Element;
+    iconDecrease: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -74,7 +77,9 @@ const defaultIcons: Icons = {
     iconCart: <FaCartShopping />,
     iconSortUp: <FaArrowUpLong />,
     iconSortDown: <FaArrowDownLong />,
-    iconDollar: <FaDollarSign />
+    iconDollar: <FaDollarSign />,
+    iconIncrease: <RiAddFill className="mx-auto" />,
+    iconDecrease: <MdHorizontalRule className="mx-auto" />
 }
 
 export interface Category {

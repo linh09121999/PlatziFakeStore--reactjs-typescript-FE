@@ -9,7 +9,45 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useGlobal } from '../../context/GlobalContext';
 
+import {
+    TextField,
+} from '@mui/material'
+import type { SxProps, Theme } from "@mui/material/styles";
+
 const ProductDetail: React.FC = () => {
+    const sxTextField: SxProps<Theme> = {
+        width: "60px",
+        '& .MuiOutlinedInput-root': {
+            borderRadius: 0,
+            height: '40px',
+            padding: '3px 8px',
+            transition: 'all 0.3s',
+            fontSize: 'var(--text-xl)',
+            borderTop: '1px solid var(--color-orange-700)',
+            borderBottom: '1px solid var(--color-orange-700)',
+        },
+
+        '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+        },
+
+        '&:hover .MuiOutlinedInput-notchedOutline': {
+            outline: 'none',
+            border: 'none'
+        },
+
+        '& .MuiOutlinedInput-input': {
+            padding: 0
+        },
+
+        '& .MuiInputBase-input': {
+            color: 'black',
+            fontSize: 'var(--text-lg)',
+            border: 'none',
+            textAlign:'center',
+        },
+    }
+
     const navigate = useNavigate()
     const { icons, imgs, setResProductBy, resProductBy,
         ordersList, setOrdersList, setOrdersNumber, ordersNumber,
@@ -78,6 +116,25 @@ const ProductDetail: React.FC = () => {
         setOrdersList(prev => [...prev, productToAdd]);
     }
 
+    // Lấy số lượng lưu theo id sản phẩm từ localStorage
+    const [quantity, setQuantity] = useState<number>(() => {
+        const saved = localStorage.getItem(`quantity_${selectProductID}`);
+        return saved ? Number(saved) : 1;
+    });
+
+    // Lưu quantity mỗi khi thay đổi
+    useEffect(() => {
+        localStorage.setItem(`quantity_${selectProductID}`, quantity.toString());
+    }, [quantity, selectProductID]);
+
+    const handleDecrease = () => setQuantity((prev) => Math.max(1, prev - 1));
+    const handleIncrease = () => setQuantity((prev) => prev + 1);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Math.max(1, Number(e.target.value) || 1);
+        setQuantity(value);
+    };
+
     return (
         <>
             <div className='w-full px-5 bg-gray-100 sticky z-[999] md:top-[120px] max-md:top-[135px]'>
@@ -93,7 +150,7 @@ const ProductDetail: React.FC = () => {
                     <div className='transition duration-300 ease css-icon'>{resProductBy?.title}</div>
                 </div>
             </div>
-            <main className="bg-gray-100 min-h-[70vh] flex flex-col p-5">
+            <main className="bg-gray-100 min-h-[75vh] flex flex-col p-5">
                 <div className="max-w-[1500px] mx-auto flex flex-col gap-10">
                     <section className="grid md:grid-cols-[1fr_2fr] gap-10">
                         <div className="relative flex flex-col gap-4">
@@ -116,13 +173,26 @@ const ProductDetail: React.FC = () => {
                                 <p className="text-3xl font-bold">{resProductBy?.title}</p>
                                 <p className="text-orange-700 text-4xl font-bold">$ {resProductBy?.price}</p>
                             </div>
-                            <div className="flex gap-4">
+                            <div className="flex gap-4 items-center">
+                                <h4 className="text-xl">Quantity:</h4>
+                                <div className="flex">
+                                    <button onClick={handleDecrease} className="text-xl rounded-[10px_0_0_10px] border-[1px] border-orange-700 px-4 py-2">{icons.iconDecrease}</button>
+                                    <TextField
+                                        value={quantity}
+                                        variant="outlined"
+                                        sx={sxTextField}
+                                        onChange={handleChange}
+                                    />
+                                    <button onClick={handleIncrease} className="text-xl rounded-[0_10px_10px_0] border-[1px] border-orange-700 px-4 py-2">{icons.iconIncrease}</button>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-3 gap-4">
                                 <button className="text-xl text-orange-700 border-[1px] border-orange-700 px-4 py-2 rounded-[10px] font-600"
                                     onClick={() => {
                                         navigate("/login")
                                     }}
                                 >Buy Now</button>
-                                <button className="text-xl bg-orange-700 text-white px-4 py-2 rounded-[10px] flex gap-2 items-center"
+                                <button className="text-xl justify-center bg-orange-700 text-white px-4 py-2 rounded-[10px] flex gap-2 items-center"
                                     onClick={handleOrderByDetail}
                                 >{icons.iconCart}
                                     <p className="">Add To Card</p>

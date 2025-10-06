@@ -82,7 +82,7 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <main className="bg-gray-100 min-h-[70vh] p-5">
+            <main className="bg-gray-100 min-h-[75vh] p-5">
                 <div className="max-w-[1500px] mx-auto flex flex-col gap-10">
                     <section className="flex justify-between bg-gradient-to-r to-orange-600 from-orange-700 py-5 px-20 rounded-[10px]">
                         <div className="flex flex-col gap-10 self-center">

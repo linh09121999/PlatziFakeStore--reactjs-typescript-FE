@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useGlobal } from '../../context/GlobalContext';
 import type { ResProduct } from "../../context/GlobalContext";
-import NumberTextField from "../../components/numberTextField";
 import {
     getProductsById,
     getProductsPage,
