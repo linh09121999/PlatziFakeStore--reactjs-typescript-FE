@@ -2,15 +2,7 @@ import React, { useEffect } from "react";
 import { useGlobal } from '../../context/GlobalContext';
 
 import {
-    getProductsById,
-    getProductsPage,
-    getFilterProductByTitle_Page,
-    getFilterPriceRange_CategoryId_Page,
-    getFilterPriceRange_Page,
     getCategories,
-    getCategoriesById,
-    getFilterProductByCategoryId_Page,
-    getFilterPriceRange_Title_Page
 } from "../../services/userService"
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,13 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Categories: React.FC = () => {
     const navigate = useNavigate()
-    const { icons, setResProduct, resProduct,
-        setOrdersNumber, ordersNumber, setOrdersList,
-        setResProductBy, setResCategories, resCategories,
-        selectCateCategoryName, setSelectCateCategoryName,
-        selectCateCategoryID, setSelectCateCategoryID,
-        resCategoriesBy, setResCategoriesBy,
-        pageSize, imgs
+    const { icons, setResCategories, resCategories, imgs
     } = useGlobal()
 
     const getApiCategories = async () => {

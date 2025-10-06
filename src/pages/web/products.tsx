@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useGlobal } from '../../context/GlobalContext';
 import type { ResProduct } from "../../context/GlobalContext";
 import {
-    getProductsById,
     getProductsPage,
     getFilterProductByTitle_Page,
     getFilterPriceRange_CategoryId_Page,
@@ -19,7 +18,7 @@ import {
     FormControl,
     Autocomplete,
     MenuItem, Menu,
-    Box, Slider
+     Slider
 } from '@mui/material'
 import type { SxProps, Theme } from "@mui/material/styles";
 
@@ -161,7 +160,7 @@ const Products: React.FC = () => {
     const navigate = useNavigate()
     const { icons, setResProduct, resProduct,
         setOrdersNumber, ordersNumber, setOrdersList,
-        setResProductBy, setResCategories, resCategories,
+         setResCategories, resCategories,
         selectCateCategoryName, setSelectCateCategoryName,
         selectCateCategoryID, setSelectCateCategoryID,
         resCategoriesBy, setResCategoriesBy,
@@ -520,12 +519,12 @@ const Products: React.FC = () => {
         }
     }
 
-    const handleChangeSliderCommitted = (event: Event | React.SyntheticEvent, newValue: number | number[]) => {
+    const handleChangeSliderCommitted = (_event: Event | React.SyntheticEvent, newValue: number | number[]) => {
         const [min, max] = newValue as number[];
         filterRangeProduct(min, max)
     }
 
-    const handleChangeSlider = (event: Event, newValue: number | number[]) => {
+    const handleChangeSlider = (_event: Event, newValue: number | number[]) => {
         const [min, max] = newValue as number[];
         setPriceMin(min);
         setPriceMax(max);

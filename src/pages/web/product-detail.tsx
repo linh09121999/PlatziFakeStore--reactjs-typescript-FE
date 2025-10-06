@@ -49,8 +49,7 @@ const ProductDetail: React.FC = () => {
     }
 
     const navigate = useNavigate()
-    const { icons, imgs, setResProductBy, resProductBy,
-        ordersList, setOrdersList, setOrdersNumber, ordersNumber,
+    const { icons, imgs, setResProductBy, resProductBy, setOrdersList, setOrdersNumber, ordersNumber,
         selectProductID, setSelectProductId,
         resProductRelateBy, setResProductRelateBy
     } = useGlobal()

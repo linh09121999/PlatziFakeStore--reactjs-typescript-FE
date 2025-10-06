@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect } from 'react';
-import { HashRouter, Route, Routes, Navigate, Outlet, BrowserRouter } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Route, Routes, Navigate, Outlet, BrowserRouter } from 'react-router-dom';
 
 import { FooterAdmin, HeaderAdmin, NavAdmin } from './components/dashboard';
 import { FooterWeb, HeaderWeb, NavWeb } from './components/web';

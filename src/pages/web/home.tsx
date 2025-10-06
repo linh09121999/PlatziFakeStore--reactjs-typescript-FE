@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import {
     getProductsPage,
     getCategories,
@@ -11,12 +11,8 @@ import { useGlobal } from '../../context/GlobalContext';
 
 const Home: React.FC = () => {
     const navigate = useNavigate()
-    const { icons, imgs, setResProduct, resProduct, setResCategories, resCategories, setResProductBy,
-        ordersList, setOrdersList, setOrdersNumber, ordersNumber,
-        resCategoriesBy, setResCategoriesBy,
-        selectCateCategoryName, setSelectCateCategoryName,
-        selectCateCategoryID, setSelectCateCategoryID,
-        setSelectProductId
+    const { icons, imgs, setResProduct, resProduct, setResCategories, resCategories,
+        setOrdersList, setOrdersNumber, ordersNumber,
     } = useGlobal()
 
 

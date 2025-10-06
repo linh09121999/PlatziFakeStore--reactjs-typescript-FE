@@ -2,19 +2,13 @@ import React, { useState } from 'react';
 import {
     TextField,
     InputAdornment,
-    Menu,
-    MenuItem,
-    IconButton,
-    Button, Badge
+    IconButton, Badge
 } from '@mui/material'
 import type { SxProps, Theme } from "@mui/material/styles";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import { useGlobal } from '../../context/GlobalContext';
-import type { ResProduct } from '../../context/GlobalContext';
-
-import { getFilterProductByTitle, getFilterProductByTitle_Page } from '../../services/userService';
 
 const HeaderWeb: React.FC = () => {
     const navigate = useNavigate()
@@ -59,8 +53,7 @@ const HeaderWeb: React.FC = () => {
         }
     }
 
-    const { icons, setResProduct, ordersNumber, setSelectCateCategoryName, setSelectCateCategoryID,
-        pageSize
+    const { icons,ordersNumber
     } = useGlobal()
 
     const [key, setKey] = useState<string>("")
