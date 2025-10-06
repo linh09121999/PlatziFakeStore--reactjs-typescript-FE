@@ -17,10 +17,11 @@ const Cart: React.FC = () => {
 
     // --- style cho TextField ---
     const sxTextField: SxProps<Theme> = {
-        width: "60px",
+        minWidth: "30px",
+        maxWidth: "60px",
         "& .MuiOutlinedInput-root": {
             borderRadius: 0,
-            height: "40px",
+            height: "30px",
             padding: "3px 8px",
             transition: "all 0.3s",
             fontSize: "var(--text-xl)",
@@ -128,9 +129,9 @@ const Cart: React.FC = () => {
 
             {/* Main */}
             <main className="bg-gray-100 min-h-[70vh] p-5">
-                <div className="max-w-[1500px] mx-auto items-center flex gap-5">
+                <div className="max-w-[1500px] mx-auto items-center grid lg:grid-cols-[3fr_350px] gap-5">
                     {/* Danh sách sản phẩm */}
-                    <div className="flex flex-col gap-6 self-start rounded-[10px] bg-white p-5 flex-1">
+                    <div className="flex flex-col gap-6 self-start rounded-[10px] bg-white p-5 flex-1 shadow-lg">
                         <h3 className="text-xl pb-2 border-b-[1px] border-b-gray-300">
                             PRODUCTS
                         </h3>
@@ -142,47 +143,52 @@ const Cart: React.FC = () => {
                                 {ordersList.map((list) => (
                                     <div
                                         key={list.id}
-                                        className="rounded-[10px] relative flex gap-4 overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl"
+                                        className="  transition-all duration-300 ease group pointer pb-[10px] border-b-[1px] border-b-gray-200"
                                     >
-                                        <img
-                                            src={list.images[0]}
-                                            alt={list.title}
-                                            onError={handleImgError}
-                                            className="relative h-[160px] transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70"
-                                        />
-                                        <div className="flex gap-2 p-5 justify-between items-center w-full">
-                                            <div className="flex flex-col gap-4">
-                                                <p className="text-2xl text-start font-bold">{list.title}</p>
-                                                <p className="text-xl text-start text-orange-700 bg-orange-700/20 w-fit py-1 px-6  rounded-full font-bold border-[1px] border-orange-700/20 shadow-lg">$ {list.price}</p>
-                                            </div>
+                                        <p className="text-xl max-md:text-lg text-start sm:hidden">{list.title}</p>
 
-                                            <div className="flex gap-4 items-center">
-                                                <div className="flex">
+                                        <div className="relative items-center flex gap-4 max-md:gap-2 max-sm:gap-1 overflow-hidden text-center">
+                                            <img
+                                                src={list.images[0]}
+                                                alt={list.title}
+                                                onError={handleImgError}
+                                                className="relative w-[140px] max-sm:w-[100px] transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70"
+                                            />
+
+                                            <div className="xl:flex gap-4 p-5 xl:justify-between max-xl:grid items-center w-full">
+                                                <div className="flex flex-col gap-4">
+                                                    <p className="text-xl max-md:text-lg text-start max-sm:hidden">{list.title}</p>
+                                                    <p className="text-2xl max-md:text-xl max-sm:text-lg text-start text-orange-700 bg-orange-700/20 w-fit px-4  rounded-full font-bold border-[1px] border-orange-700/20 shadow-lg">$ {list.price}</p>
+                                                </div>
+
+                                                <div className="flex gap-4 items-center">
+                                                    <div className="flex">
+                                                        <button
+                                                            onClick={() => handleDecrease(list.id)}
+                                                            className=" rounded-[10px_0_0_10px] border-[1px] border-orange-700 px-2 max-md:px-2 max-md:py-1"
+                                                        >
+                                                            {icons.iconDecrease}
+                                                        </button>
+                                                        <TextField
+                                                            value={quantities[list.id] || 1}
+                                                            variant="outlined"
+                                                            sx={sxTextField}
+                                                            onChange={(e) => handleChange(list.id, e)}
+                                                        />
+                                                        <button
+                                                            onClick={() => handleIncrease(list.id)}
+                                                            className=" rounded-[0_10px_10px_0] border-[1px] border-orange-700 px-2 max-md:px-2 max-md:py-1"
+                                                        >
+                                                            {icons.iconIncrease}
+                                                        </button>
+                                                    </div>
                                                     <button
-                                                        onClick={() => handleDecrease(list.id)}
-                                                        className="text-xl rounded-[10px_0_0_10px] border-[1px] border-orange-700 px-4 py-2"
+                                                        onClick={() => handleDelete(list.id)}
+                                                        className="text-orange-700 text-xl max-md:text-lg"
                                                     >
-                                                        {icons.iconDecrease}
-                                                    </button>
-                                                    <TextField
-                                                        value={quantities[list.id] || 1}
-                                                        variant="outlined"
-                                                        sx={sxTextField}
-                                                        onChange={(e) => handleChange(list.id, e)}
-                                                    />
-                                                    <button
-                                                        onClick={() => handleIncrease(list.id)}
-                                                        className="text-xl rounded-[0_10px_10px_0] border-[1px] border-orange-700 px-4 py-2"
-                                                    >
-                                                        {icons.iconIncrease}
+                                                        {icons.iconDelete}
                                                     </button>
                                                 </div>
-                                                <button
-                                                    onClick={() => handleDelete(list.id)}
-                                                    className="text-orange-700 text-xl"
-                                                >
-                                                    Delete
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -202,7 +208,7 @@ const Cart: React.FC = () => {
                     </div>
 
                     {/* Thanh toán */}
-                    <div className="bg-white p-5 rounded-[10px] shadow-lg flex flex-col gap-5 self-start w-[350px]">
+                    <div className="bg-white p-5 rounded-[10px] shadow-lg flex flex-col gap-5 self-start ">
                         <h3 className="text-xl pb-2 border-b-[1px] border-b-gray-300">
                             PAYMENT
                         </h3>

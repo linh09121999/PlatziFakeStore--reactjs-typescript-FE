@@ -56,7 +56,7 @@ const HeaderWeb: React.FC = () => {
     }
 
     const { icons, ordersNumber,
-        imgs, isMobile
+        imgs
     } = useGlobal()
 
     const [key, setKey] = useState<string>("")
@@ -106,8 +106,8 @@ const HeaderWeb: React.FC = () => {
                 <div className='max-w-[1500px] mx-auto py-5 md:flex md:justify-between items-center grid gap-4'>
                     <div className='flex justify-between'>
                         <div className='flex gap-2 items-center'>
-                            <img alt='logo' className='h-12' src={imgs.logo} />
-                            <p className='text-3xl text-white font-bold'>SPEE SHOP</p>
+                            <img alt='logo' className='h-12 max-md:h-10' src={imgs.logo} />
+                            <p className='text-3xl text-white font-bold max-md:text-2xl'>SPEE SHOP</p>
                         </div>
                         <div className='flex items-center gap-5'>
                             <button className='content-end relative md:hidden css-icon'
@@ -116,10 +116,10 @@ const HeaderWeb: React.FC = () => {
                                 }}
                             >
                                 <Badge badgeContent={ordersNumber} sx={sxBadge}>
-                                    <span className='text-white text-3xl'>{icons.iconCart}</span>
+                                    <span className='text-white text-3xl max-md:text-2xl'>{icons.iconCart}</span>
                                 </Badge >
                             </button>
-                            <button className='text-white text-3xl md:hidden css-icon'
+                            <button className='text-white text-3xl max-md:text-2xl md:hidden css-icon'
                                 onClick={() => {
                                     navigate("/admin")
                                 }}

@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
+import { BsTrash3Fill } from "react-icons/bs";
 import {
     IoClose,
 } from "react-icons/io5";
@@ -63,6 +64,7 @@ export interface Icons {
     iconDollar: JSX.Element;
     iconIncrease: JSX.Element;
     iconDecrease: JSX.Element;
+    iconDelete: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -85,7 +87,8 @@ const defaultIcons: Icons = {
     iconSortDown: <FaArrowDownLong />,
     iconDollar: <FaDollarSign />,
     iconIncrease: <RiAddFill className="mx-auto" />,
-    iconDecrease: <MdHorizontalRule className="mx-auto" />
+    iconDecrease: <MdHorizontalRule className="mx-auto" />,
+    iconDelete: <BsTrash3Fill />
 }
 
 export interface Category {
