@@ -607,7 +607,7 @@ const Products: React.FC = () => {
                                                 InputProps={{
                                                     ...params.InputProps,
                                                     endAdornment: (
-                                                        <InputAdornment position="end" sx={{ marginRight: '-50px', color: 'var(--color-oảnge-700)' }}>
+                                                        <InputAdornment position="end" sx={{ marginRight: '-25px', color: 'var(--color-oảnge-700)' }}>
                                                             <button className='btn-merge'
                                                                 onClick={handleSearchCategory}
                                                             >
@@ -768,11 +768,21 @@ const Products: React.FC = () => {
                                 </div>
 
                             </div>
-                            <div className=" sticky z-90 top-[150px]">
-                                <button onClick={handleSortDefault}>Default</button>
-                                <button onClick={handleSortHigh}>Highest</button>
-                                <button onClick={handleSordLow}>Lowest</button>
-                                <button onClick={handleSortNewest}>Newest</button>
+                            <div className=" sticky z-90 top-[183px] bg-gray-100 sm:hidden">
+                                <div className="grid grid-cols-4 text-lg pb-[10px] gap-2">
+                                    <button
+                                        className={`${sortBy === "Default" ? "text-orange-700 border-[1px] border-orange-700" : ""} py-1 rounded-[10px] bg-white shadow-lg`}
+                                        onClick={handleSortDefault}>Default</button>
+                                    <button
+                                        className={`${sortBy === "Highest" ? "text-orange-700 border-[1px] border-orange-700" : ""} py-1 rounded-[10px] bg-white shadow-lg`}
+                                        onClick={handleSortHigh}>Highest</button>
+                                    <button
+                                        className={`${sortBy === "Lowest" ? "text-orange-700 border-[1px] border-orange-700" : ""} py-1 rounded-[10px] bg-white shadow-lg`}
+                                        onClick={handleSordLow}>Lowest</button>
+                                    <button
+                                        className={`${sortBy === "Newest" ? "text-orange-700 border-[1px] border-orange-700" : ""} py-1 rounded-[10px] bg-white shadow-lg`}
+                                        onClick={handleSortNewest}>Newest</button>
+                                </div>
                             </div>
 
                             {selectCateCategoryID >= 0 &&
