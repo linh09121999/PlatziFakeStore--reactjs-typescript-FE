@@ -26,17 +26,20 @@ import { RiAddFill } from "react-icons/ri";
 import imgBanner1 from "../assets/img/banner.png"
 import imgDefault from "../assets/img/no_img.png"
 import logo from "../assets/logoHeader.png"
+import imgNoItem from "../assets/img/no-items-in-cart.png"
 
 export interface Image {
     imgBanner1: string;
     imgDefault: string;
-    logo: string
+    logo: string;
+    imgNoItem: string;
 }
 
 const defaultImage: Image = {
     imgBanner1: imgBanner1,
     imgDefault: imgDefault,
-    logo: logo
+    logo: logo,
+    imgNoItem: imgNoItem
 }
 
 export interface Icons {

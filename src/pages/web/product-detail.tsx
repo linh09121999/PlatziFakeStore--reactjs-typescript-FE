@@ -44,7 +44,7 @@ const ProductDetail: React.FC = () => {
             color: 'black',
             fontSize: 'var(--text-lg)',
             border: 'none',
-            textAlign:'center',
+            textAlign: 'center',
         },
     }
 
@@ -106,6 +106,16 @@ const ProductDetail: React.FC = () => {
     const handleOrderByDetail = () => {
         setOrdersNumber(ordersNumber + 1)
         setOrdersList(prev => [...prev, resProductBy!]);
+    }
+
+    const handleBuyNow = () => {
+        // Tăng số lượng và thêm sản phẩm vào giỏ
+        setOrdersNumber(ordersNumber + 1);
+        setOrdersList(prev => [...prev, resProductBy!]);
+
+        // Chuyển sang trang giỏ hàng
+        navigate("/cart");
+
     }
 
     const handleOrder = (id: number) => {
@@ -187,9 +197,7 @@ const ProductDetail: React.FC = () => {
                             </div>
                             <div className="grid grid-cols-3 gap-4">
                                 <button className="text-xl text-orange-700 border-[1px] border-orange-700 px-4 py-2 rounded-[10px] font-600"
-                                    onClick={() => {
-                                        navigate("/login")
-                                    }}
+                                    onClick={handleBuyNow}
                                 >Buy Now</button>
                                 <button className="text-xl justify-center bg-orange-700 text-white px-4 py-2 rounded-[10px] flex gap-2 items-center"
                                     onClick={handleOrderByDetail}

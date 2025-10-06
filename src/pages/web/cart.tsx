@@ -3,6 +3,7 @@ import { useGlobal } from "../../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material/styles";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Cart: React.FC = () => {
     const navigate = useNavigate();
@@ -98,6 +99,17 @@ const Cart: React.FC = () => {
         0
     );
 
+    const handleCheckout = () => {
+        if (ordersList.length === 0) {
+            toast.error("There is no product in the cart")
+        }
+        else {
+            toast.success("Successful order!");
+            setOrdersList([]);
+            setOrdersNumber(0)
+        }
+    }
+
     return (
         <>
             {/* Breadcrumb */}
@@ -124,7 +136,7 @@ const Cart: React.FC = () => {
                         </h3>
 
                         {ordersList.length === 0 ? (
-                            <p className="text-center">There is no product</p>
+                            <img src={imgs.imgNoItem} alt="no items" />
                         ) : (
                             <>
                                 {ordersList.map((list) => (
@@ -213,13 +225,12 @@ const Cart: React.FC = () => {
                             <p>$ {total.toFixed(2)}</p>
                         </div>
                         <button
-                            onClick={() => {
-                                navigate("/login")
-                            }}
+                            onClick={handleCheckout}
                             className="py-2 text-white font-bold rounded-[10px] bg-orange-700">Checkout</button>
                     </div>
                 </div>
             </main>
+            <ToastContainer position="top-right" autoClose={3000} />
         </>
     );
 };
