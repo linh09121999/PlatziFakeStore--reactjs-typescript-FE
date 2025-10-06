@@ -18,7 +18,7 @@ import {
     FormControl,
     Autocomplete,
     MenuItem, Menu,
-     Slider
+    Slider
 } from '@mui/material'
 import type { SxProps, Theme } from "@mui/material/styles";
 
@@ -160,7 +160,7 @@ const Products: React.FC = () => {
     const navigate = useNavigate()
     const { icons, setResProduct, resProduct,
         setOrdersNumber, ordersNumber, setOrdersList,
-         setResCategories, resCategories,
+        setResCategories, resCategories,
         selectCateCategoryName, setSelectCateCategoryName,
         selectCateCategoryID, setSelectCateCategoryID,
         resCategoriesBy, setResCategoriesBy,
@@ -390,6 +390,15 @@ const Products: React.FC = () => {
             .replace(/Đ/g, 'D');
     }
 
+    const [anchorElFilter, setAnchorElFilter] = useState<null | HTMLElement>(null);
+    const openFilter = Boolean(anchorElFilter);
+    const handleClickFilter = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorElFilter(event.currentTarget);
+    };
+    const handleCloseFilter = () => {
+        setAnchorElFilter(null);
+    };
+
     const [anchorElSortBy, setAnchorElSortBy] = useState<null | HTMLElement>(null);
     const openSortBy = Boolean(anchorElSortBy);
     const handleClickSortBy = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -551,7 +560,7 @@ const Products: React.FC = () => {
 
     return (
         <>
-            <div className='w-full px-5 bg-gray-100 sticky z-[999] md:top-[120px] max-md:top-[135px]'>
+            <div className='w-full px-5 bg-gray-100 sticky z-[999] top-[120px] max-md:top-[135px]'>
                 <div className='flex gap-2 max-w-[1500px] mx-auto items-center text-orange-700 py-[10px] text-xl max-md:text-lg '>
                     <div
                         onClick={() => navigate("/")}
@@ -561,58 +570,111 @@ const Products: React.FC = () => {
                 </div>
             </div>
             <main className="bg-gray-100 min-h-[70vh]  p-5">
-                <div className="max-w-[1500px] mx-auto grid md:grid-cols-[1fr_4fr] gap-5">
+                <div className="max-w-[1500px] mx-auto grid lg:grid-cols-[1fr_4fr] gap-5">
                     <aside className="flex flex-col gap-6">
                         <div className="flex flex-col gap-4">
                             <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
                                 <h3 className="text-xl text-black">CATEGORIES</h3>
-                                <p className="text-sm text-black/50">{selectCateCategoryID === -1 ? "All" : selectCateCategoryName}</p>
+                                <p className="text-sm text-black/50 max-lg:hidden">{selectCateCategoryID === -1 ? "All" : selectCateCategoryName}</p>
                             </div>
-                            <FormControl className="w-full" sx={sxFormControl} size="small">
-                                <Autocomplete
-                                    // disableClearable
-                                    noOptionsText="There is no category"
-                                    options={resCategories}
-                                    componentsProps={componentsProps}
-                                    getOptionLabel={(option) => option.name}
-                                    filterOptions={(options, { inputValue }) =>
-                                        options.filter((option) =>
-                                            removeVietnameseTones(option.name).toLowerCase().includes(
-                                                removeVietnameseTones(inputValue).toLowerCase()
+                            <div className="max-lg:flex max-lg:justify-between max-lg:gap-2">
+                                <FormControl className="w-full" sx={sxFormControl} size="small">
+                                    <Autocomplete
+                                        // disableClearable
+                                        noOptionsText="There is no category"
+                                        options={resCategories}
+                                        componentsProps={componentsProps}
+                                        getOptionLabel={(option) => option.name}
+                                        filterOptions={(options, { inputValue }) =>
+                                            options.filter((option) =>
+                                                removeVietnameseTones(option.name).toLowerCase().includes(
+                                                    removeVietnameseTones(inputValue).toLowerCase()
+                                                )
                                             )
-                                        )
-                                    }
-                                    value={
-                                        selectCateCategoryID >= 0
-                                            ? resCategories.find((c) => c.id === selectCateCategoryID) ?? undefined
-                                            : undefined
-                                    }
-                                    onChange={(handleChangeSearchCategory)}
-                                    renderInput={(params) => (
-                                        <TextField  {...params}
-                                            type="search"
-                                            placeholder="Search for categories..."
-                                            sx={sxText}
-                                            onKeyDown={handleKeyPress}
-                                            InputProps={{
-                                                ...params.InputProps,
-                                                endAdornment: (
-                                                    <InputAdornment position="end" sx={{ marginRight: '-20px', color: 'var(--color-oảnge-700)' }}>
-                                                        <button className='btn-merge'
-                                                            onClick={handleSearchCategory}
-                                                        >
-                                                            {icons.iconSearch}
-                                                        </button>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
+                                        }
+                                        value={
+                                            selectCateCategoryID >= 0
+                                                ? resCategories.find((c) => c.id === selectCateCategoryID) ?? undefined
+                                                : undefined
+                                        }
+                                        onChange={(handleChangeSearchCategory)}
+                                        renderInput={(params) => (
+                                            <TextField  {...params}
+                                                type="search"
+                                                placeholder="Search for categories..."
+                                                sx={sxText}
+                                                onKeyDown={handleKeyPress}
+                                                InputProps={{
+                                                    ...params.InputProps,
+                                                    endAdornment: (
+                                                        <InputAdornment position="end" sx={{ marginRight: '-50px', color: 'var(--color-oảnge-700)' }}>
+                                                            <button className='btn-merge'
+                                                                onClick={handleSearchCategory}
+                                                            >
+                                                                {icons.iconSearch}
+                                                            </button>
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
 
-                                        />
-                                    )}
-                                />
-                            </FormControl>
+                                            />
+                                        )}
+                                    />
+                                </FormControl>
+                                <button className={`${openFilter ? "border-orange-700 border-[1px] shadow-xl" : ""} css-icon lg:hidden h-[40px] bg-white text-orange-700 shadow-lg text-lg px-4 rounded-[10px] hover:shadow-xl`}
+                                    onClick={handleClickFilter}
+                                >{openFilter ? icons.iconClose : icons.iconSetting}</button>
+                                <Menu
+                                    anchorEl={anchorElFilter}
+                                    open={openFilter}
+                                    onClose={handleCloseFilter}
+                                    PaperProps={PaperProps}
+                                    MenuListProps={MenuListProps}
+                                >
+                                    <MenuItem>
+                                        <div className="p-5 flex flex-col gap-5">
+                                            <p className="text-xl border-b-[1px] border-gray-300 pb-[10px]">PRICE RANGE</p>
+                                            <div className="flex justify-between gap-2 items-center ">
+                                                <TextField
+                                                    slotProps={{
+                                                        input: {
+                                                            startAdornment: (
+                                                                <InputAdornment position="start"
+                                                                >
+                                                                    {icons.iconDollar}
+                                                                </InputAdornment>
+                                                            ),
+                                                        },
+                                                    }}
+                                                    value={priceMin}
+                                                    variant="outlined"
+                                                    sx={sxTextField}
+                                                    onChange={handleChangeInputPriceMin}
+                                                />
+                                                <p>to</p>
+                                                <TextField
+                                                    slotProps={{
+                                                        input: {
+                                                            startAdornment: (
+                                                                <InputAdornment position="start"
+                                                                >
+                                                                    {icons.iconDollar}
+                                                                </InputAdornment>
+                                                            ),
+                                                        },
+                                                    }}
+                                                    value={priceMax}
+                                                    variant="outlined"
+                                                    sx={sxTextField}
+                                                    onChange={handleChangeInputPriceMax}
+                                                />
+                                            </div>
+                                        </div>
+                                    </MenuItem>
+                                </Menu>
+                            </div>
                         </div>
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-4 max-lg:hidden">
                             <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
                                 <h3 className="text-xl">PRICE RANGE</h3>
                             </div>
@@ -666,18 +728,17 @@ const Products: React.FC = () => {
                     </aside>
                     <section className="flex flex-col gap-6 ">
                         <div className="flex flex-col gap-4 ">
-
-                            <div className="items-center pb-2 border-b-[2px] border-b-gray-200 md:flex md:justify-between">
+                            <div className="items-center pb-2 border-b-[2px] border-b-gray-200 flex justify-between">
                                 <div>
                                     <h3 className="text-xl text-black">PRODUCTS</h3>
                                     <p className="text-sm text-black/50">{selectCateCategoryName === "all" ? "Show " : ""} {resProduct.length} items found for {selectCateCategoryName}</p>
                                 </div>
-                                <div className="self-end flex gap-2 items-center">
-                                    <button className={`${openSortBy ? "border-orange-700 shadow-xl" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center bg-white h-[40px] shadow-lg hover:border-orange-700`}
+                                <div className="self-end flex gap-2 items-center max-sm:hidden">
+                                    <button className={`${openSortBy ? "border-[1px] border-orange-700 shadow-xl" : ""} text-black flex gap-4 justify-bettwen p-2 rounded-[10px] items-center bg-white h-[40px] shadow-lg hover:border-orange-700`}
                                         onClick={handleClickSortBy}
                                     >
                                         <p className="text-black text-lg">Price:</p>
-                                        <p className="w-[120px] text-start">{sortBy}</p>
+                                        <p className="md:w-[120px] text-start">{sortBy}</p>
                                         <span className="transtion-all duration-300 ease">{openSortBy ? icons.iconUp : icons.iconDown}</span>
                                     </button>
                                     <Menu
@@ -707,6 +768,12 @@ const Products: React.FC = () => {
                                 </div>
 
                             </div>
+                            <div className=" sticky z-90 top-[150px]">
+                                <button onClick={handleSortDefault}>Default</button>
+                                <button onClick={handleSortHigh}>Highest</button>
+                                <button onClick={handleSordLow}>Lowest</button>
+                                <button onClick={handleSortNewest}>Newest</button>
+                            </div>
 
                             {selectCateCategoryID >= 0 &&
                                 <div className="group relative w-full h-[320px] rounded-xl overflow-hidden shadow-md hover:shadow-xl cursor-pointer transition-all duration-300">
@@ -732,7 +799,7 @@ const Products: React.FC = () => {
                                 <p className="text-center text-red-800">! No data</p>
                                 :
                                 <>
-                                    <div className={`grid md:grid-cols-4 gap-5`}>
+                                    <div className={`grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-5`}>
                                         {resProduct?.map(product => (
                                             <div key={product.id} className="bg-white relative grid rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl "
 

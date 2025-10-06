@@ -54,7 +54,7 @@ const Categories: React.FC = () => {
                 {resCategories.length === 0 ?
                     <p className="text-center text-red-800">! No data</p>
                     :
-                    <div className="max-w-[1500px] mx-auto grid md:grid-cols-5 gap-5">
+                    <div className="max-w-[1500px] mx-auto grid lg:grid-cols-5 gap-5 max-lg:grid-cols-3 max-md:grid-cols-2">
                         {resCategories?.map(cate => (
                             <div key={cate.id} className="bg-white relative rounded-[10px] overflow-hidden shadow-lg text-center transition-all duration-300 ease group pointer hover:shadow-xl">
                                 <img src={cate?.image} alt={cate?.name} className="transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70" onError={handleImgError} />

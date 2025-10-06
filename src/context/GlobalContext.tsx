@@ -190,6 +190,7 @@ export interface GlobalState {
     setOrdersList: React.Dispatch<React.SetStateAction<ResProduct[]>>;
 
     isMobile: boolean;
+    isTable: boolean;
     ordersNumber: number;
     setOrdersNumber: (orders: number) => void;
 
@@ -206,6 +207,7 @@ const GlobalContext = createContext<GlobalState | undefined>(undefined);
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const isMobile = useMediaQuery("(max-width:768px)");
+    const isTable = useMediaQuery("(max-width:1024px)")
     const [resProduct, setResProduct] = useState<ResProduct[]>([]);
     const [resProductBy, setResProductBy] = useState<ResProduct>();
     const [resProductRelateBy, setResProductRelateBy] = useState<ResProduct[]>([])
@@ -232,7 +234,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
     const value = {
         icons: defaultIcons,
-        isMobile,
+        isMobile, isTable,
         resProduct, setResProduct,
         resProductBy, setResProductBy,
         resAddProduct, setResAddProduct,
