@@ -55,7 +55,7 @@ const Login: React.FC<propsSuccess> = ({ onLoginSuccess }) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const from = location.state?.from?.pathname || "/admin";
+    const from = location.state?.from?.pathname || "/";
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

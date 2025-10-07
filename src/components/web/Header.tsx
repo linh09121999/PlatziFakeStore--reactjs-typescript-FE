@@ -91,7 +91,12 @@ const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
                 <div className='max-md:hidden max-w-[1500px] text-[16px] font-bold mx-auto py-1 flex justify-between items-center'>
                     <button className='text-white css-icon'
                         onClick={() => {
-                            navigate("/login", { state: { name: "dashboard" } })
+                            {
+                                token === "" ?
+                                navigate("/login", { state: { name: "dashboard" } })
+                                :
+                                navigate("admin")
+                            }
                         }}
                     >Dashboard</button>
                     <div className='flex text-white '>

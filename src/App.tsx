@@ -27,11 +27,12 @@ type propsProtectedRouteAdmin = {
   onLogout: () => void
 }
 
-const ProtectedRouteWeb: React.FC<propsProtectedRouteAdmin> = ({ isAuthenticated, onLogout }) => {
+type propsProtectedRouteWeb = {
+  onLogout: () => void
+}
+
+const ProtectedRouteWeb: React.FC<propsProtectedRouteWeb> = ({ onLogout }) => {
   // const { isMobile } = useGlobalContext();
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
   return (
     <div className="flex flex-col w-full h-full">
       {/* <!-- Header --> */}
@@ -41,7 +42,6 @@ const ProtectedRouteWeb: React.FC<propsProtectedRouteAdmin> = ({ isAuthenticated
       <Outlet />
       <Footer />
     </div>
-
   );
 };
 
@@ -76,8 +76,7 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/404" element={<Page404 />} />
           <Route path="/500" element={<Page500 />} />
-          <Route path="/" element={<ProtectedRouteWeb isAuthenticated={isAuthenticated}
-            onLogout={handleLogout} />}>
+          <Route path="/" element={<ProtectedRouteWeb onLogout={handleLogout} />}>
             <Route index element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<Home />} />
             <Route path='/products' element={<Products />} />
