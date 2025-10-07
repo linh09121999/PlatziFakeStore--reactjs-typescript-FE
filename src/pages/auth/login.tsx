@@ -6,7 +6,6 @@ import {
     InputAdornment,
 } from '@mui/material'
 import type { SxProps, Theme } from "@mui/material/styles";
-import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { postLogin } from "../../services/userService";
 
@@ -107,11 +106,12 @@ const Login: React.FC = () => {
             <div className="min-h-[78.5vh] bg-gradient-to-r to-orange-600 from-orange-700 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                        <p className="text-3xl font-600 text-orange-700 text-center mb-5 pb-[10px] border-b-[1px] border-b-gray-200">Login</p>
+                        <p className="text-3xl font-600 text-orange-700 text-center mb-3 pb-[10px] border-b-[1px] border-b-gray-200">Login</p>
                         {error && (
-                            <div className="bg-orange-700/20 rounded-[5px] justify-center">
-                                <p className="text-center text-orange-700">
-                                    {error}
+                            <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg flex gap-2 items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px] justify-center">
+                                <span>{icons.iconError}</span>
+                                <p className=" ">
+                                    {error} !
                                 </p>
                             </div>
                         )}
@@ -222,7 +222,6 @@ const Login: React.FC = () => {
                 </div >
             </div >
             <Footer />
-            <ToastContainer position="top-right" autoClose={3000} />
         </>
     )
 }

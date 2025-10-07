@@ -19,7 +19,7 @@ import {
     IoClose,
 } from "react-icons/io5";
 import {
-    MdNavigateNext, MdHorizontalRule
+    MdNavigateNext, MdHorizontalRule, MdError
 } from "react-icons/md";
 import { LuSettings2 } from "react-icons/lu";
 import { IoMdSearch, IoMdMail } from "react-icons/io";
@@ -71,6 +71,7 @@ export interface Icons {
     iconDelete: JSX.Element;
     iconLock: JSX.Element;
     iconMail: JSX.Element;
+    iconError: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -96,7 +97,8 @@ const defaultIcons: Icons = {
     iconDecrease: <MdHorizontalRule className="mx-auto" />,
     iconDelete: <BsTrash3Fill />,
     iconLock: <FaLock />,
-    iconMail: <IoMdMail />
+    iconMail: <IoMdMail />,
+    iconError: <MdError />,
 }
 
 export interface Category {
