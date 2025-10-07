@@ -11,7 +11,8 @@ import { useNavigate } from 'react-router-dom';
 
 import {
     // postCheckMailAvailable,
-    postUsers
+    postUsers,
+    uploadBase64ToImgBB
 } from "../../services/userService"
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -118,7 +119,7 @@ const Register: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     // const [checkEmail, setCheckEmail] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const [avatar, setAvatar] = useState<string>("");
+    const [avatarUrl, setAvatarUrl] = useState<string>("");
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -170,6 +171,8 @@ const Register: React.FC = () => {
         //     setErrorEmail("Email is available! Please use a different email address")
         // }
         // else {
+        const avatar = await uploadBase64ToImgBB(avatarUrl);
+
         try {
             const res = await postUsers({ name, email, password, avatar })
             if (res.data.email === email) {
@@ -189,17 +192,7 @@ const Register: React.FC = () => {
 
     }
 
-    const convertBase64ToUrl = (base64: string): string => {
-        const byteString = atob(base64.split(",")[1]);
-        const mimeString = base64.split(",")[0].split(":")[1].split(";")[0];
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        const blob = new Blob([ab], { type: mimeString });
-        return URL.createObjectURL(blob);
-    };
+
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -210,7 +203,7 @@ const Register: React.FC = () => {
             const reader = new FileReader();
             reader.onload = (e: ProgressEvent<FileReader>) => {
                 if (e.target?.result) {
-                    setAvatar(convertBase64ToUrl(e.target.result as string));
+                    setAvatarUrl(e.target.result as string);
                 }
             };
             reader.readAsDataURL(file);
@@ -230,7 +223,7 @@ const Register: React.FC = () => {
             </header>
             <div className="min-h-[78.5vh] bg-gradient-to-r to-orange-600 from-orange-700 flex flex-col justify-center sm:px-6 lg:px-8">
                 <div className="mx-auto w-full max-w-lg p-5">
-                    <div className="bg-white py-4 px-4 shadow rounded-lg sm:px-10">
+                    <div className="bg-white py-4 pb-8 pt-4 shadow rounded-lg sm:px-10">
                         <p className="text-3xl font-600 text-orange-700 text-center mb-3 pb-[10px] border-b-[1px] border-b-gray-200">Register</p>
                         {error && (
                             <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
@@ -254,7 +247,7 @@ const Register: React.FC = () => {
                                             onClick={handleClick}
                                         >
                                             <Avatar
-                                                src={avatar}
+                                                src={avatarUrl}
                                                 alt="avatar"
                                                 sx={sxAvata}
                                             />

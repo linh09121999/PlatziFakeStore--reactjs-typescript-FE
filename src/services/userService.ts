@@ -1,4 +1,5 @@
 import api from "./api";
+import axios from "axios";
 
 export const getUsers = () => api.get("/api/v1/users");
 export const postUsers = (data: { name: string, email: string, password: string, avatar: string }) => {
@@ -60,5 +61,14 @@ export const getLocationsRadius = (origin: number[], radius: number) => api.get(
 export const postUploadFile = () => api.post(`/api/v1/files/upload`)
 export const getFile = (fileName: string) => api.get(`/api/v1/files/${fileName}`)
 
+const keyApiImgBB = "dbf390df03ec1e2e1081837821efff52"
 
+export const uploadBase64ToImgBB = async (base64: string) => {
+    const apiKey = keyApiImgBB; // đăng ký miễn phí tại imgbb.com
+    const formData = new FormData();
+    formData.append("image", base64.split(",")[1]); // chỉ phần base64
+
+    const res = await axios.post(`https://api.imgbb.com/1/upload?key=${apiKey}`, formData);
+    return res.data.data.url; // URL https://...
+};
 

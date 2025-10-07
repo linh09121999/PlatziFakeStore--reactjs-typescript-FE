@@ -110,7 +110,7 @@ const Login: React.FC<propsSuccess> = ({ onLoginSuccess }) => {
             </header>
             <div className="min-h-[78.5vh] bg-gradient-to-r to-orange-600 from-orange-700 flex flex-col justify-center sm:px-6 lg:px-8">
                 <div className="mx-auto w-full max-w-lg p-5">
-                    <div className="bg-white py-4  px-4 shadow rounded-lg sm:px-10">
+                    <div className="bg-white py-4 pb-8 pt-4 shadow rounded-lg sm:px-10">
                         <p className="text-3xl font-600 text-orange-700 text-center mb-3 pb-[10px] border-b-[1px] border-b-gray-200">Login</p>
                         {error && (
                             <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg flex gap-2 items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px] ">
