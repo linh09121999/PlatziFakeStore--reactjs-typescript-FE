@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Route, Routes, Navigate, Outlet, BrowserRouter } from 'react-router-dom';
-
+import { useGlobal } from './context/GlobalContext';
 import { HeaderAdmin, NavAdmin } from './components/dashboard';
 import { HeaderWeb, NavWeb } from './components/web';
 import Footer from './components/Footer';
@@ -22,13 +22,21 @@ const Cart = React.lazy(() => import('./pages/web/cart'))
 
 const Admin = React.lazy(() => import('./pages/dashboard/dashboard'));
 
-const ProtectedRouteWeb: React.FC = () => {
+type propsProtectedRouteAdmin = {
+  isAuthenticated: boolean;
+  onLogout: () => void
+}
+
+const ProtectedRouteWeb: React.FC<propsProtectedRouteAdmin> = ({ isAuthenticated, onLogout }) => {
   // const { isMobile } = useGlobalContext();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
   return (
     <div className="flex flex-col w-full h-full">
       {/* <!-- Header --> */}
       <BackToTop />
-      <HeaderWeb />
+      <HeaderWeb onLogout={onLogout} />
       <NavWeb />
       <Outlet />
       <Footer />
@@ -37,13 +45,18 @@ const ProtectedRouteWeb: React.FC = () => {
   );
 };
 
-const ProtectedRouteAdmin: React.FC = () => {
+
+
+const ProtectedRouteAdmin: React.FC<propsProtectedRouteAdmin> = ({ isAuthenticated, onLogout }) => {
   // const { isMobile } = useGlobalContext();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
   return (
     <div className="flex flex-col w-full h-full">
       {/* <!-- Header --> */}
       <BackToTop />
-      <HeaderAdmin />
+      <HeaderAdmin onLogout={onLogout} />
       <NavAdmin />
       <Outlet />
       <Footer />
@@ -53,15 +66,18 @@ const ProtectedRouteAdmin: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  const { isAuthenticated, handleLoginSuccess, handleLogout } = useGlobal()
+
   return (
     <BrowserRouter >
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/404" element={<Page404 />} />
           <Route path="/500" element={<Page500 />} />
-          <Route path="/" element={<ProtectedRouteWeb />}>
+          <Route path="/" element={<ProtectedRouteWeb isAuthenticated={isAuthenticated}
+            onLogout={handleLogout} />}>
             <Route index element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<Home />} />
             <Route path='/products' element={<Products />} />
@@ -69,7 +85,8 @@ const App: React.FC = () => {
             <Route path='/product-detail' element={<ProductDetail />} />
             <Route path='/cart' element={<Cart />} />
           </Route>
-          <Route path='/admin' element={<ProtectedRouteAdmin />}>
+          <Route path='/admin' element={<ProtectedRouteAdmin isAuthenticated={isAuthenticated}
+            onLogout={handleLogout} />}>
             <Route >
               <Route index element={<Admin />} />
             </Route>

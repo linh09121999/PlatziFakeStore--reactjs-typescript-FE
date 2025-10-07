@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import type { JSX, ReactNode } from "react";
 import { useMediaQuery } from "@mui/material"
 import {
@@ -219,7 +219,12 @@ export interface GlobalState {
     password: string;
     setPassword: (password: string) => void;
     token: string;
-    setToken: (token: string) => void;
+    setToken: React.Dispatch<React.SetStateAction<string>>;
+    isAuthenticated: boolean;
+    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    handleLoginSuccess: (newToken: string, newEmail: string) => void;
+    handleLogout: () => void;
+    checkTimeExp: () => boolean
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -251,9 +256,47 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
     const pageSize = 12
 
-    const [email, setEmail] = useState<string>('');
+    const [email, setEmail] = useState<string>(() => localStorage.getItem("Email") || "");
     const [password, setPassword] = useState<string>('');
-    const [token, setToken] = useState<string>("")
+    const [token, setToken] = useState<string>(() => localStorage.getItem("Token") || "")
+    const [isAuthenticated, setIsAuthenticated] = useState(!!token);
+
+    // Hàm xử lý khi đăng nhập thành công
+    const handleLoginSuccess = (newToken: string, newEmail: string) => {
+        setToken(newToken);
+        setEmail(newEmail)
+        localStorage.setItem("Token", newToken);
+        localStorage.setItem("Email", newEmail);
+        localStorage.setItem("LoginTime", Date.now().toString());
+        setIsAuthenticated(true);
+    };
+
+    // Hàm đăng xuất
+    const handleLogout = () => {
+        setToken("");
+        setEmail("");
+        localStorage.removeItem("Token");
+        localStorage.removeItem("Token");
+        localStorage.removeItem("LoginTime");
+        setIsAuthenticated(false);
+    };
+
+    // Hàm kiểm tra token hết hạn sau 1 ngày
+    const checkTimeExp = () => {
+        const loginTime = localStorage.getItem("LoginTime");
+        if (!loginTime) return false;
+        const now = Date.now();
+        const oneDay = 24 * 60 * 60 * 1000;
+        return now - parseInt(loginTime, 10) < oneDay;
+    };
+
+    // Khi load app, kiểm tra token hết hạn chưa
+    useEffect(() => {
+        if (token && !checkTimeExp()) {
+            handleLogout();
+        }
+    }, []);
+
 
     const value = {
         icons: defaultIcons,
@@ -278,7 +321,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         selectProductID, setSelectProductId,
         pageSize,
         resProductRelateBy, setResProductRelateBy,
-        email, setEmail, password, setPassword, token, setToken
+        email, setEmail, password, setPassword, token, setToken,
+        isAuthenticated, setIsAuthenticated,
+        handleLoginSuccess,
+        handleLogout, checkTimeExp
     }
 
     return (

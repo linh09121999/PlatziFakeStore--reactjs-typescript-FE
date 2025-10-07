@@ -10,7 +10,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { useGlobal } from '../../context/GlobalContext';
 
-const HeaderWeb: React.FC = () => {
+type propsLogOut = {
+    onLogout: () => void
+}
+
+const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
     const navigate = useNavigate()
     const sxTextField: SxProps<Theme> = {
         width: {
@@ -91,9 +95,7 @@ const HeaderWeb: React.FC = () => {
                         }}
                     >Dashboard</button>
                     <div className='flex text-white '>
-                        {token ?
-                            <p className=''>{email}</p>
-                            :
+                        {token === "" ?
                             <>
                                 <button className='px-2 border-r-[1px] border-r-white/50 css-icon'
                                     onClick={() => {
@@ -105,6 +107,11 @@ const HeaderWeb: React.FC = () => {
                                         navigate("/register")
                                     }}
                                 >SignUp</button>
+                            </>
+                            :
+                            <>
+                                <p className='px-2 border-r-[1px] border-r-white/50'>{email}</p>
+                                <button className='px-2 css-icon' onClick={onLogout}>Logout</button>
                             </>
                         }
                     </div>

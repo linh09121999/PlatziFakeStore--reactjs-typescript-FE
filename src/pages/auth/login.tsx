@@ -9,7 +9,11 @@ import type { SxProps, Theme } from "@mui/material/styles";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { postLogin } from "../../services/userService";
 
-const Login: React.FC = () => {
+type propsSuccess = {
+    onLoginSuccess: (newToken: string, newEmail: string) => void;
+}
+
+const Login: React.FC<propsSuccess> = ({ onLoginSuccess }) => {
     const navigate = useNavigate()
     const location = useLocation();
 
@@ -64,6 +68,7 @@ const Login: React.FC = () => {
 
             if (token) {
                 setToken(token);
+                onLoginSuccess(token, email)
                 if (location.state?.name === "web") {
                     // Lưu email vào localStorage để hiển thị lên web
                     localStorage.setItem("userEmail", email);
