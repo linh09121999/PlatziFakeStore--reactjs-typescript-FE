@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FooterWeb: React.FC = () => {
+const Footer: React.FC = () => {
     const year = new Date().getFullYear()
     return (
         <footer className='p-5 bg-orange-100 border-t-[3px] border-t-orange-700'>
@@ -12,4 +12,4 @@ const FooterWeb: React.FC = () => {
     )
 }
 
-export default FooterWeb;
+export default Footer;

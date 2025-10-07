@@ -9,7 +9,8 @@ import {
     FaChevronDown,
     FaChevronUp,
     FaEye, FaEyeSlash,
-    FaDollarSign
+    FaDollarSign,
+    FaLock
 } from "react-icons/fa";
 import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
@@ -21,12 +22,13 @@ import {
     MdNavigateNext, MdHorizontalRule
 } from "react-icons/md";
 import { LuSettings2 } from "react-icons/lu";
-import { IoMdSearch } from "react-icons/io";
+import { IoMdSearch, IoMdMail } from "react-icons/io";
 import { RiAddFill } from "react-icons/ri";
 
 import imgBanner1 from "../assets/img/banner.png"
 import imgDefault from "../assets/img/no_img.png"
 import logo from "../assets/logoHeader.png"
+import logoColor from "../assets/logo.png"
 import imgNoItem from "../assets/img/no-items-in-cart.png"
 
 export interface Image {
@@ -34,13 +36,15 @@ export interface Image {
     imgDefault: string;
     logo: string;
     imgNoItem: string;
+    logoColor: string;
 }
 
 const defaultImage: Image = {
     imgBanner1: imgBanner1,
     imgDefault: imgDefault,
     logo: logo,
-    imgNoItem: imgNoItem
+    imgNoItem: imgNoItem,
+    logoColor: logoColor
 }
 
 export interface Icons {
@@ -65,6 +69,8 @@ export interface Icons {
     iconIncrease: JSX.Element;
     iconDecrease: JSX.Element;
     iconDelete: JSX.Element;
+    iconLock: JSX.Element;
+    iconMail: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -88,7 +94,9 @@ const defaultIcons: Icons = {
     iconDollar: <FaDollarSign />,
     iconIncrease: <RiAddFill className="mx-auto" />,
     iconDecrease: <MdHorizontalRule className="mx-auto" />,
-    iconDelete: <BsTrash3Fill />
+    iconDelete: <BsTrash3Fill />,
+    iconLock: <FaLock />,
+    iconMail: <IoMdMail />
 }
 
 export interface Category {
@@ -204,6 +212,12 @@ export interface GlobalState {
     pageSize: number;
     selectProductID: number;
     setSelectProductId: (select: number) => void;
+    email: string;
+    setEmail: (email: string) => void;
+    password: string;
+    setPassword: (password: string) => void;
+    token: string;
+    setToken: (token: string) => void;
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -235,6 +249,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
     const pageSize = 12
 
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [token, setToken] = useState<string>("")
+
     const value = {
         icons: defaultIcons,
         isMobile, isTable,
@@ -257,7 +275,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         selectCateCategoryID, setSelectCateCategoryID,
         selectProductID, setSelectProductId,
         pageSize,
-        resProductRelateBy, setResProductRelateBy
+        resProductRelateBy, setResProductRelateBy,
+        email, setEmail, password, setPassword, token, setToken
     }
 
     return (

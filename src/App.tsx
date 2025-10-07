@@ -1,8 +1,9 @@
 import React, { Suspense } from 'react';
 import { Route, Routes, Navigate, Outlet, BrowserRouter } from 'react-router-dom';
 
-import { FooterAdmin, HeaderAdmin, NavAdmin } from './components/dashboard';
-import { FooterWeb, HeaderWeb, NavWeb } from './components/web';
+import { HeaderAdmin, NavAdmin } from './components/dashboard';
+import { HeaderWeb, NavWeb } from './components/web';
+import Footer from './components/Footer';
 
 import BackToTop from './components/BackToTop';
 
@@ -30,7 +31,7 @@ const ProtectedRouteWeb: React.FC = () => {
       <HeaderWeb />
       <NavWeb />
       <Outlet />
-      <FooterWeb />
+      <Footer />
     </div>
 
   );
@@ -45,7 +46,7 @@ const ProtectedRouteAdmin: React.FC = () => {
       <HeaderAdmin />
       <NavAdmin />
       <Outlet />
-      <FooterAdmin />
+      <Footer />
     </div>
 
   );

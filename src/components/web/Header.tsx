@@ -105,7 +105,7 @@ const HeaderWeb: React.FC = () => {
                 </div>
                 <div className='max-w-[1500px] mx-auto py-5 md:flex md:justify-between items-center grid gap-4'>
                     <div className='flex justify-between'>
-                        <div className='flex gap-2 items-center'>
+                        <div className='flex gap-2 items-end'>
                             <img alt='logo' className='h-12 max-md:h-10' src={imgs.logo} />
                             <p className='text-3xl text-white font-bold max-md:text-2xl'>SPEE SHOP</p>
                         </div>

@@ -7,7 +7,9 @@ export const putUserById = (id: number) => api.put(`/api/v1/users/${id}`) //sử
 export const deleteUserById = (id: number) => api.delete(`/api/v1/users/${id}`) //xóa user theo id
 export const postCheckMailAvailable = () => api.post("/api/v1/is-available"); //check mail có tồn tại k(dành lúc đky tài khoản)
 
-export const postLogin = () => api.post(`/api/v1/auth/login`)
+export const postLogin = (data: { email: string; password: string }) => {
+    return api.post(`/api/v1/auth/login`, data);
+};
 export const getProfile = () => api.get(`/api/v1/auth/profile`)
 export const postRefreshToken = () => api.post(`/api/v1/auth/refresh-token`)
 
