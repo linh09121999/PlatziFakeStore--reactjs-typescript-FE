@@ -1,11 +1,17 @@
 import api from "./api";
 
-export const getUsers = () => api.get("/api/v1/users"); //Danh sách user
-export const postUsers = () => api.post("/api/v1/users")  //thêm user
-export const getUserById = (id: number) => api.get(`/api/v1/users/${id}`) //user theo id
-export const putUserById = (id: number) => api.put(`/api/v1/users/${id}`) //sửa user theo id
-export const deleteUserById = (id: number) => api.delete(`/api/v1/users/${id}`) //xóa user theo id
-export const postCheckMailAvailable = () => api.post("/api/v1/is-available"); //check mail có tồn tại k(dành lúc đky tài khoản)
+export const getUsers = () => api.get("/api/v1/users");
+export const postUsers = (data: { name: string, email: string, password: string, avatar: string }) => {
+    return api.post("/api/v1/users", data)
+};
+export const getUserById = (id: number) => api.get(`/api/v1/users/${id}`)
+export const putUserById = (id: number, data: { email: string, name: string }) => {
+    return api.put(`/api/v1/users/${id}`, data)
+};
+export const deleteUserById = (id: number) => api.delete(`/api/v1/users/${id}`)
+export const postCheckMailAvailable = (data: { email: string }) => {
+    return api.post("/api/v1/users/is-available", data)
+};
 
 export const postLogin = (data: { email: string; password: string }) => {
     return api.post(`/api/v1/auth/login`, data);

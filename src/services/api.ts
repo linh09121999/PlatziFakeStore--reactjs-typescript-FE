@@ -15,7 +15,7 @@ const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
     (config) => {
         // Ví dụ: thêm token vào header nếu có
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("Token");
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

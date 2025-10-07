@@ -10,7 +10,8 @@ import {
     FaChevronUp,
     FaEye, FaEyeSlash,
     FaDollarSign,
-    FaLock
+    FaLock,
+    FaCamera
 } from "react-icons/fa";
 import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
@@ -72,6 +73,7 @@ export interface Icons {
     iconLock: JSX.Element;
     iconMail: JSX.Element;
     iconError: JSX.Element;
+    iconCamera: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -99,6 +101,7 @@ const defaultIcons: Icons = {
     iconLock: <FaLock />,
     iconMail: <IoMdMail />,
     iconError: <MdError />,
+    iconCamera: <FaCamera />
 }
 
 export interface Category {
