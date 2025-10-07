@@ -199,7 +199,7 @@ const Cart: React.FC = () => {
                         <div>
                             <button
                                 onClick={() => navigate("/products")}
-                                className="css-next shadow-lg flex gap-2 border-[1px] border-orange-700 text-orange-700 rounded-[10px] px-4 py-2 w-fit justify-self-center"
+                                className="css-next mx-auto shadow-lg flex gap-2 border-[1px] border-orange-700 text-orange-700 rounded-[10px] px-4 py-2 w-fit justify-self-center"
                             >
                                 <span className="rotate-[180deg]">{icons.iconNext}</span>
                                 Continue to buy products
