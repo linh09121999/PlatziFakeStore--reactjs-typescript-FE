@@ -56,7 +56,7 @@ const HeaderWeb: React.FC = () => {
     }
 
     const { icons, ordersNumber,
-        imgs
+        imgs, token, email
     } = useGlobal()
 
     const [key, setKey] = useState<string>("")
@@ -87,20 +87,19 @@ const HeaderWeb: React.FC = () => {
                 <div className='max-md:hidden max-w-[1500px] text-[16px] font-bold mx-auto py-1 flex justify-between items-center'>
                     <button className='text-white css-icon'
                         onClick={() => {
-                            navigate("/admin")
+                            navigate("/login", { state: { name: "dashboard" } })
                         }}
                     >Dashboard</button>
                     <div className='flex text-white '>
-                        <button className='px-2 border-r-[1px] border-r-white/50 css-icon'
-                            onClick={() => {
-                                navigate("/login")
-                            }}
-                        >Login</button>
-                        <button className='px-2 css-icon'
-                            onClick={() => {
-                                navigate("/register")
-                            }}
-                        >SignUp</button>
+                        {token ?
+                            <p className=''>{email}</p>
+                            :
+                            <button className=' css-icon'
+                                onClick={() => {
+                                    navigate("/login", { state: { name: "web" } })
+                                }}
+                            >Login</button>
+                        }
                     </div>
                 </div>
                 <div className='max-w-[1500px] mx-auto py-5 md:flex md:justify-between items-center grid gap-4'>
@@ -121,7 +120,7 @@ const HeaderWeb: React.FC = () => {
                             </button>
                             <button className='text-white text-3xl max-md:text-2xl md:hidden css-icon'
                                 onClick={() => {
-                                    navigate("/admin")
+                                    navigate("/login", { state: { name: "dashboard" } })
                                 }}
                             >
                                 {icons.iconUser}

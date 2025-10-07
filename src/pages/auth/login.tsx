@@ -50,9 +50,9 @@ const Login: React.FC = () => {
     const { icons, imgs, email, setEmail, password, setPassword, setToken } = useGlobal()
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const from = location.state?.from?.pathname || "/admin";
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const from = location.state?.from?.pathname || "/admin";
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -65,7 +65,15 @@ const Login: React.FC = () => {
 
             if (token) {
                 setToken(token);
-                navigate(from, { replace: true });
+                if (location.state?.name === "web") {
+                    // Lưu email vào localStorage để hiển thị lên web
+                    localStorage.setItem("userEmail", email);
+                    navigate("/", { replace: true });
+                } else if (location.state?.name === "dashboard") {
+                    navigate("/admin", { replace: true });
+                } else {
+                    navigate(from, { replace: true });
+                }
             } else {
                 setError("No token found in feedback!");
             }
