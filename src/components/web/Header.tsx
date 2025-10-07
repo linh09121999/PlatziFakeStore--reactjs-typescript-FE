@@ -94,11 +94,18 @@ const HeaderWeb: React.FC = () => {
                         {token ?
                             <p className=''>{email}</p>
                             :
-                            <button className=' css-icon'
-                                onClick={() => {
-                                    navigate("/login", { state: { name: "web" } })
-                                }}
-                            >Login</button>
+                            <>
+                                <button className='px-2 border-r-[1px] border-r-white/50 css-icon'
+                                    onClick={() => {
+                                        navigate("/login", { state: { name: "web" } })
+                                    }}
+                                >Login</button>
+                                <button className='px-2 css-icon'
+                                    onClick={() => {
+                                        navigate("/register")
+                                    }}
+                                >SignUp</button>
+                            </>
                         }
                     </div>
                 </div>
