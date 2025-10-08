@@ -95,7 +95,7 @@ const defaultIcons: Icons = {
     iconEye: <FaEye className="mx-auto" />,
     iconEyeSlash: <FaEyeSlash className="mx-auto" />,
     iconHome: <FaHome />,
-    iconSetting: <RiUserSettingsFill  />,
+    iconSetting: <RiUserSettingsFill />,
     iconSearch: <IoMdSearch className="mx-auto" />,
     iconCart: <FaCartShopping />,
     iconSortUp: <FaArrowUpLong />,
@@ -282,6 +282,13 @@ export interface GlobalState {
     setSidbarOpen: (sidebarOpen: boolean) => void;
     selectPage: string;
     setSelectPage: (selectPage: string) => void;
+
+    resProductAdmin: ResProduct[];// dùng cho list, filter
+    setResProductAdmin: React.Dispatch<React.SetStateAction<ResProduct[]>>;
+
+    resCategoriesAdmin: Category[];// dung cho list
+    setResCategoriesAdmin: React.Dispatch<React.SetStateAction<Category[]>>;
+
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -359,6 +366,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const [sidebarOpen, setSidbarOpen] = useState<boolean>(false);
     const [selectPage, setSelectPage] = useState<string>("Dashboard")
 
+    const [resProductAdmin, setResProductAdmin] = useState<ResProduct[]>([]);
+    const [resCategoriesAdmin, setResCategoriesAdmin] = useState<Category[]>([]);
+
+
     const value = {
         icons: defaultIcons,
         isMobile, isTable,
@@ -388,7 +399,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         handleLogout, checkTimeExp,
         listPagesDashboard: defaultListPagesDashboard,
         sidebarOpen, setSidbarOpen,
-        selectPage, setSelectPage
+        selectPage, setSelectPage,
+        resProductAdmin, setResProductAdmin,
+        resCategoriesAdmin, setResCategoriesAdmin
     }
 
     return (
