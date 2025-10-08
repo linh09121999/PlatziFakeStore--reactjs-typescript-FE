@@ -215,15 +215,15 @@ const Register: React.FC = () => {
     return (
         <>
             <header className="top-0 sticky z-100 px-5 bg-white">
-                <div className='max-w-[1500px] mx-auto py-5 md:flex items-end grid gap-4'>
+                <div className='max-w-[1500px] mx-auto py-5 flex items-end gap-4'>
                     <img alt='logo' className='h-12 max-md:h-10' src={imgs.logoColor} />
                     <p className='text-3xl text-orange-700 font-bold max-md:text-2xl'>SPEE SHOP</p>
-                    <p className="text-3xl border-l-[2px] border-l-orange-700 pl-[20px]">Register</p>
+                    <p className="text-3xl border-l-[2px] border-l-orange-700 pl-[20px] max-sm:hidden">Register</p>
                 </div>
             </header>
             <div className="min-h-[78.5vh] bg-gradient-to-r to-orange-600 from-orange-700 flex flex-col justify-center sm:px-6 lg:px-8">
                 <div className="mx-auto w-full max-w-lg p-5">
-                    <div className="bg-white py-4 pb-8 pt-4 shadow rounded-lg sm:px-10">
+                    <div className="bg-white py-4 pb-8 pt-4 shadow rounded-lg sm:px-10 px-4">
                         <p className="text-3xl font-600 text-orange-700 text-center mb-3 pb-[10px] border-b-[1px] border-b-gray-200">Register</p>
                         {error && (
                             <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
@@ -272,7 +272,7 @@ const Register: React.FC = () => {
                                     </StyledBadge >
                                 </Stack>
                                 <div className="w-full pt-[10px]">
-                                    <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-gray-300 px-7 py-2 rounded-full hover:text-orange-700 hover:border-orange-700 ">Upload avatar</label>
+                                    <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload avatar</label>
                                     <input
                                         id="avataInput"
                                         alt="avata"
