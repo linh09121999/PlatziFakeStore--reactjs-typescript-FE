@@ -11,7 +11,8 @@ import {
     FaEye, FaEyeSlash,
     FaDollarSign,
     FaLock,
-    FaCamera
+    FaCamera,
+    FaUserEdit
 } from "react-icons/fa";
 import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
@@ -26,9 +27,8 @@ import {
     MdError,
     MdDashboard
 } from "react-icons/md";
-import { LuSettings2 } from "react-icons/lu";
 import { IoMdSearch, IoMdMail } from "react-icons/io";
-import { RiAddFill } from "react-icons/ri";
+import { RiAddFill, RiUserSettingsFill } from "react-icons/ri";
 
 import imgBanner1 from "../assets/img/banner.png"
 import imgDefault from "../assets/img/no_img.png"
@@ -79,6 +79,7 @@ export interface Icons {
     iconError: JSX.Element;
     iconCamera: JSX.Element;
     iconLogout: JSX.Element;
+    iconEditUser: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -94,7 +95,7 @@ const defaultIcons: Icons = {
     iconEye: <FaEye className="mx-auto" />,
     iconEyeSlash: <FaEyeSlash className="mx-auto" />,
     iconHome: <FaHome />,
-    iconSetting: <LuSettings2 className="mx-auto" />,
+    iconSetting: <RiUserSettingsFill  />,
     iconSearch: <IoMdSearch className="mx-auto" />,
     iconCart: <FaCartShopping />,
     iconSortUp: <FaArrowUpLong />,
@@ -107,7 +108,8 @@ const defaultIcons: Icons = {
     iconMail: <IoMdMail />,
     iconError: <MdError />,
     iconCamera: <FaCamera />,
-    iconLogout: <IoLogOut />
+    iconLogout: <IoLogOut />,
+    iconEditUser: <FaUserEdit />
 }
 
 export interface Category {
@@ -143,6 +145,8 @@ export interface ResUser {
     name: string;
     role: string;
     avatar: string;
+    creationAt: string;
+    updatedAt: string;
 }
 
 export interface ResJWT {
@@ -182,21 +186,25 @@ const defaultListPagesDashboard: ListPagesDashboard[] = [
         id: 1,
         title: "Orders",
         icon: <FaCartShopping />,
-        path: ""
+        path: "/admin/orders"
     },
     {
         id: 2,
         title: "Products",
         icon: <BiSolidPackage />,
-        path: ""
+        path: "/admin/products"
     },
     {
         id: 3,
         title: "Categories",
         icon: <BiSolidCategoryAlt />,
-        path: ""
+        path: "/admin/categories"
     },
 ]
+
+export interface propsLogOut {
+    onLogout: () => void
+}
 
 export interface GlobalState {
     icons: Icons;
@@ -269,7 +277,11 @@ export interface GlobalState {
     handleLogout: () => void;
     checkTimeExp: () => boolean;
 
-    listPagesDashboard: ListPagesDashboard[]
+    listPagesDashboard: ListPagesDashboard[];
+    sidebarOpen: boolean;
+    setSidbarOpen: (sidebarOpen: boolean) => void;
+    selectPage: string;
+    setSelectPage: (selectPage: string) => void;
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -301,6 +313,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
 
     const pageSize = 12
 
+    // login
     const [email, setEmail] = useState<string>(() => localStorage.getItem("Email") || "");
     const [password, setPassword] = useState<string>('');
     const [token, setToken] = useState<string>(() => localStorage.getItem("Token") || "")
@@ -342,6 +355,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         }
     }, []);
 
+    // admin
+    const [sidebarOpen, setSidbarOpen] = useState<boolean>(false);
+    const [selectPage, setSelectPage] = useState<string>("Dashboard")
 
     const value = {
         icons: defaultIcons,
@@ -370,7 +386,9 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         isAuthenticated, setIsAuthenticated,
         handleLoginSuccess,
         handleLogout, checkTimeExp,
-        listPagesDashboard: defaultListPagesDashboard
+        listPagesDashboard: defaultListPagesDashboard,
+        sidebarOpen, setSidbarOpen,
+        selectPage, setSelectPage
     }
 
     return (

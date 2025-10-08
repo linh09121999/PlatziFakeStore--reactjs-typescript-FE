@@ -1,5 +1,5 @@
 import api from "./api";
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 
 export const getUsers = () => api.get("/api/v1/users");
 export const postUsers = (data: { name: string, email: string, password: string, avatar: string }) => {
@@ -17,7 +17,9 @@ export const postCheckMailAvailable = (data: { email: string }) => {
 export const postLogin = (data: { email: string; password: string }) => {
     return api.post(`/api/v1/auth/login`, data);
 };
-export const getProfile = () => api.get(`/api/v1/auth/profile`)
+export const getProfile = (): Promise<AxiosResponse> => {
+    return api.get("/api/v1/auth/profile");
+};
 export const postRefreshToken = (data: { refreshToken: string }) => {
     return api.post(`/api/v1/auth/refresh-token`, data)
 }

@@ -9,10 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import { useGlobal } from '../../context/GlobalContext';
-
-type propsLogOut = {
-    onLogout: () => void
-}
+import type { propsLogOut} from '../../context/GlobalContext';
 
 const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
     const navigate = useNavigate()

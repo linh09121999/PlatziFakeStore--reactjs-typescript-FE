@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Route, Routes, Navigate, Outlet, BrowserRouter } from 'react-router-dom';
 import { useGlobal } from './context/GlobalContext';
-import { HeaderAdmin, NavAdmin } from './components/dashboard';
+import { HeaderAdmin, NavAdmin, BarAdmin } from './components/dashboard';
 import { HeaderWeb, NavWeb } from './components/web';
 import Footer from './components/Footer';
 
@@ -21,6 +21,10 @@ const ProductDetail = React.lazy(() => import('./pages/web/product-detail'))
 const Cart = React.lazy(() => import('./pages/web/cart'))
 
 const Admin = React.lazy(() => import('./pages/dashboard/dashboard'));
+const OrdersAdmin = React.lazy(() => import('./pages/dashboard/orders'));
+const ProductsAdmin = React.lazy(() => import('./pages/dashboard/products'))
+const CategoriesAdmin = React.lazy(() => import('./pages/dashboard/categories'))
+const SettingAdmin = React.lazy(() => import('./pages/dashboard/setting'))
 
 type propsProtectedRouteAdmin = {
   isAuthenticated: boolean;
@@ -52,14 +56,21 @@ const ProtectedRouteAdmin: React.FC<propsProtectedRouteAdmin> = ({ isAuthenticat
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
+
+  const { sidebarOpen } = useGlobal()
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex w-full h-full">
       {/* <!-- Header --> */}
       <BackToTop />
-      <HeaderAdmin onLogout={onLogout} />
-      <NavAdmin />
-      <Outlet />
-      <Footer />
+      <div>
+        <BarAdmin onLogout={onLogout} />
+      </div>
+      <div className={`flex-1 transition-all duration-300 ease-in-out ${sidebarOpen ? "lg:ml-[90px]" : "lg:ml-[280px]"} `} >
+        <HeaderAdmin onLogout={onLogout} />
+        <NavAdmin />
+        <Outlet />
+        <Footer />
+      </div>
     </div>
 
   );
@@ -89,6 +100,10 @@ const App: React.FC = () => {
             <Route >
               <Route index element={<Navigate to="/admin/dashboard" replace />} />
               <Route path='/admin/dashboard' element={<Admin />} />
+              <Route path="/admin/orders" element={<OrdersAdmin />} />
+              <Route path='/admin/products' element={<ProductsAdmin />} />
+              <Route path='/admin/categories' element={<CategoriesAdmin />} />
+              <Route path='/admin/setting' element={<SettingAdmin />} />
             </Route>
           </Route>
         </Routes>
