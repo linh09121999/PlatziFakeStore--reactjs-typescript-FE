@@ -87,7 +87,8 @@ const App: React.FC = () => {
           <Route path='/admin' element={<ProtectedRouteAdmin isAuthenticated={isAuthenticated}
             onLogout={handleLogout} />}>
             <Route >
-              <Route index element={<Admin />} />
+              <Route index element={<Navigate to="/admin/dashboard" replace />} />
+              <Route path='/admin/dashboard' element={<Admin />} />
             </Route>
           </Route>
         </Routes>

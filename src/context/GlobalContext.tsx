@@ -16,11 +16,15 @@ import {
 import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
 import { BsTrash3Fill } from "react-icons/bs";
+import { BiSolidPackage, BiSolidCategoryAlt } from "react-icons/bi";
 import {
-    IoClose,
+    IoClose, IoLogOut
 } from "react-icons/io5";
 import {
-    MdNavigateNext, MdHorizontalRule, MdError
+    MdNavigateNext,
+    MdHorizontalRule,
+    MdError,
+    MdDashboard
 } from "react-icons/md";
 import { LuSettings2 } from "react-icons/lu";
 import { IoMdSearch, IoMdMail } from "react-icons/io";
@@ -74,6 +78,7 @@ export interface Icons {
     iconMail: JSX.Element;
     iconError: JSX.Element;
     iconCamera: JSX.Element;
+    iconLogout: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -101,7 +106,8 @@ const defaultIcons: Icons = {
     iconLock: <FaLock />,
     iconMail: <IoMdMail />,
     iconError: <MdError />,
-    iconCamera: <FaCamera />
+    iconCamera: <FaCamera />,
+    iconLogout: <IoLogOut />
 }
 
 export interface Category {
@@ -157,6 +163,40 @@ export interface ResUploadFile {
     filename: string;
     location: string;
 }
+
+export interface ListPagesDashboard {
+    id: number;
+    title: string;
+    icon: JSX.Element;
+    path: string;
+}
+
+const defaultListPagesDashboard: ListPagesDashboard[] = [
+    {
+        id: 0,
+        title: "Dashboard",
+        icon: <MdDashboard />,
+        path: '/admin'
+    },
+    {
+        id: 1,
+        title: "Orders",
+        icon: <FaCartShopping />,
+        path: ""
+    },
+    {
+        id: 2,
+        title: "Products",
+        icon: <BiSolidPackage />,
+        path: ""
+    },
+    {
+        id: 3,
+        title: "Categories",
+        icon: <BiSolidCategoryAlt />,
+        path: ""
+    },
+]
 
 export interface GlobalState {
     icons: Icons;
@@ -227,7 +267,9 @@ export interface GlobalState {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
     handleLoginSuccess: (newToken: string, newEmail: string) => void;
     handleLogout: () => void;
-    checkTimeExp: () => boolean
+    checkTimeExp: () => boolean;
+
+    listPagesDashboard: ListPagesDashboard[]
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -327,7 +369,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         email, setEmail, password, setPassword, token, setToken,
         isAuthenticated, setIsAuthenticated,
         handleLoginSuccess,
-        handleLogout, checkTimeExp
+        handleLogout, checkTimeExp,
+        listPagesDashboard: defaultListPagesDashboard
     }
 
     return (

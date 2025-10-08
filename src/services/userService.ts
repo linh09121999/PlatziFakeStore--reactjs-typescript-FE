@@ -18,13 +18,19 @@ export const postLogin = (data: { email: string; password: string }) => {
     return api.post(`/api/v1/auth/login`, data);
 };
 export const getProfile = () => api.get(`/api/v1/auth/profile`)
-export const postRefreshToken = () => api.post(`/api/v1/auth/refresh-token`)
+export const postRefreshToken = (data: { refreshToken: string }) => {
+    return api.post(`/api/v1/auth/refresh-token`, data)
+}
 
 export const getProducts = () => api.get(`/api/v1/products`) // lấy tất cả sp
 export const getProductsById = (id: number) => api.get(`/api/v1/products/${id}`) // lấy 1 sp theo id
 export const getProductsBySlug = (slug: string) => api.get(`/api/v1/products/slug/${slug}`) //  lấy sp theo slug
-export const postProducts = () => api.post(`/api/v1/products`) //thêm sp
-export const putProductById = (id: number) => api.put(`/api/v1/products/${id}`) //sửa sp
+export const postProducts = (data: { title: string, price: number, description: string, categoryId: string, images: string[] }) => {
+    return api.post(`/api/v1/products`, data)
+} //thêm sp
+export const putProductById = (id: number, data: { title: string, price: number }) => {
+    return api.put(`/api/v1/products/${id}`, data)
+} //sửa sp
 export const deltetProductById = (id: number) => api.delete(`/api/v1/products/${id}`) //xoa 
 export const getProductsPage = (offset: number, limit: number) => api.get(`/api/v1/products?offset=${offset}&limit=${limit}`) //vd 0-10, 11-20(0,11: offset)
 export const getProductsRelatedById = (id: number) => api.get(`/api/v1/products/${id}/related`) //lấy các sản phẩm liên quan với sp có id...
@@ -48,8 +54,12 @@ export const getFilterPriceRange_Title_Page = (title: string, price_min: number,
 export const getCategories = () => api.get(`/api/v1/categories`) //list chu de
 export const getCategoriesById = (id: number) => api.get(`/api/v1/categories/${id}`) //1 chu de theo id
 export const getCategoriesBySlug = (slug: string) => api.get(`/api/v1/categories/slug/${slug}`) //1 chu de theo slug
-export const postCategories = () => api.post(`/api/v1/categories`) //add 
-export const putCategoriesById = (id: number) => api.put(`/api/v1/categories/${id}`) // edit
+export const postCategories = (data: { name: string, image: string }) => {
+    return api.post(`/api/v1/categories`, data)
+} //add 
+export const putCategoriesById = (id: number, data: { name: string, image: string }) => {
+    return api.put(`/api/v1/categories/${id}`, data)
+} // edit
 export const deleteCategoriesById = (id: number) => api.delete(`/api/v1/categories/${id}`) //delete
 export const getCategoriesPage = (offset: number, limit: number) => api.get(`/api/v1/categories/?offset=${offset}&limit=${limit}`)
 
