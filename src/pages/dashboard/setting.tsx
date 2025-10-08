@@ -4,7 +4,7 @@ const SettingAdmin: React.FC = () => {
     return (
         // EDIT PROFILE resProfile
         <>
-            <main className="min-h-[77vh]">
+            <main className="min-h-[77.5vh]">
 
             </main>
         </>

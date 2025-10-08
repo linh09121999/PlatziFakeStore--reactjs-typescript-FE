@@ -70,7 +70,7 @@ const HeaderAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
 
     return (
         <>
-            <header className={`sticky top-0 flex w-full bg-white z-99 lg:border-b}`} >
+            <header className={`sticky top-0 flex w-full bg-white z-99 bg-white border-b-[1px] border-b-gray-200`} >
                 <div className='flex justify-between p-5 w-full'>
                     <div className='flex gap-4 items-center text-3xl max-md:text-2xl '>
                         <button className='border-[1px] border-black/50 p-1 text-black/50 rounded-[10px] hover:border-orange-700 hover:text-orange-700'
