@@ -5,14 +5,21 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 import {
-    getCategories, deleteCategoriesById, putCategoriesById, postCategories
+    getCategories, deleteCategoriesById, putCategoriesById, postCategories,
+    uploadBase64ToImgBB
 } from "../../services/userService"
 import type { SxProps, Theme } from "@mui/material/styles";
 
 import {
+    Modal,
+    InputAdornment,
+    Avatar,
+    IconButton, Stack, Badge, styled,
     InputLabel, MenuItem, FormControl, Select, OutlinedInput, Radio, RadioGroup, FormControlLabel, FormLabel,
     Box, TextField, ListItemText, Checkbox, FormHelperText, type SelectChangeEvent
 } from '@mui/material';
+
+
 import {
     CTable,
     CTableBody,
@@ -24,14 +31,67 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    width: '150px',
+    height: '150px',
+    '& .MuiBadge-badge': {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: 'ripple 1.2s infinite ease-in-out',
+            border: '1px solid currentColor',
+            content: '""',
+        },
+    },
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
+            opacity: 1,
+        },
+        '100%': {
+            transform: 'scale(2.4)',
+            opacity: 0,
+        },
+    },
+}));
+
 const CategoriesAdmin: React.FC = () => {
-    const sxFormControlTB: SxProps<Theme> = {
-        minWidth: 70,
-        margin: '0px !important',
-        '& .MuiFormControl-root': {
-            margin: '0px !important',
-        }
+
+    const sxBox: SxProps<Theme> = {
+        position: "relative",
+        width: '150px',
+        height: '150px',
+        "&:hover .overlay": { opacity: 1 },
+        boxShadow: 'var(--shadow-lg)',
+        border: '1px solid var(--color-gray-100)',
+        borderRadius: "50%",
+        overflow: "hidden",
+        cursor: "pointer",
     }
+
+    const sxAvata: SxProps<Theme> = { width: "100%", height: "100%" }
+    const sxBoxHover: SxProps<Theme> = {
+        position: "absolute",
+        top: '50%',
+        left: 0,
+        width: "100%",
+        height: "50%",
+        bgcolor: "rgba(0,0,0,0.4)",
+        color: "#fff",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        opacity: 0,
+        transition: "opacity 0.3s",
+    }
+    const sxIconButton: SxProps<Theme> = { color: "white" }
 
     const sxSelectTB: SxProps<Theme> = {
         borderRadius: "10px",
@@ -62,6 +122,39 @@ const CategoriesAdmin: React.FC = () => {
             }
         },
     };
+
+    const sxTextField: SxProps<Theme> = {
+        width: '100%',
+        '& .MuiOutlinedInput-root': {
+            borderRadius: "10px",
+            background: "var(--color-white)",
+            height: '40px',
+            // boxShadow: 'var(--shadow-lg)',
+            padding: '3px 8px',
+            transition: 'all 0.3s',
+            fontSize: 'var(--text-xl)',
+            border: '1px solid var(--color-gray-200)',
+        },
+
+        '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+        },
+
+        '&:hover .MuiOutlinedInput-notchedOutline': {
+            outline: 'none',
+            border: 'none'
+        },
+
+        '& .MuiOutlinedInput-input': {
+            padding: 0
+        },
+
+        '& .MuiInputBase-input': {
+            color: 'black',
+            fontSize: 'var(--text-lg)',
+            border: 'none',
+        },
+    }
 
     const navigate = useNavigate()
 
@@ -131,6 +224,7 @@ const CategoriesAdmin: React.FC = () => {
             const res = await deleteCategoriesById(id)
             if (res.data === true) {
                 toast.success("Delete success")
+                getApiCategories()
             }
         } catch (error) {
             console.error("Lỗi khi gọi API deleteCategoriesById", error)
@@ -138,13 +232,9 @@ const CategoriesAdmin: React.FC = () => {
         }
     }
 
-    const handleEditCategory = (id: number) => {
-
-    }
-
     const handleDeleteCategory = (id: number) => {
         deleteApiCategoryBy(id)
-        getApiCategories()
+
     }
 
     const handleExport = () => {
@@ -188,6 +278,102 @@ const CategoriesAdmin: React.FC = () => {
         }
     }, [resCategoriesAdmin, pageSize, currentPage]);
 
+
+    const [openAddCategory, setOpenAddCategory] = useState(false);
+    const handleOpenAddCategory = () => setOpenAddCategory(true);
+    const handleCloseAddCategory = () => setOpenAddCategory(false);
+    const [name, setName] = useState<string>("")
+
+    const [error, setError] = useState<string>('');
+    const [avatarUrl, setAvatarUrl] = useState<string>("");
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const [errorAvatar, setErrorAvatar] = useState<string>('');
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) {
+            setError('Please choose a representative photo');
+        } else {
+
+            const reader = new FileReader();
+            reader.onload = (e: ProgressEvent<FileReader>) => {
+                if (e.target?.result) {
+                    setAvatarUrl(e.target.result as string);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleClickImage = () => inputRef.current?.click();
+
+    const handleSubmitAdd = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+        setErrorAvatar("")
+
+        if (!inputRef.current?.files?.length) {
+            setErrorAvatar('Please choose a representative photo');
+            return;
+        }
+
+        const image = await uploadBase64ToImgBB(avatarUrl);
+        try {
+            const res = await postCategories({ name, image })
+            if (res.data.name === name) {
+                handleCloseAddCategory()
+                getApiCategories()
+                setAvatarUrl("")
+                setName("")
+            } else {
+                setError("Register false")
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError("Register false")
+        }
+    }
+
+    const [openEditCategory, setOpenEditCategory] = useState(false);
+    const [selectIdCategory, setSelectedIdCategory] = useState<number | undefined>(undefined)
+    const handleOpenEditCategory = (id: number) => {
+        const category = resCategoriesAdmin.find((item) => item.id === id); // ✅ tìm theo id
+        setAvatarUrl(category?.image!)
+        setName(category?.name!)
+        setSelectedIdCategory(id)
+        setOpenEditCategory(true)
+    };
+    const handleCloseEditCategory = () => {
+        setOpenEditCategory(false)
+        setSelectedIdCategory(undefined)
+    };
+
+    const handleSubmitEdit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+        setErrorAvatar("")
+
+        if (!inputRef.current?.files?.length) {
+            setErrorAvatar('Please choose a representative photo');
+            return;
+        }
+        const image = await uploadBase64ToImgBB(avatarUrl);
+        try {
+            const res = await putCategoriesById(selectIdCategory!, { name, image })
+            if (res.data.name === name) {
+                handleCloseEditCategory()
+                getApiCategories()
+                setAvatarUrl("")
+                setName("")
+            } else {
+                setError("Register false")
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError("Register false")
+        }
+    }
+
     return (
         <>
             <main className="min-h-[77.5vh] p-5 flex flex-col">
@@ -206,9 +392,122 @@ const CategoriesAdmin: React.FC = () => {
                         </div>
                         <div className="ml-auto flex gap-2">
                             <button className="h-[40px] px-4 bg-orange-700 text-white shadow-lg rounded-[10px]"
+                                onClick={handleOpenAddCategory}
                             >
                                 Add Category
                             </button>
+                            <Modal
+                                open={openAddCategory}
+                                onClose={handleCloseAddCategory}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 w-1/3 bg-white shadow-lg rounded-[10px] p-5 ">
+                                    <h3 className="text-orange-700 text-3xl text-center">Add Category</h3>
+                                    <div className="w-full h-[2px] bg-gray-300"></div>
+                                    {error && (
+                                        <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
+                                            {/* <span>{icons.iconError}</span> */}
+                                            <p className="text-center ">
+                                                {error} !
+                                            </p>
+                                        </div>
+                                    )}
+                                    <form className="space-y-4" onSubmit={handleSubmitAdd}>
+                                        {/* Name Field */}
+                                        <div className="justify-self-center mx-auto flex flex-col gap-3">
+                                            <Stack direction="row" spacing={2}>
+                                                <StyledBadge
+                                                    overlap="circular"
+                                                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                                    variant="dot"
+                                                >
+                                                    <Box
+                                                        sx={sxBox}
+                                                        onClick={handleClickImage}
+                                                    >
+                                                        <Avatar
+                                                            src={avatarUrl}
+                                                            alt="avatar"
+                                                            sx={sxAvata}
+                                                        />
+                                                        <Box
+                                                            className="overlay"
+                                                            sx={sxBoxHover}
+                                                        >
+                                                            <IconButton sx={sxIconButton}>
+                                                                {icons.iconCamera}
+                                                            </IconButton>
+                                                        </Box>
+                                                        <input
+                                                            alt="avata"
+                                                            type="file"
+                                                            accept="image/*"
+                                                            ref={inputRef}
+                                                            name="avatar"
+                                                            className="hidden"
+                                                            onChange={handleFileChange}
+                                                        />
+                                                    </Box>
+                                                </StyledBadge >
+                                            </Stack>
+                                            <div className="w-full pt-[10px]">
+                                                <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload avatar</label>
+                                                <input
+                                                    id="avataInput"
+                                                    alt="avata"
+                                                    type="file"
+                                                    name="avatar"
+                                                    accept="image/*"
+                                                    ref={inputRef}
+                                                    className="hidden"
+                                                    onChange={handleFileChange}
+                                                // required
+                                                />
+                                            </div>
+                                        </div>
+                                        {errorAvatar &&
+                                            <p className="text-sm text-orange-700">
+                                                {errorAvatar} !
+                                            </p>
+                                        }
+
+                                        <div className="flex flex-col gap-1">
+                                            <label htmlFor="name" className="block text-xl font-medium text-gray-700">
+                                                Full Name
+                                            </label>
+                                            <TextField
+                                                type="text"
+                                                required
+                                                autoComplete="name"
+                                                placeholder="Your full name"
+                                                name="name"
+                                                slotProps={{
+                                                    input: {
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                {icons.iconUser}
+                                                            </InputAdornment>
+                                                        ),
+                                                    },
+                                                }}
+                                                value={name}
+                                                variant="outlined"
+                                                sx={sxTextField}
+                                                onChange={(e) => setName(e.target.value)}
+                                            />
+                                        </div>
+                                        <div>
+                                            <button
+                                                type="submit"
+                                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-[10px] shadow-sm text-lg font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-200"
+                                            >
+                                                add
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </Modal>
                             <button
                                 onClick={handleExport}
                                 className="h-[40px] px-4 text-orange-700 border-[1px] shadow-lg border-orange-700 rounded-[10px]">
@@ -257,7 +556,8 @@ const CategoriesAdmin: React.FC = () => {
                                     <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>
                                         <div className=" flex justify-center gap-2 p-2">
                                             <button onClick={() => {
-                                                handleEditCategory(row.id)
+                                                handleOpenEditCategory(row.id)
+
                                             }}
                                                 className="px-2 py-2 bg-blue-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-blue-600 hover:shadow-xl"
                                             >
@@ -276,6 +576,119 @@ const CategoriesAdmin: React.FC = () => {
                             ))}
                         </CTableBody>
                     </CTable>
+
+                    <Modal
+                        open={openEditCategory}
+                        onClose={handleCloseEditCategory}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 w-1/3 bg-white shadow-lg rounded-[10px] p-5 ">
+                            <h3 className="text-orange-700 text-3xl text-center">Edit Category</h3>
+                            <div className="w-full h-[2px] bg-gray-300"></div>
+                            {error && (
+                                <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
+                                    {/* <span>{icons.iconError}</span> */}
+                                    <p className="text-center ">
+                                        {error} !
+                                    </p>
+                                </div>
+                            )}
+                            <form className="space-y-4" onSubmit={handleSubmitEdit}>
+                                {/* Name Field */}
+                                <div className="justify-self-center mx-auto flex flex-col gap-3">
+                                    <Stack direction="row" spacing={2}>
+                                        <StyledBadge
+                                            overlap="circular"
+                                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                            variant="dot"
+                                        >
+                                            <Box
+                                                sx={sxBox}
+                                                onClick={handleClickImage}
+                                            >
+                                                <Avatar
+                                                    src={avatarUrl}
+                                                    alt="avatar"
+                                                    sx={sxAvata}
+                                                />
+                                                <Box
+                                                    className="overlay"
+                                                    sx={sxBoxHover}
+                                                >
+                                                    <IconButton sx={sxIconButton}>
+                                                        {icons.iconCamera}
+                                                    </IconButton>
+                                                </Box>
+                                                <input
+                                                    alt="avata"
+                                                    type="file"
+                                                    accept="image/*"
+                                                    ref={inputRef}
+                                                    name="avatar"
+                                                    className="hidden"
+                                                    onChange={handleFileChange}
+                                                />
+                                            </Box>
+                                        </StyledBadge >
+                                    </Stack>
+                                    <div className="w-full pt-[10px]">
+                                        <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload avatar</label>
+                                        <input
+                                            id="avataInput"
+                                            alt="avata"
+                                            type="file"
+                                            name="avatar"
+                                            accept="image/*"
+                                            ref={inputRef}
+                                            className="hidden"
+                                            onChange={handleFileChange}
+                                        // required
+                                        />
+                                    </div>
+                                </div>
+                                {errorAvatar &&
+                                    <p className="text-sm text-orange-700">
+                                        {errorAvatar} !
+                                    </p>
+                                }
+
+                                <div className="flex flex-col gap-1">
+                                    <label htmlFor="name" className="block text-xl font-medium text-gray-700">
+                                        Full Name
+                                    </label>
+                                    <TextField
+                                        type="text"
+                                        required
+                                        autoComplete="name"
+                                        placeholder="Your full name"
+                                        name="name"
+                                        slotProps={{
+                                            input: {
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        {icons.iconUser}
+                                                    </InputAdornment>
+                                                ),
+                                            },
+                                        }}
+                                        value={name}
+                                        variant="outlined"
+                                        sx={sxTextField}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <button
+                                        type="submit"
+                                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-[10px] shadow-sm text-lg font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-200"
+                                    >
+                                        Edit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </Modal>
                     <div className="flex justify-between items-center">
                         <div className='items-center'>
                             {totalItem === 0 && (<p>No items displayed</p>)}
