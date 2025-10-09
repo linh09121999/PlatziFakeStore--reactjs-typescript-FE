@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useGlobal } from '../../context/GlobalContext';
 import type { Category } from "../../context/GlobalContext";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 import {
-    getCategories,
+    getCategories, deleteCategoriesById, putCategoriesById, postCategories
 } from "../../services/userService"
 import type { SxProps, Theme } from "@mui/material/styles";
 
@@ -124,6 +126,45 @@ const CategoriesAdmin: React.FC = () => {
         }
     };
 
+    const deleteApiCategoryBy = async (id: number) => {
+        try {
+            const res = await deleteCategoriesById(id)
+            if (res.data === true) {
+                toast.success("Delete success")
+            }
+        } catch (error) {
+            console.error("Lỗi khi gọi API deleteCategoriesById", error)
+            toast.error("Lỗi khi gọi API deleteCategoriesById")
+        }
+    }
+
+    const handleEditCategory = (id: number) => {
+
+    }
+
+    const handleDeleteCategory = (id: number) => {
+        deleteApiCategoryBy(id)
+        getApiCategories()
+    }
+
+    const handleExport = () => {
+        if (!resCategoriesAdmin || resCategoriesAdmin.length === 0) {
+            toast.error("There is no data to export to Excel!");
+            return;
+        }
+
+        const ws = XLSX.utils.json_to_sheet(resCategoriesAdmin);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Categories");
+
+        const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+        const file = new Blob([excelBuffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        saveAs(file, `resCategory_${new Date().toISOString().slice(0, 10)}.xlsx`);
+    }
+
     useEffect(() => {
         if (resCategoriesAdmin && resCategoriesAdmin.length > 0) {
             const total = resCategoriesAdmin.length;
@@ -164,10 +205,13 @@ const CategoriesAdmin: React.FC = () => {
                             categories
                         </div>
                         <div className="ml-auto flex gap-2">
-                            <button className="h-[40px] px-4 bg-orange-700 text-white shadow-lg rounded-[10px]">
+                            <button className="h-[40px] px-4 bg-orange-700 text-white shadow-lg rounded-[10px]"
+                            >
                                 Add Category
                             </button>
-                            <button className="h-[40px] px-4 text-orange-700 border-[1px] shadow-lg border-orange-700 rounded-[10px]">
+                            <button
+                                onClick={handleExport}
+                                className="h-[40px] px-4 text-orange-700 border-[1px] shadow-lg border-orange-700 rounded-[10px]">
                                 Export
                             </button>
                         </div>
@@ -212,12 +256,16 @@ const CategoriesAdmin: React.FC = () => {
 
                                     <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>
                                         <div className=" flex justify-center gap-2 p-2">
-                                            <button
+                                            <button onClick={() => {
+                                                handleEditCategory(row.id)
+                                            }}
                                                 className="px-2 py-2 bg-blue-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-blue-600 hover:shadow-xl"
                                             >
                                                 {icons.iconEditUser}
                                             </button>
-                                            <button 
+                                            <button onClick={() => {
+                                                handleDeleteCategory(row.id)
+                                            }}
                                                 className="px-2 py-2 bg-red-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-red-600 hover:shadow-xl"
                                             >
                                                 {icons.iconDelete}
