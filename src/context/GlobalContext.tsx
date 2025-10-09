@@ -12,9 +12,11 @@ import {
     FaDollarSign,
     FaLock,
     FaCamera,
-    FaUserEdit
+    FaUserEdit,
+    FaEdit,
+    FaFileExcel
 } from "react-icons/fa";
-import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
+import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong, FaSackDollar } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
 import { BsTrash3Fill } from "react-icons/bs";
 import { BiSolidPackage, BiSolidCategoryAlt } from "react-icons/bi";
@@ -25,9 +27,10 @@ import {
     MdNavigateNext,
     MdHorizontalRule,
     MdError,
-    MdDashboard
+    MdDashboard,
+    MdPersonAddAlt1
 } from "react-icons/md";
-import { IoMdSearch, IoMdMail } from "react-icons/io";
+import { IoMdSearch, IoMdMail, IoMdAdd } from "react-icons/io";
 import { RiAddFill, RiUserSettingsFill } from "react-icons/ri";
 
 import imgBanner1 from "../assets/img/banner.png"
@@ -80,6 +83,12 @@ export interface Icons {
     iconCamera: JSX.Element;
     iconLogout: JSX.Element;
     iconEditUser: JSX.Element;
+    iconCartAdmin: JSX.Element;
+    iconEdit: JSX.Element;
+    iconAdd: JSX.Element;
+    iconAddUser: JSX.Element;
+    iconRevenue: JSX.Element;
+    iconExcel: JSX.Element
 }
 
 const defaultIcons: Icons = {
@@ -98,6 +107,7 @@ const defaultIcons: Icons = {
     iconSetting: <RiUserSettingsFill />,
     iconSearch: <IoMdSearch className="mx-auto" />,
     iconCart: <FaCartShopping />,
+    iconCartAdmin: <FaCartShopping className="mx-auto" />,
     iconSortUp: <FaArrowUpLong />,
     iconSortDown: <FaArrowDownLong />,
     iconDollar: <FaDollarSign />,
@@ -109,7 +119,12 @@ const defaultIcons: Icons = {
     iconError: <MdError />,
     iconCamera: <FaCamera />,
     iconLogout: <IoLogOut />,
-    iconEditUser: <FaUserEdit />
+    iconEditUser: <FaUserEdit />,
+    iconEdit: <FaEdit />,
+    iconAdd: <IoMdAdd />,
+    iconAddUser: <MdPersonAddAlt1 />,
+    iconRevenue: <FaSackDollar className="mx-auto" />,
+    iconExcel: <FaFileExcel />
 }
 
 export interface Category {

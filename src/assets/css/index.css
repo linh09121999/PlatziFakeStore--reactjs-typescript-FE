@@ -84,3 +84,7 @@
     background: rgb(255, 255, 255, 0.7);
     /* hover đậm hơn */
 }
+
+.table-body-row-mucluc:nth-of-type(even) {
+    background-color: var(--color-orange-100) !important;
+}
