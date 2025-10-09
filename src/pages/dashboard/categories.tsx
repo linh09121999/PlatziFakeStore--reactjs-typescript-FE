@@ -699,7 +699,7 @@ const CategoriesAdmin: React.FC = () => {
                             className="h-[40px] px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
                             disabled={currentPage === 1 || disabledCheck}
                         >
-                            Trang trước
+                            Previous
                         </button>
 
                         <span className="text-page font-medium">
@@ -711,7 +711,7 @@ const CategoriesAdmin: React.FC = () => {
                             className="h-[40px] px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
                             disabled={currentPage === totalPages || disabledCheck}
                         >
-                            Trang sau
+                            Next
                         </button>
                     </div>
                 </div>

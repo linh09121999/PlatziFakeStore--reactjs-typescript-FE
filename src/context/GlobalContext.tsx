@@ -119,12 +119,12 @@ const defaultIcons: Icons = {
     iconError: <MdError />,
     iconCamera: <FaCamera />,
     iconLogout: <IoLogOut />,
-    iconEditUser: <FaUserEdit />,
-    iconEdit: <FaEdit />,
-    iconAdd: <IoMdAdd />,
-    iconAddUser: <MdPersonAddAlt1 />,
+    iconEditUser: <FaUserEdit className="mx-auto"/>,
+    iconEdit: <FaEdit className="mx-auto"/>,
+    iconAdd: <IoMdAdd className="mx-auto"/>,
+    iconAddUser: <MdPersonAddAlt1 className="mx-auto"/>,
     iconRevenue: <FaSackDollar className="mx-auto" />,
-    iconExcel: <FaFileExcel />
+    iconExcel: <FaFileExcel className="mx-auto"/>
 }
 
 export interface Category {
