@@ -28,6 +28,7 @@ import {
 } from "react-icons/io5";
 import {
     MdNavigateNext,
+    MdNavigateBefore,
     MdHorizontalRule,
     MdError,
     MdDashboard,
@@ -64,6 +65,7 @@ export interface Icons {
     iconBackToTop: JSX.Element;
     iconMap: JSX.Element;
     iconNext: JSX.Element;
+    iconPrev: JSX.Element;
     iconUser: JSX.Element;
     iconCalendar: JSX.Element;
     iconUp: JSX.Element;
@@ -104,6 +106,7 @@ const defaultIcons: Icons = {
     iconBackToTop: <FaAngleDoubleUp />,
     iconMap: <FaMapMarkerAlt size={30} />,
     iconNext: <MdNavigateNext size={24} />,
+    iconPrev: <MdNavigateBefore size={24} />,
     iconUser: <FaUser />,
     iconCalendar: <FaCalendarDays />,
     iconUp: <FaChevronUp size={14} />,

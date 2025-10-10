@@ -14,8 +14,8 @@ import {
 } from "../../services/userService"
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
-    width: '200px',
-    height: '200px',
+    // width: '200px',
+    // height: '200px',
     '& .MuiBadge-badge': {
         backgroundColor: '#44b700',
         color: '#44b700',
@@ -79,8 +79,16 @@ const SettingAdmin: React.FC = () => {
     }
 
     const sxAvata: SxProps<Theme> = {
-        width: "100%",
-        height: "100%",
+        width: {
+            md: "200px",
+            sm: '180px',
+        },
+        height: {
+            md: "200px",
+            sm: '180px',
+        },
+        minWidth: '150px',
+        minHeight: '150px',
         boxShadow: 'var(--shadow-xl)',
 
     }
@@ -129,7 +137,7 @@ const SettingAdmin: React.FC = () => {
         // EDIT PROFILE resProfile
         <>
             <main className="min-h-[77.5vh] p-5 flex flex-col">
-                <div className="grid grid-cols-[1fr_5fr] gap-10">
+                <div className="grid lg:grid-cols-[1fr_5fr] gap-10">
                     <div className="flex flex-col gap-5 mx-auto">
                         <Stack direction="row" spacing={2}>
                             <StyledBadge
@@ -145,10 +153,10 @@ const SettingAdmin: React.FC = () => {
                             </StyledBadge >
                         </Stack>
                         <p className="text-center text-3xl font-700">{name}</p>
-                        <div className="bg-orange-700/20 py-2 rounded-full text-orange-700 text-lg border-[1px] border-orange-700/30 shadow-lg text-center ">{resProfile?.role}</div>
+                        <div className="bg-orange-700/20 md:py-2 py-1 rounded-full text-orange-700 text-lg border-[1px] border-orange-700/30 shadow-lg text-center ">{resProfile?.role}</div>
                     </div>
-                    <form className="flex flex-col gap-5 mx-5" onSubmit={handleSubmit}>
-                        <div className="grid grid-cols-2 gap-5">
+                    <form className="flex flex-col gap-5 lg:mx-5" onSubmit={handleSubmit}>
+                        <div className="grid md:grid-cols-2 gap-5">
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="name" className="block text-xl font-medium text-gray-700">
                                     Name
@@ -306,7 +314,7 @@ const SettingAdmin: React.FC = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="w-[200px] mr-auto flex justify-center py-2 px-4 border border-transparent rounded-[10px] shadow-sm text-lg font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-200"
+                                className="w-[200px] lg:mr-auto md:mx-auto max-md:w-full flex justify-center py-2 px-4 border border-transparent rounded-[10px] shadow-sm text-lg font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-200"
                             >
                                 Edit
                             </button>

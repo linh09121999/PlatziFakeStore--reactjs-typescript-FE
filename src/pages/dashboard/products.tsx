@@ -14,7 +14,7 @@ import type { SxProps, Theme } from "@mui/material/styles";
 import {
     Modal,
     InputAdornment,
-    MenuItem, Select,TextField, type SelectChangeEvent
+    MenuItem, Select, TextField, type SelectChangeEvent
 } from '@mui/material';
 
 
@@ -127,7 +127,8 @@ const ProductsAdmin: React.FC = () => {
 
     const { icons, setResProductAdmin,
         resProductAdmin,
-        imgs, setSelectPage, setResCategoriesAdmin, resCategoriesAdmin
+        imgs, setSelectPage, setResCategoriesAdmin, resCategoriesAdmin,
+        isMobile
     } = useGlobal()
 
     const [pageSize, setPageSize] = useState<number>(10)
@@ -420,7 +421,7 @@ const ProductsAdmin: React.FC = () => {
                         <button className="h-[40px] px-4 bg-orange-700 text-white shadow-lg rounded-[10px]"
                             onClick={handleOpenAddProduct}
                         >
-                            Add Product
+                            {isMobile ? icons.iconAdd : 'Add Product'}
                         </button>
                         <Modal
                             open={openAddProduct}
@@ -428,7 +429,7 @@ const ProductsAdmin: React.FC = () => {
                             aria-labelledby="modal-modal-title"
                             aria-describedby="modal-modal-description"
                         >
-                            <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 w-1/3 bg-white shadow-lg rounded-[10px] p-5 ">
+                            <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 sm:w-[400px] w-[320px] bg-white shadow-lg rounded-[10px] p-5 ">
                                 <h3 className="text-orange-700 text-3xl text-center">Add Product</h3>
                                 <div className="w-full h-[2px] bg-gray-300"></div>
                                 {error && (
@@ -589,89 +590,91 @@ const ProductsAdmin: React.FC = () => {
                         <button
                             onClick={handleExport}
                             className="h-[40px] px-4 text-orange-700 border-[1px] shadow-lg border-orange-700 rounded-[10px]">
-                            Export
+                            {isMobile ? icons.iconExcel : 'Export'}
                         </button>
                     </div>
 
                 </div>
-                <div className="flex flex-col gap-5">
-                    <CTable bordered hover align="middle" responsive className="w-full border border-gray-300 " style={{ tableLayout: 'fixed' }}>
-                        <CTableHead color="light">
-                            <CTableRow>
-                                <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[50px]">ID</CTableHeaderCell>
-                                <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[180px]">Title</CTableHeaderCell>
-                                <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[70px]">Price</CTableHeaderCell>
-                                <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 min-w-[120px]">Description</CTableHeaderCell>
-                                <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[120px]">Category</CTableHeaderCell>
-                                <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[70px]">Image</CTableHeaderCell>
-                                <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[100px]">Creation At</CTableHeaderCell>
-                                <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[100px]">Update At</CTableHeaderCell>
-                                <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[100px]">Action</CTableHeaderCell>
-                            </CTableRow>
-                        </CTableHead>
-                        <CTableBody>
-                            {resProductAdmin.map((row, index) => (
-                                <CTableRow className="table-body-row-mucluc" key={row.id || index}
-                                    onClick={() => {
-                                        setSelectedRow(index);
-                                    }} onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            e.preventDefault(); // Ngăn xuống dòng nếu cần
-                                            setSelectedRow(null); // Thoát khỏi select
-                                        }
-                                    }}
-                                    style={{
-                                        border: index === selectedRow ? '2px dashed rgb(92, 0, 0)' : '',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.id}</CTableDataCell>
-                                    <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.title}</CTableDataCell>
-                                    <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>$ {row.price}</CTableDataCell>
-                                    <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.description}</CTableDataCell>
-                                    <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.category.name}</CTableDataCell>
-                                    <CTableDataCell className='p-3 border-[1px] border-gray-200 w-fit'>
-                                        <div className="grid gap-2 justify-center w-fit">
-                                            {row.images.map((image, id) => (
-                                                <img key={id} src={image} onError={handleImgError} className="w-12 h-12 object-cover rounded" alt={`category ${row.id}`} />
-                                            ))}
-                                        </div>
-                                    </CTableDataCell>
-                                    <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{convertDateToVn(row.creationAt)}</CTableDataCell>
-                                    <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'> {convertDateToVn(row.updatedAt)}
-                                    </CTableDataCell>
-
-                                    <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>
-                                        <div className=" flex justify-center gap-2 p-2">
-                                            <button
-                                                onClick={() => {
-                                                    handleOpenEditProduct(row.id)
-                                                }}
-                                                className="px-2 py-2 bg-blue-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-blue-600 hover:shadow-xl"
-                                            >
-                                                {icons.iconEdit}
-                                            </button>
-                                            <button
-                                                onClick={() => {
-                                                    handleDeleteProduct(row.id)
-                                                }}
-                                                className="px-2 py-2 bg-red-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-red-600 hover:shadow-xl"
-                                            >
-                                                {icons.iconDelete}
-                                            </button>
-                                        </div>
-                                    </CTableDataCell>
+                <div className="grid">
+                    <div className="w-full overflow-x-auto scroll-x">
+                        <CTable bordered hover align="middle" responsive className="w-full border border-gray-300 " style={{ tableLayout: 'fixed' }}>
+                            <CTableHead color="light">
+                                <CTableRow>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[50px]">ID</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[180px] max-lg:w-[120px]">Title</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[70px]">Price</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 max-lg:w-[200px]">Description</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[110px]">Category</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[70px]">Image</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[110px]">Creation At</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[110px]">Update At</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[100px] max-lg:w-[70px]">Action</CTableHeaderCell>
                                 </CTableRow>
-                            ))}
-                        </CTableBody>
-                    </CTable>
+                            </CTableHead>
+                            <CTableBody>
+                                {resProductAdmin.map((row, index) => (
+                                    <CTableRow className="table-body-row-mucluc" key={row.id || index}
+                                        onClick={() => {
+                                            setSelectedRow(index);
+                                        }} onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault(); // Ngăn xuống dòng nếu cần
+                                                setSelectedRow(null); // Thoát khỏi select
+                                            }
+                                        }}
+                                        style={{
+                                            border: index === selectedRow ? '2px dashed rgb(92, 0, 0)' : '',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.id}</CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.title}</CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>$ {row.price}</CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200 text-justify'>{row.description}</CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.category.name}</CTableDataCell>
+                                        <CTableDataCell className='p-3 border-[1px] border-gray-200 w-fit'>
+                                            <div className="grid gap-2 justify-center w-fit">
+                                                {row.images.map((image, id) => (
+                                                    <img key={id} src={image} onError={handleImgError} className="w-12 h-12 object-cover rounded" alt={`category ${row.id}`} />
+                                                ))}
+                                            </div>
+                                        </CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{convertDateToVn(row.creationAt)}</CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'> {convertDateToVn(row.updatedAt)}
+                                        </CTableDataCell>
+
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>
+                                            <div className=" flex justify-center max-lg:grid gap-2 p-2">
+                                                <button
+                                                    onClick={() => {
+                                                        handleOpenEditProduct(row.id)
+                                                    }}
+                                                    className="px-2 py-2 bg-blue-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-blue-600 hover:shadow-xl"
+                                                >
+                                                    {icons.iconEdit}
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        handleDeleteProduct(row.id)
+                                                    }}
+                                                    className="px-2 py-2 bg-red-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-red-600 hover:shadow-xl"
+                                                >
+                                                    {icons.iconDelete}
+                                                </button>
+                                            </div>
+                                        </CTableDataCell>
+                                    </CTableRow>
+                                ))}
+                            </CTableBody>
+                        </CTable>
+                    </div>
                     <Modal
                         open={openEditProduct}
                         onClose={handleCloseEditProduct}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
-                        <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 w-1/3 bg-white shadow-lg rounded-[10px] p-5 ">
+                        <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 sm:w-[400px] w-[320px] bg-white shadow-lg rounded-[10px] p-5 ">
                             <h3 className="text-orange-700 text-3xl text-center">Edit Product</h3>
                             <div className="w-full h-[2px] bg-gray-300"></div>
                             {error && (
@@ -747,7 +750,7 @@ const ProductsAdmin: React.FC = () => {
                         </div>
                     </Modal>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between max-sm:grid gap-2 max-sm:justify-center items-center">
                     <div className='items-center'>
                         {totalItem === 0 && (<p>No items displayed</p>)}
                         {totalItem > pageSize * currentPage && (
@@ -757,13 +760,13 @@ const ProductsAdmin: React.FC = () => {
                             <p>Showing {(currentPage - 1) * pageSize + 1} to {totalItem} of {totalItem} categories</p>
                         )}
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 max-sm:justify-center">
                         <button
                             onClick={handlePreviousPage}
-                            className="h-[40px] px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
+                            className="h-[40px] px-2 md:p-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
                             disabled={currentPage === 1 || disabledCheck}
                         >
-                            Previous
+                            {isMobile ? icons.iconPrev : 'Previous'}
                         </button>
 
                         <span className="text-page font-medium">
@@ -772,10 +775,10 @@ const ProductsAdmin: React.FC = () => {
 
                         <button
                             onClick={handleNextPage}
-                            className="h-[40px] px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
+                            className="h-[40px] px-2 md:p-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
                             disabled={currentPage === totalPages || disabledCheck}
                         >
-                            Next
+                            {isMobile ? icons.iconNext : 'Next'}
                         </button>
                     </div>
                 </div>

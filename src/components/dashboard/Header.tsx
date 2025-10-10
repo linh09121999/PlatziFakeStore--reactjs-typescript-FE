@@ -217,6 +217,7 @@ const HeaderAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                                             onClick={() => {
                                                 setSelectPage(page.title)
                                                 navigate(page.path)
+                                                setOpenDrawer(false)
                                             }}
                                             sx={sxListItemDrawer}
                                         >
@@ -235,6 +236,7 @@ const HeaderAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                                         onClick={() => {
                                             setSelectPage("Setting")
                                             navigate("/admin/setting")
+                                            setOpenDrawer(false)
                                         }}
                                         sx={sxListItemDrawer}
                                     >

@@ -158,7 +158,7 @@ const CategoriesAdmin: React.FC = () => {
     const { icons,
         resCategoriesAdmin,
         setResCategoriesAdmin,
-        imgs, setSelectPage
+        imgs, setSelectPage, isMobile
     } = useGlobal()
 
     const getApiCategories = async () => {
@@ -190,7 +190,7 @@ const CategoriesAdmin: React.FC = () => {
 
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
-    const disabledCheck =false ;
+    const disabledCheck = false;
     const [pageSize, setPageSize] = useState<number>(10)
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
@@ -389,7 +389,7 @@ const CategoriesAdmin: React.FC = () => {
                         <button className="h-[40px] px-4 bg-orange-700 text-white shadow-lg rounded-[10px]"
                             onClick={handleOpenAddCategory}
                         >
-                            Add Category
+                            {isMobile ? icons.iconAdd : 'Add Category'}
                         </button>
                         <Modal
                             open={openAddCategory}
@@ -397,7 +397,7 @@ const CategoriesAdmin: React.FC = () => {
                             aria-labelledby="modal-modal-title"
                             aria-describedby="modal-modal-description"
                         >
-                            <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 w-1/3 bg-white shadow-lg rounded-[10px] p-5 ">
+                            <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 sm:w-[400px] w-[320px] bg-white shadow-lg rounded-[10px] p-5 ">
                                 <h3 className="text-orange-700 text-3xl text-center">Add Category</h3>
                                 <div className="w-full h-[2px] bg-gray-300"></div>
                                 {error && (
@@ -506,78 +506,81 @@ const CategoriesAdmin: React.FC = () => {
                         <button
                             onClick={handleExport}
                             className="h-[40px] px-4 text-orange-700 border-[1px] shadow-lg border-orange-700 rounded-[10px]">
-                            Export
+                            {isMobile ? icons.iconExcel : 'Export'}
                         </button>
                     </div>
                 </div>
-                <CTable bordered hover align="middle" responsive className="w-full border border-gray-300 " style={{ tableLayout: 'fixed' }}>
-                    <CTableHead color="light">
-                        <CTableRow>
-                            <CTableHeaderCell className="w-[50px] text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200">ID</CTableHeaderCell>
-                            <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200">Name</CTableHeaderCell>
-                            <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200">Image</CTableHeaderCell>
-                            <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200">Creation At</CTableHeaderCell>
-                            <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200">Update At</CTableHeaderCell>
-                            <CTableHeaderCell className="w-[100px] text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200">Action</CTableHeaderCell>
-                        </CTableRow>
-                    </CTableHead>
-                    <CTableBody>
-                        {displayedCategory.map((row, index) => (
-                            <CTableRow className="table-body-row-mucluc" key={row.id || index}
-                                onClick={() => {
-                                    setSelectedRow(index);
-                                }} onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault(); // Ngăn xuống dòng nếu cần
-                                        setSelectedRow(null); // Thoát khỏi select
-                                    }
-                                }}
-                                style={{
-                                    border: index === selectedRow ? '2px dashed rgb(92, 0, 0)' : '',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.id}</CTableDataCell>
-                                <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.name}
-                                </CTableDataCell>
-                                <CTableDataCell className='p-3 border-[1px] border-gray-200'>
-                                    <img src={row.image} onError={handleImgError} className="w-12 h-12 object-cover rounded mx-auto" alt={`category ${row.id}`} />
-                                </CTableDataCell>
-                                <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{convertDateToVn(row.creationAt)}</CTableDataCell>
-                                <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'> {convertDateToVn(row.updatedAt)}
-                                </CTableDataCell>
-
-                                <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>
-                                    <div className=" flex justify-center gap-2 p-2">
-                                        <button onClick={() => {
-                                            handleOpenEditCategory(row.id)
-
+                <div className="grid">
+                    <div className="w-full overflow-x-auto scroll-x">
+                        <CTable bordered hover align="middle" responsive className="w-full border border-gray-300 " style={{ tableLayout: 'fixed' }}>
+                            <CTableHead color="light">
+                                <CTableRow>
+                                    <CTableHeaderCell className="w-[50px] text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200">ID</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 max-md:w-[130px]">Name</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[70px]">Image</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[110px]">Creation At</CTableHeaderCell>
+                                    <CTableHeaderCell className="text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200 w-[110px]">Update At</CTableHeaderCell>
+                                    <CTableHeaderCell className="w-[100px] text-center bg-orange-200 p-3 text-orange-700 border-[1px] border-gray-200">Action</CTableHeaderCell>
+                                </CTableRow>
+                            </CTableHead>
+                            <CTableBody>
+                                {displayedCategory.map((row, index) => (
+                                    <CTableRow className="table-body-row-mucluc" key={row.id || index}
+                                        onClick={() => {
+                                            setSelectedRow(index);
+                                        }} onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault(); // Ngăn xuống dòng nếu cần
+                                                setSelectedRow(null); // Thoát khỏi select
+                                            }
                                         }}
-                                            className="px-2 py-2 bg-blue-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-blue-600 hover:shadow-xl"
-                                        >
-                                            {icons.iconEdit}
-                                        </button>
-                                        <button onClick={() => {
-                                            handleDeleteCategory(row.id)
+                                        style={{
+                                            border: index === selectedRow ? '2px dashed rgb(92, 0, 0)' : '',
+                                            cursor: 'pointer'
                                         }}
-                                            className="px-2 py-2 bg-red-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-red-600 hover:shadow-xl"
-                                        >
-                                            {icons.iconDelete}
-                                        </button>
-                                    </div>
-                                </CTableDataCell>
-                            </CTableRow>
-                        ))}
-                    </CTableBody>
-                </CTable>
+                                    >
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.id}</CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.name}
+                                        </CTableDataCell>
+                                        <CTableDataCell className='p-3 border-[1px] border-gray-200'>
+                                            <img src={row.image} onError={handleImgError} className="w-12 h-12 object-cover rounded mx-auto" alt={`category ${row.id}`} />
+                                        </CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{convertDateToVn(row.creationAt)}</CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'> {convertDateToVn(row.updatedAt)}
+                                        </CTableDataCell>
 
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>
+                                            <div className=" flex justify-center gap-2 p-2">
+                                                <button onClick={() => {
+                                                    handleOpenEditCategory(row.id)
+
+                                                }}
+                                                    className="px-2 py-2 bg-blue-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-blue-600 hover:shadow-xl"
+                                                >
+                                                    {icons.iconEdit}
+                                                </button>
+                                                <button onClick={() => {
+                                                    handleDeleteCategory(row.id)
+                                                }}
+                                                    className="px-2 py-2 bg-red-500 text-white shadow-lg transition-all duration-300 ease rounded-[5px] hover:bg-red-600 hover:shadow-xl"
+                                                >
+                                                    {icons.iconDelete}
+                                                </button>
+                                            </div>
+                                        </CTableDataCell>
+                                    </CTableRow>
+                                ))}
+                            </CTableBody>
+                        </CTable>
+                    </div>
+                </div>
                 <Modal
                     open={openEditCategory}
                     onClose={handleCloseEditCategory}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 w-1/3 bg-white shadow-lg rounded-[10px] p-5 ">
+                    <div className="absolute top-1/2 left-1/2 flex flex-col gap-4 -translate-x-1/2 -translate-y-1/2 sm:w-[400px] w-[320px] bg-white shadow-lg rounded-[10px] p-5 ">
                         <h3 className="text-orange-700 text-3xl text-center">Edit Category</h3>
                         <div className="w-full h-[2px] bg-gray-300"></div>
                         {error && (
@@ -683,7 +686,7 @@ const CategoriesAdmin: React.FC = () => {
                         </form>
                     </div>
                 </Modal>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center max-sm:grid gap-2 max-sm:justify-center">
                     <div className='items-center'>
                         {totalItem === 0 && (<p>No items displayed</p>)}
                         {totalItem > pageSize * currentPage && (
@@ -693,13 +696,13 @@ const CategoriesAdmin: React.FC = () => {
                             <p>Showing {(currentPage - 1) * pageSize + 1} to {totalItem} of {totalItem} categories</p>
                         )}
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 max-sm:justify-center">
                         <button
                             onClick={handlePreviousPage}
-                            className="h-[40px] px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
+                            className="h-[40px] p-2 md:px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
                             disabled={currentPage === 1 || disabledCheck}
                         >
-                            Previous
+                            {isMobile ? icons.iconPrev : 'Previous'}
                         </button>
 
                         <span className="text-page font-medium">
@@ -708,10 +711,10 @@ const CategoriesAdmin: React.FC = () => {
 
                         <button
                             onClick={handleNextPage}
-                            className="h-[40px] px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
+                            className="h-[40px] p-2 md:px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
                             disabled={currentPage === totalPages || disabledCheck}
                         >
-                            Next
+                            {isMobile ? icons.iconNext : 'Next'}
                         </button>
                     </div>
                 </div>
