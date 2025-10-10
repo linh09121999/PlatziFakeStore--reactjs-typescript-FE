@@ -14,6 +14,7 @@ import {
     FaCamera,
     FaUserEdit,
     FaEdit,
+    FaTag,
     FaFileExcel
 } from "react-icons/fa";
 import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong, FaSackDollar } from "react-icons/fa6";
@@ -88,7 +89,8 @@ export interface Icons {
     iconAdd: JSX.Element;
     iconAddUser: JSX.Element;
     iconRevenue: JSX.Element;
-    iconExcel: JSX.Element
+    iconExcel: JSX.Element;
+    iconTag: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -119,12 +121,13 @@ const defaultIcons: Icons = {
     iconError: <MdError />,
     iconCamera: <FaCamera />,
     iconLogout: <IoLogOut />,
-    iconEditUser: <FaUserEdit className="mx-auto"/>,
-    iconEdit: <FaEdit className="mx-auto"/>,
-    iconAdd: <IoMdAdd className="mx-auto"/>,
-    iconAddUser: <MdPersonAddAlt1 className="mx-auto"/>,
+    iconEditUser: <FaUserEdit className="mx-auto" />,
+    iconEdit: <FaEdit className="mx-auto" />,
+    iconAdd: <IoMdAdd className="mx-auto" />,
+    iconAddUser: <MdPersonAddAlt1 className="mx-auto" />,
     iconRevenue: <FaSackDollar className="mx-auto" />,
-    iconExcel: <FaFileExcel className="mx-auto"/>
+    iconExcel: <FaFileExcel className="mx-auto" />,
+    iconTag: <FaTag />
 }
 
 export interface Category {

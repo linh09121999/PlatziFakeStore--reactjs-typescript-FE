@@ -40,7 +40,7 @@
     }
 }
 
-.css-next:hover span{
+.css-next:hover span {
     animation: next-1 0.6s ease-in-out infinite alternate;
 }
 
@@ -87,4 +87,21 @@
 
 .table-body-row-mucluc:nth-of-type(even) {
     background-color: var(--color-orange-100) !important;
+}
+
+.div-upload-file:hover svg {
+    animation: uploading 0.8s infinite ease-in-out;
+
+}
+
+@keyframes uploading {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
 }

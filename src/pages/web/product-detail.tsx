@@ -187,6 +187,7 @@ const ProductDetail: React.FC = () => {
                                 <div className="flex">
                                     <button onClick={handleDecrease} className="text-xl rounded-[10px_0_0_10px] border-[1px] border-orange-700 px-4 py-2">{icons.iconDecrease}</button>
                                     <TextField
+                                        type="number"
                                         value={quantity}
                                         variant="outlined"
                                         sx={sxTextField}

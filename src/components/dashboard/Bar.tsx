@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobal } from '../../context/GlobalContext';
 import type { propsLogOut } from '../../context/GlobalContext';
@@ -37,7 +37,7 @@ const BarAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                             <div className='w-full h-[2px] bg-gray-300'></div>
                             <ul className='flex flex-col gap-4'>
                                 <li>
-                                    <button className={`${selectPage === "Setting" ? "bg-orange-700 text-white" : ""} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer`}
+                                    <button className={`${selectPage === "Setting" ? "bg-orange-700 text-white" : "text-black/70"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer`}
                                         onClick={() => {
                                             setSelectPage("Setting")
                                             navigate("/admin/setting")
@@ -49,7 +49,7 @@ const BarAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                                 </li>
                                 <li>
                                     <button
-                                        className={`${selectPage === "Logout" ? "bg-orange-700 text-white" : ""} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer`}
+                                        className={`${selectPage === "Logout" ? "bg-orange-700 text-white" : "text-black/70"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer`}
                                         onClick={onLogout}
                                     >
                                         <span className='text-2xl rotate-[180deg]'>{icons.iconLogout}</span>

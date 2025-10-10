@@ -158,7 +158,7 @@ const CategoriesAdmin: React.FC = () => {
     const { icons,
         resCategoriesAdmin,
         setResCategoriesAdmin,
-        imgs
+        imgs, setSelectPage
     } = useGlobal()
 
     const getApiCategories = async () => {
@@ -176,6 +176,7 @@ const CategoriesAdmin: React.FC = () => {
 
     useEffect(() => {
         getApiCategories()
+        setSelectPage("Categories")
     }, [])
 
     const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -276,7 +277,11 @@ const CategoriesAdmin: React.FC = () => {
 
 
     const [openAddCategory, setOpenAddCategory] = useState(false);
-    const handleOpenAddCategory = () => setOpenAddCategory(true);
+    const handleOpenAddCategory = () => {
+        setOpenAddCategory(true);
+        setAvatarUrl(""),
+            setName("")
+    }
     const handleCloseAddCategory = () => setOpenAddCategory(false);
     const [name, setName] = useState<string>("")
 
@@ -322,11 +327,11 @@ const CategoriesAdmin: React.FC = () => {
                 setAvatarUrl("")
                 setName("")
             } else {
-                setError("Register false")
+                setError("Add false")
             }
         } catch (error) {
             console.error('Error:', error);
-            setError("Register false")
+            setError("Add false")
         }
     }
 
@@ -362,11 +367,11 @@ const CategoriesAdmin: React.FC = () => {
                 setAvatarUrl("")
                 setName("")
             } else {
-                setError("Register false")
+                setError("Edit false")
             }
         } catch (error) {
             console.error('Error:', error);
-            setError("Register false")
+            setError("Edit false")
         }
     }
 
@@ -475,7 +480,7 @@ const CategoriesAdmin: React.FC = () => {
                                             type="text"
                                             required
                                             autoComplete="name"
-                                            placeholder="Your full name"
+                                            placeholder="Category name"
                                             name="name"
                                             slotProps={{
                                                 input: {
@@ -649,13 +654,13 @@ const CategoriesAdmin: React.FC = () => {
 
                             <div className="flex flex-col gap-1">
                                 <label htmlFor="name" className="block text-xl font-medium text-gray-700">
-                                    Full Name
+                                    Name Category
                                 </label>
                                 <TextField
                                     type="text"
                                     required
                                     autoComplete="name"
-                                    placeholder="Your full name"
+                                    placeholder="Name Category"
                                     name="name"
                                     slotProps={{
                                         input: {

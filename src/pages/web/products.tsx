@@ -637,6 +637,7 @@ const Products: React.FC = () => {
                                             <p className="text-xl border-b-[1px] border-gray-300 pb-[10px]">PRICE RANGE</p>
                                             <div className="flex justify-between gap-2 items-center ">
                                                 <TextField
+                                                    type="number"
                                                     slotProps={{
                                                         input: {
                                                             startAdornment: (
@@ -654,6 +655,7 @@ const Products: React.FC = () => {
                                                 />
                                                 <p>to</p>
                                                 <TextField
+                                                    type="number"
                                                     slotProps={{
                                                         input: {
                                                             startAdornment: (
@@ -692,6 +694,7 @@ const Products: React.FC = () => {
                             </div>
                             <div className="flex justify-between gap-2 items-center">
                                 <TextField
+                                    type="number"
                                     slotProps={{
                                         input: {
                                             startAdornment: (
@@ -709,6 +712,7 @@ const Products: React.FC = () => {
                                 />
                                 <p>to</p>
                                 <TextField
+                                    type="number"
                                     slotProps={{
                                         input: {
                                             startAdornment: (

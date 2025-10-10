@@ -27,7 +27,7 @@ export const postRefreshToken = (data: { refreshToken: string }) => {
 export const getProducts = () => api.get(`/api/v1/products`) // lấy tất cả sp
 export const getProductsById = (id: number) => api.get(`/api/v1/products/${id}`) // lấy 1 sp theo id
 export const getProductsBySlug = (slug: string) => api.get(`/api/v1/products/slug/${slug}`) //  lấy sp theo slug
-export const postProducts = (data: { title: string, price: number, description: string, categoryId: string, images: string[] }) => {
+export const postProducts = (data: { title: string, price: number, description: string, categoryId: number, images: string[] }) => {
     return api.post(`/api/v1/products`, data)
 } //thêm sp
 export const putProductById = (id: number, data: { title: string, price: number }) => {
