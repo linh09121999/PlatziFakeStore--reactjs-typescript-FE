@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobal } from '../../context/GlobalContext';
 import type { propsLogOut } from '../../context/GlobalContext';
 
 const BarAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
     const navigate = useNavigate()
-    const { imgs, sidebarOpen, setSidbarOpen, listPagesDashboard,
+    const { imgs, sidebarOpen, listPagesDashboard,
         selectPage, setSelectPage, icons
     } = useGlobal()
 

@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useGlobal } from '../../context/GlobalContext';
-import type { ResProduct } from "../../context/GlobalContext";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
@@ -15,10 +14,7 @@ import type { SxProps, Theme } from "@mui/material/styles";
 import {
     Modal,
     InputAdornment,
-    Avatar,
-    IconButton, Stack, Badge, styled,
-    MenuItem, Select,
-    Box, TextField, type SelectChangeEvent
+    MenuItem, Select,TextField, type SelectChangeEvent
 } from '@mui/material';
 
 
@@ -139,8 +135,7 @@ const ProductsAdmin: React.FC = () => {
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalItem, setTotalItem] = useState<number>(0)
     const [startItem, setStartItem] = useState<number>(0)
-    const [endItem, setEndItem] = useState<number>(0)
-    const [disabledCheck, setDisabledCheck] = useState<boolean>(false);
+    const disabledCheck = false
 
 
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
@@ -537,7 +532,7 @@ const ProductsAdmin: React.FC = () => {
                                                 Image
                                             </label>
                                             <div className="flex items-center w-full relative">
-                                                <label htmlFor="product_file" className="div-upload-file h-[40px] flex gap-4 items-center justify-center border-[1px] rounded-[10px] border-dashed border-orange-700 cursor-pointer w-full" aria-autocomplete="off">
+                                                <label htmlFor="product_file" className="div-upload-file h-[40px] flex gap-4 items-center justify-center border-[1px] rounded-[10px] border-dashed border-orange-700 cursor-pointer w-full" >
                                                     <svg className="w-8 h-8 text-orange-700" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                                         <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
                                                     </svg>

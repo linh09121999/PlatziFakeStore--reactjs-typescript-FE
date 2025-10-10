@@ -1,17 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useGlobal } from '../../context/GlobalContext';
 
 import {
     TextField,
     InputAdornment,
-    Avatar, Box, IconButton, Stack, Badge, styled
+    Avatar, Stack, Badge, styled
 } from '@mui/material'
 import type { SxProps, Theme } from "@mui/material/styles";
-import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 import {
-    putUserById, getProfile
+    putUserById
 } from "../../services/userService"
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -86,9 +85,7 @@ const SettingAdmin: React.FC = () => {
 
     }
 
-    const navigate = useNavigate()
-    const { icons,
-        imgs, resProfile, setSelectPage, setResProfile
+    const { icons, resProfile, setSelectPage
     } = useGlobal()
 
     useEffect(() => {

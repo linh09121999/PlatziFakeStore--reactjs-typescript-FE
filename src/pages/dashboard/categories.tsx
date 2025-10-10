@@ -190,13 +190,11 @@ const CategoriesAdmin: React.FC = () => {
 
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
-    const [disabledCheck, setDisabledCheck] = useState<boolean>(false);
+    const disabledCheck =false ;
     const [pageSize, setPageSize] = useState<number>(10)
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalItem, setTotalItem] = useState<number>(0)
-    const [startItem, setStartItem] = useState<number>(0)
-    const [endItem, setEndItem] = useState<number>(0)
 
     const handleChangePageSize = (e: SelectChangeEvent<number>) => {
         setPageSize(e.target.value)
@@ -266,9 +264,6 @@ const CategoriesAdmin: React.FC = () => {
             // Cắt dữ liệu hiển thị
             const sliced = resCategoriesAdmin.slice(startIndex, endIndex);
             setDisplayedCategory(sliced);
-
-            setStartItem(startIndex + 1);
-            setEndItem(endIndex);
         } else {
             setDisplayedCategory([]);
             setTotalItem(0);

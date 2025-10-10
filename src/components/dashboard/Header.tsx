@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../../services/userService';
 import { useGlobal } from '../../context/GlobalContext';
@@ -75,8 +74,7 @@ const HeaderAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
         },
     }
 
-    const { icons, ordersNumber,
-        imgs, setResProfile, resProfile, sidebarOpen, setSidbarOpen,
+    const { icons, setResProfile, resProfile, sidebarOpen, setSidbarOpen,
         selectPage
     } = useGlobal()
 

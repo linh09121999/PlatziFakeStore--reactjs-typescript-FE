@@ -153,8 +153,9 @@ const Home: React.FC = () => {
                                             onClick={() => {
                                                 handleOrder(product.id)
                                             }}
-                                        >{icons.iconCart}
-                                            <p className="">Add To Card</p>
+                                        >
+                                            {icons.iconCart}
+                                            <p>Add To Card</p>
                                         </button>
                                     </div>
                                 </div>

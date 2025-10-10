@@ -206,20 +206,20 @@ const defaultListPagesDashboard: ListPagesDashboard[] = [
         icon: <MdDashboard />,
         path: '/admin'
     },
+    // {
+    //     id: 1,
+    //     title: "Orders",
+    //     icon: <FaCartShopping />,
+    //     path: "/admin/orders"
+    // },
     {
         id: 1,
-        title: "Orders",
-        icon: <FaCartShopping />,
-        path: "/admin/orders"
-    },
-    {
-        id: 2,
         title: "Products",
         icon: <BiSolidPackage />,
         path: "/admin/products"
     },
     {
-        id: 3,
+        id: 2,
         title: "Categories",
         icon: <BiSolidCategoryAlt />,
         path: "/admin/categories"

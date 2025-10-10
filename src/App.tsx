@@ -21,7 +21,6 @@ const ProductDetail = React.lazy(() => import('./pages/web/product-detail'))
 const Cart = React.lazy(() => import('./pages/web/cart'))
 
 const Admin = React.lazy(() => import('./pages/dashboard/dashboard'));
-const OrdersAdmin = React.lazy(() => import('./pages/dashboard/orders'));
 const ProductsAdmin = React.lazy(() => import('./pages/dashboard/products'))
 const CategoriesAdmin = React.lazy(() => import('./pages/dashboard/categories'))
 const SettingAdmin = React.lazy(() => import('./pages/dashboard/setting'))
@@ -100,7 +99,6 @@ const App: React.FC = () => {
             <Route >
               <Route index element={<Navigate to="/admin/dashboard" replace />} />
               <Route path='/admin/dashboard' element={<Admin />} />
-              <Route path="/admin/orders" element={<OrdersAdmin />} />
               <Route path='/admin/products' element={<ProductsAdmin />} />
               <Route path='/admin/categories' element={<CategoriesAdmin />} />
               <Route path='/admin/setting' element={<SettingAdmin />} />

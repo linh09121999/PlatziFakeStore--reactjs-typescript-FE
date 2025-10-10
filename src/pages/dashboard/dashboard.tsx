@@ -4,26 +4,13 @@ import { useGlobal } from '../../context/GlobalContext';
 import {
     getCategories,
 } from "../../services/userService"
-import {
-    TextField,
-    InputAdornment,
-    FormControl,
-    Autocomplete,
-    MenuItem, Menu,
-    Slider
-} from '@mui/material'
-import type { SxProps, Theme } from "@mui/material/styles";
 
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
-    const navigate = useNavigate()
 
     const { icons,
-        resCategoriesAdmin,
         setResCategoriesAdmin,
-        imgs
     } = useGlobal()
 
     const getApiCategories = async () => {
