@@ -3,12 +3,49 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../../services/userService';
 import { useGlobal } from '../../context/GlobalContext';
-import { Menu, MenuItem } from '@mui/material'
+import { Menu, MenuItem, Avatar, Stack, Badge, styled } from '@mui/material'
 import type { SxProps, Theme } from "@mui/material/styles";
-import type { propsLogOut} from '../../context/GlobalContext';
+import type { propsLogOut } from '../../context/GlobalContext';
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    width: '50px',
+    height: '50px',
+    '& .MuiBadge-badge': {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: 'ripple 1.2s infinite ease-in-out',
+            border: '2px solid currentColor',
+            content: '""',
+        },
+    },
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
+            opacity: 1,
+        },
+        '100%': {
+            transform: 'scale(2.4)',
+            opacity: 0,
+        },
+    },
+}));
 
 const HeaderAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
     const navigate = useNavigate()
+    const sxAvata: SxProps<Theme> = {
+        width: "100%",
+        height: "100%",
+        boxShadow: 'var(--shadow-xl)',
+
+    }
     const PaperProps: SxProps<Theme> = {
         sx: {
             borderRadius: '10px',
@@ -83,7 +120,19 @@ const HeaderAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                     <button className='flex gap-4 items-center'
                         onClick={handleClick}
                     >
-                        <img className='w-[50px] rounded-full' src={resProfile?.avatar} alt={resProfile?.name} />
+                        <Stack direction="row" spacing={2}>
+                            <StyledBadge
+                                overlap="circular"
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                variant="dot"
+                            >
+                                <Avatar
+                                    src={resProfile?.avatar}
+                                    alt="avatar"
+                                    sx={sxAvata}
+                                />
+                            </StyledBadge >
+                        </Stack>
                         <div>
                             <p className='text-lg'>{resProfile?.email}</p>
                             <p className='text-sm bg-orange-700/10 text-orange-700 w-fit px-4 py-1 rounded-full border-[1px] border-orange-700/20'>{resProfile?.role}</p>

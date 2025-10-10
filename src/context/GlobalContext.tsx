@@ -15,7 +15,9 @@ import {
     FaUserEdit,
     FaEdit,
     FaTag,
-    FaFileExcel
+    FaFileExcel,
+    FaUserTie,
+    FaCalendarAlt
 } from "react-icons/fa";
 import { FaCalendarDays, FaCartShopping, FaArrowDownLong, FaArrowUpLong, FaSackDollar } from "react-icons/fa6";
 import { CgMenu } from "react-icons/cg";
@@ -91,6 +93,8 @@ export interface Icons {
     iconRevenue: JSX.Element;
     iconExcel: JSX.Element;
     iconTag: JSX.Element;
+    iconRole: JSX.Element;
+    iconClock: JSX.Element
 }
 
 const defaultIcons: Icons = {
@@ -127,7 +131,9 @@ const defaultIcons: Icons = {
     iconAddUser: <MdPersonAddAlt1 className="mx-auto" />,
     iconRevenue: <FaSackDollar className="mx-auto" />,
     iconExcel: <FaFileExcel className="mx-auto" />,
-    iconTag: <FaTag />
+    iconTag: <FaTag />,
+    iconRole: <FaUserTie />,
+    iconClock: <FaCalendarAlt />
 }
 
 export interface Category {
