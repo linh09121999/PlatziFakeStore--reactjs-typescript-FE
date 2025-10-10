@@ -1,18 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     TextField,
-    InputAdornment,
-    IconButton, Badge
+    InputAdornment, MenuItem, Menu,
+    IconButton, Avatar, Stack, Badge, styled
 } from '@mui/material'
 import type { SxProps, Theme } from "@mui/material/styles";
+import { getProfile } from '../../services/userService';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import { useGlobal } from '../../context/GlobalContext';
-import type { propsLogOut} from '../../context/GlobalContext';
+import type { propsLogOut } from '../../context/GlobalContext';
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    width: '35px',
+    height: '35px',
+    '& .MuiBadge-badge': {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: 'ripple 1.2s infinite ease-in-out',
+            border: '2px solid currentColor',
+            content: '""',
+        },
+    },
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
+            opacity: 1,
+        },
+        '100%': {
+            transform: 'scale(2.4)',
+            opacity: 0,
+        },
+    },
+}));
 
 const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
     const navigate = useNavigate()
+    const sxAvata: SxProps<Theme> = {
+        width: "100%",
+        height: "100%",
+        boxShadow: 'var(--shadow-xl)',
+
+    }
+
+    const PaperProps: SxProps<Theme> = {
+        sx: {
+            borderRadius: '10px',
+            boxShadow: '0px 4px 12px rgba(0,0,0,0.15)',
+            maxWidth: 'calc(100%)',
+            background: 'white',
+            zIndex: 100,
+        },
+    }
+
+    const MenuListProps: SxProps<Theme> = {
+        sx: {
+            paddingY: 0.5,
+        },
+    }
+
+    const sxMenuItem: SxProps<Theme> = {
+        justifyContent: 'start',
+        paddingY: '10px',
+        paddingLeft: '20px',
+        color: 'black',
+        zIndex: 100,
+        '&:hover': {
+            backgroundColor: 'var(--color-orange-700) !important',
+            color: 'white !important',
+            fontWeight: 600
+        },
+    }
+
     const sxTextField: SxProps<Theme> = {
         width: {
             md: "50%"
@@ -57,8 +125,21 @@ const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
     }
 
     const { icons, ordersNumber,
-        imgs, token, email
+        imgs, token, email, setResProfile, resProfile
     } = useGlobal()
+
+    const getApiProfile = async () => {
+        try {
+            const res = await getProfile();
+            setResProfile(res.data)
+        } catch (err) {
+            console.error("Failed to fetch profile:", err);
+        }
+    };
+
+    useEffect(() => {
+        getApiProfile()
+    }, [])
 
     const [key, setKey] = useState<string>("")
 
@@ -82,6 +163,16 @@ const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
         }
     };
 
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+
     return (
         <>
             <header className='top-0 sticky z-100 px-5 bg-gradient-to-l to-orange-700 from-orange-600'>
@@ -90,9 +181,9 @@ const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
                         onClick={() => {
                             {
                                 token === "" ?
-                                navigate("/login", { state: { name: "dashboard" } })
-                                :
-                                navigate("admin")
+                                    navigate("/login", { state: { name: "dashboard" } })
+                                    :
+                                    navigate("admin")
                             }
                         }}
                     >Dashboard</button>
@@ -134,15 +225,52 @@ const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
                                     <span className='text-white text-3xl max-md:text-2xl'>{icons.iconCart}</span>
                                 </Badge >
                             </button>
-                            <button className='text-white text-3xl max-md:text-2xl md:hidden css-icon'
-                                onClick={() => {
-                                    navigate("/login", { state: { name: "dashboard" } })
-                                }}
-                            >
-                                {icons.iconUser}
-                            </button>
+                            {token === "" ?
+                                <button className='text-white text-3xl max-md:text-2xl md:hidden css-icon'
+                                    onClick={() => {
+                                        navigate("/login", { state: { name: "dashboard" } })
+                                    }}
+                                >
+                                    {icons.iconUser}
+                                </button>
+
+                                :
+                                <button onClick={handleClick}>
+                                    <Stack direction="row" spacing={2}>
+                                        <StyledBadge
+                                            overlap="circular"
+                                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                            variant="dot"
+                                        >
+                                            <Avatar
+                                                src={resProfile?.avatar}
+                                                alt="avatar"
+                                                sx={sxAvata}
+                                            />
+                                        </StyledBadge >
+                                    </Stack>
+                                </button>
+                            }
                         </div>
                     </div>
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        PaperProps={PaperProps}
+                        MenuListProps={MenuListProps}
+                    >
+                        <MenuItem onClick={() => navigate("admin")}
+                            sx={sxMenuItem}
+                        >
+                            <div className='flex text-lg items-center gap-2'><span className='rotate-[180deg] text-xl'>{icons.iconDashboard}</span> Dashboard</div>
+                        </MenuItem>
+                        <MenuItem onClick={onLogout}
+                            sx={sxMenuItem}
+                        >
+                            <div className='flex text-lg items-center gap-2'><span className='rotate-[180deg] text-xl'>{icons.iconLogout}</span> Logout</div>
+                        </MenuItem>
+                    </Menu>
                     <TextField
                         placeholder="Search for products..."
                         slotProps={{

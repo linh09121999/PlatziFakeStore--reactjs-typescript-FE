@@ -94,7 +94,8 @@ export interface Icons {
     iconExcel: JSX.Element;
     iconTag: JSX.Element;
     iconRole: JSX.Element;
-    iconClock: JSX.Element
+    iconClock: JSX.Element;
+    iconDashboard: JSX.Element
 }
 
 const defaultIcons: Icons = {
@@ -133,7 +134,8 @@ const defaultIcons: Icons = {
     iconExcel: <FaFileExcel className="mx-auto" />,
     iconTag: <FaTag />,
     iconRole: <FaUserTie />,
-    iconClock: <FaCalendarAlt />
+    iconClock: <FaCalendarAlt />,
+    iconDashboard: <MdDashboard />
 }
 
 export interface Category {
@@ -203,7 +205,7 @@ const defaultListPagesDashboard: ListPagesDashboard[] = [
     {
         id: 0,
         title: "Dashboard",
-        icon: <MdDashboard />,
+        icon: defaultIcons.iconDashboard,
         path: '/admin'
     },
     // {

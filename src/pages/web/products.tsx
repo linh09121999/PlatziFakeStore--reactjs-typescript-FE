@@ -820,16 +820,14 @@ const Products: React.FC = () => {
 
                                             >
                                                 <div className="relative self-start ">
-                                                    <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70"
-                                                        onError={handleImgError}
-                                                    />
-                                                    <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{product.category.name}</div>
-                                                    <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10"
-                                                        onClick={() => {
-                                                            handleSigleProduct(product.id)
-                                                        }}
-                                                    >
-                                                        DETAIL
+                                                    <button onClick={() => {
+                                                        handleSigleProduct(product.id)
+                                                    }}>
+                                                        <img src={product.images[0]} alt={product.title} className="relative transition-all duration-300 ease group-hover:scale-105 group-hover:opacity-70"
+                                                            onError={handleImgError}
+                                                        />
+                                                        <div className="absolute top-[10px] left-[10px] bg-orange-700 text-white rounded-[5px] text-center py-1 px-2 text-sm group-hover:opacity-70">{product.category.name}</div>
+                                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90px] h-[90px] rounded-full bg-orange-800 transition-all duration-300 ease text-white content-center opacity-0 group-hover:opacity-100 z-10">DETAIL</div>
                                                     </button>
                                                     <div className="px-3 pt-3">
                                                         <p className="text-start font-bold text-lg text-black/70">{product.title}</p>
