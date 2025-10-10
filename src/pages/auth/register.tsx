@@ -235,8 +235,8 @@ const Register: React.FC = () => {
                         )}
                         <form className="space-y-4" onSubmit={handleSubmit}>
                             {/* Name Field */}
-                            <div className="justify-self-center mx-auto flex flex-col gap-3">
-                                <Stack direction="row" spacing={2}>
+                            <div className=" grid gap-3">
+                                <Stack direction="row" spacing={2} sx={{ marginInline: 'auto' }}>
                                     <StyledBadge
                                         overlap="circular"
                                         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -271,8 +271,8 @@ const Register: React.FC = () => {
                                         </Box>
                                     </StyledBadge >
                                 </Stack>
-                                <div className="w-full pt-[10px]">
-                                    <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload avatar</label>
+                                <div className="w-full pt-[10px] flex">
+                                    <label htmlFor="avataInput" className="mx-auto transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload avatar</label>
                                     <input
                                         id="avataInput"
                                         alt="avata"
@@ -440,14 +440,17 @@ const Register: React.FC = () => {
                                 </button>
                             </div>
                         </form>
-                        <p className="pt-3 text-center flex gap-1 justify-self-center mx-auto">There are accounts?
-                            <button className="text-orange-700 hover:text-orange-800 hover:font-bold"
-                                onClick={() => {
-                                    navigate("/login")
-                                }}>
-                                Sign in now
-                            </button>
-                        </p>
+                        <div className="pt-3 flex">
+                            <div className="mx-auto">
+                                There are accounts?
+                                <button className="text-orange-700 hover:text-orange-800 hover:font-bold ml-[4px]"
+                                    onClick={() => {
+                                        navigate("/login")
+                                    }}>
+                                    Sign in now
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div >
