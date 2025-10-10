@@ -394,7 +394,7 @@ const ProductsAdmin: React.FC = () => {
         setError("");
         try {
             const res = await putProductById(selectIdProduct!, { title, price })
-            if (res.data.name === name) {
+            if (res.data.id === selectIdProduct) {
                 handleCloseEditProduct()
                 getProductsPage(0, pageSize)
             } else {

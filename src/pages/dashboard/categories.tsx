@@ -361,7 +361,7 @@ const CategoriesAdmin: React.FC = () => {
         const image = await uploadBase64ToImgBB(avatarUrl);
         try {
             const res = await putCategoriesById(selectIdCategory!, { name, image })
-            if (res.data.name === name) {
+            if (res.data.id === selectIdCategory) {
                 handleCloseEditCategory()
                 getApiCategories()
                 setAvatarUrl("")
