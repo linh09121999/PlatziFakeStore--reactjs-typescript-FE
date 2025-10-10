@@ -309,7 +309,7 @@ const SettingAdmin: React.FC = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="w-[200px] mx-auto flex justify-center py-2 px-4 border border-transparent rounded-[10px] shadow-sm text-lg font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-200"
+                                className="w-[200px] mr-auto flex justify-center py-2 px-4 border border-transparent rounded-[10px] shadow-sm text-lg font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-200"
                             >
                                 Edit
                             </button>
