@@ -46,7 +46,7 @@ const ChartGauge: React.FC<GaugeProps> = ({ value, min, max, donvi, backgroundCo
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-0  text-center">
         <p className="sm:text-3xl font-bold max-sm:text-2xl">{safeValue}{donvi}</p>
         <div className="text-sm">
-          <span className={`${vsFromLastWeek >= 0 ? "text-green-600 bg-green-600/20" : "text-red-600 bg-red-600/20"} font-bold w-fit rounded-full px-2 font-bold`}>{vsFromLastWeek >= 0 ? "+" : ""}{vsFromLastWeek}%</span> from last month
+          <span className={`${vsFromLastWeek >= 0 ? "text-green-600 bg-green-600/20" : "text-red-600 bg-red-600/20"} font-bold w-fit rounded-full px-2 font-bold`}>{vsFromLastWeek >= 0 ? "+" : ""}{vsFromLastWeek}%</span> from last week
         </div>
       </div>
     </div >

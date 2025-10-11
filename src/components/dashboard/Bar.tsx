@@ -22,7 +22,7 @@ const BarAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                             <ul className='flex flex-col gap-4'>
                                 {listPagesDashboard.map(page => (
                                     <li key={page.id}>
-                                        <button className={`${selectPage === page.title ? "bg-orange-700 text-white" : "text-black/70"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer`}
+                                        <button className={`${selectPage === page.title ? "bg-orange-700 text-white" : "text-black/70"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer hover:text-orange-700`}
                                             onClick={() => {
                                                 setSelectPage(page.title)
                                                 navigate(page.path)
@@ -37,7 +37,7 @@ const BarAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                             <div className='w-full h-[2px] bg-gray-300'></div>
                             <ul className='flex flex-col gap-4'>
                                 <li>
-                                    <button className={`${selectPage === "Setting" ? "bg-orange-700 text-white" : "text-black/70"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer`}
+                                    <button className={`${selectPage === "Setting" ? "bg-orange-700 text-white" : "text-black/70"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer hover:text-orange-700`}
                                         onClick={() => {
                                             setSelectPage("Setting")
                                             navigate("/admin/setting")
@@ -49,7 +49,7 @@ const BarAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                                 </li>
                                 <li>
                                     <button
-                                        className={`${selectPage === "Logout" ? "bg-orange-700 text-white" : "text-black/70"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer`}
+                                        className={`${selectPage === "Logout" ? "bg-orange-700 text-white" : "text-black/70"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer hover:text-orange-700`}
                                         onClick={onLogout}
                                     >
                                         <span className='text-2xl rotate-[180deg]'>{icons.iconLogout}</span>

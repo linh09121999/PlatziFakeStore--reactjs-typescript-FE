@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useGlobal } from "../../context/GlobalContext";
+import { useGlobal, type ResProduct } from "../../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material/styles";
@@ -12,10 +12,7 @@ const Cart: React.FC = () => {
         imgs,
         ordersList,
         setOrdersList,
-        ordersNumber, setOrdersNumber,
-        setTotalRevenues, totalRevenues,
-        setTotalOrder, totalOrder,
-        setTotalPurchases, totalPurchases
+        ordersNumber, setOrdersNumber
     } = useGlobal();
 
     // --- style cho TextField ---
@@ -103,7 +100,17 @@ const Cart: React.FC = () => {
         0
     );
 
-    const currentDay = new Date().getDay();
+
+    const [totalRevenues, setTotalRevenues] = useState<number>(0)
+    const [totalOrder, setTotalOrder] = useState<number>(0)
+    const [totalPurchases, setTotalPurchases] = useState<number>(0)
+    const [totalProducts, setTotalProducts] = useState<ResProduct[]>([])
+
+    const today = new Date();
+    const currentDay = `${(today.getMonth() + 1).toString().padStart(2, '0')}/${today
+        .getDate()
+        .toString()
+        .padStart(2, '0')}/${today.getFullYear()}`;
 
     const handleCheckout = () => {
         if (ordersList.length === 0) {
@@ -114,6 +121,13 @@ const Cart: React.FC = () => {
             setTotalPurchases(totalPurchases + 1);
             setTotalRevenues(totalRevenues + total);
             setTotalOrder(totalOrder + ordersNumber)
+            setTotalProducts(prev => {
+                // Tránh nối trùng dữ liệu
+                const newItems = ordersList.filter(
+                    (item: ResProduct) => !prev.some(p => p.id === item.id) // check theo id hoặc unique field
+                );
+                return [...prev, ...newItems];
+            })
             setOrdersList([]);
             setOrdersNumber(0)
         }
@@ -128,6 +142,7 @@ const Cart: React.FC = () => {
             totalPurchases,
             totalRevenues,
             totalOrder,
+            totalProducts
         };
 
         localStorage.setItem("dailyStats", JSON.stringify(parsed));

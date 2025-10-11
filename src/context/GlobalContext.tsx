@@ -320,15 +320,6 @@ export interface GlobalState {
     resCategoriesAdmin: Category[];// dung cho list
     setResCategoriesAdmin: React.Dispatch<React.SetStateAction<Category[]>>;
 
-    totalRevenues: number;
-    setTotalRevenues: (total: number) => void;
-
-    totalOrder: number;
-    setTotalOrder: (total: number) => void;
-
-    totalPurchases: number;
-    setTotalPurchases: (total: number) => void;
-
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -409,11 +400,6 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const [resProductAdmin, setResProductAdmin] = useState<ResProduct[]>([]);
     const [resCategoriesAdmin, setResCategoriesAdmin] = useState<Category[]>([]);
 
-    const [totalRevenues, setTotalRevenues] = useState<number>(0)
-    const [totalOrder, setTotalOrder] = useState<number>(0)
-    const [totalPurchases, setTotalPurchases] = useState<number>(0)
-
-
     const value = {
         icons: defaultIcons,
         isMobile, isTable,
@@ -446,7 +432,6 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         selectPage, setSelectPage,
         resProductAdmin, setResProductAdmin,
         resCategoriesAdmin, setResCategoriesAdmin,
-        totalRevenues, setTotalRevenues, totalOrder, setTotalOrder, totalPurchases, setTotalPurchases
     }
 
     return (
