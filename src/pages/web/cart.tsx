@@ -12,7 +12,9 @@ const Cart: React.FC = () => {
         imgs,
         ordersList,
         setOrdersList,
-        ordersNumber, setOrdersNumber
+        ordersNumber, setOrdersNumber,
+        // setTotalRevenues, setTotalOrder, 
+        setTotalPurchases, totalPurchases
     } = useGlobal();
 
     // --- style cho TextField ---
@@ -106,6 +108,7 @@ const Cart: React.FC = () => {
         }
         else {
             toast.success("Successful order!");
+            setTotalPurchases(totalPurchases +1);
             setOrdersList([]);
             setOrdersNumber(0)
         }

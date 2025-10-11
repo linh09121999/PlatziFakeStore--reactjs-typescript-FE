@@ -215,8 +215,8 @@ const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
                             <img alt='logo' className='h-12 max-md:h-10' src={imgs.logo} />
                             <p className='text-3xl text-white font-bold max-md:text-2xl'>SPEE SHOP</p>
                         </div>
-                        <div className='flex items-center gap-5'>
-                            <button className='content-end relative md:hidden css-icon'
+                        <div className='flex items-center gap-5 md:hidden'>
+                            <button className='content-end relative  css-icon'
                                 onClick={() => {
                                     navigate("/cart")
                                 }}
@@ -226,7 +226,7 @@ const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
                                 </Badge >
                             </button>
                             {token === "" ?
-                                <button className='text-white text-3xl max-md:text-2xl md:hidden css-icon'
+                                <button className=' text-white text-3xl max-md:text-2xl md:hidden css-icon'
                                     onClick={() => {
                                         navigate("/login", { state: { name: "dashboard" } })
                                     }}

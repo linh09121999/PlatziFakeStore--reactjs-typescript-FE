@@ -11,6 +11,7 @@ const Dashboard: React.FC = () => {
 
     const { icons,
         setResCategoriesAdmin,
+        totalRevenues, totalOrder, totalPurchases
     } = useGlobal()
 
     const getApiCategories = async () => {
@@ -30,47 +31,58 @@ const Dashboard: React.FC = () => {
 
     return (
         <>
-            <main className="min-h-[77.5vh] bg-white grid grid-cols-4 grid-rows-3 gap-5 p-5">
-                <div className="bg-orange-200 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
-                    {/*  doanh thu */}
-                    <div className="flex justify-between gap-2 text-lg items-center">Total Revenues
-                        <span className="w-[30px] h-[30px] rounded-[10px] text-white bg-orange-700"></span>
+            <main className="min-h-[77.5vh] bg-white flex flex-col p-5">
+                <div className="grid lg:grid-cols-4 lg:grid-rows-5 gap-5 md:grid-cols-3 md:grid-rows-8">
+                    <div className=" bg-orange-200 rounded-[10px] p-5 shadow-lg hover:shadow-xl flex flex-col gap-2">
+                        {/*  doanh thu */}
+                        <div className="flex justify-between gap-2 text-lg items-center">Total Revenues
+                            <span className="w-[30px] h-[30px] rounded-[10px] text-white bg-orange-700 content-center">{icons.iconRevenue}</span>
+                        </div>
+                        <div className="flex justify-between gap-2">
+                            <p className="text-4xl font-bold">$ {totalRevenues}</p>
+                        </div>
                     </div>
-                </div>
-                <div className="bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
-                    {/*  don hàng */}
-                    <div className="flex justify-between gap-2 text-lg items-center">Total Orders
-                        <span className="w-[30px] h-[30px] rounded-[10px] text-black/70 bg-white content-center">{icons.iconCartAdmin}</span>
+                    <div className="bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl flex flex-col gap-2">
+                        {/*  don hàng */}
+                        <div className="flex justify-between gap-2 text-lg items-center">Total Orders
+                            <span className="w-[30px] h-[30px] rounded-[10px] text-black/70 bg-white content-center">{icons.iconCartAdmin}</span>
+                        </div>
+                        <div className="flex justify-between gap-2">
+                            <p className="text-4xl font-bold">$ {totalOrder}</p>
+                        </div>
                     </div>
-                </div>
-                <div className=" bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
-                    {/*  don hàng */}
-                    <div className="flex justify-between gap-2 text-lg items-center">Total Purchases
-                        <span className="w-[30px] h-[30px] rounded-[10px] text-black/70 bg-white content-center"></span>
+                    <div className=" bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl flex flex-col gap-2">
+                        {/*  don hàng */}
+                        <div className="flex justify-between gap-2 text-lg items-center">Total Purchases
+                            <span className="w-[30px] h-[30px] rounded-[10px] text-black/70 bg-white content-center">{icons.iconPackage}</span>
+                        </div>
+                        <div className="flex justify-between gap-2">
+                            <p className="text-4xl font-bold">$ {totalPurchases}</p>
+                        </div>
                     </div>
-                </div>
-                <div className="col-span-2 col-start-1 row-start-2 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
-                    <div className="flex justify-between gap-2 text-lg items-center">Revenue Analutics
+                    <div className="md:col-span-2 md:row-span-2 md:col-start-1 md:row-start-2 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
+                        <div className="flex justify-between gap-2 text-lg items-center">Revenue Analutics
+                        </div>
                     </div>
-                </div>
-                <div className="col-start-3 row-start-2 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
-                    <div className="flex justify-between gap-2 text-lg items-center">Monthly Target
+                    <div className="md:row-span-2 md:col-start-3 md:row-start-2 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
+                        <div className="flex justify-between gap-2 text-lg items-center">Monthly Target
+                        </div>
                     </div>
-                </div>
-                <div className="col-start-1 row-start-3 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
-                    <div className="flex justify-between gap-2 text-lg items-center">
+                    <div className="md:col-start-1 md:row-start-4 md:row-span-2 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
+                        <div className="flex justify-between gap-2 text-lg items-center">
+                        </div>
                     </div>
-                </div>
-                <div className="col-span-2 col-start-2 row-start-3 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
-                    <div className="flex justify-between gap-2 text-lg items-center">
+                    <div className="md:row-span-2 md:col-span-2 md:col-start-2 md:row-start-4 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
+                        <div className="flex justify-between gap-2 text-lg items-center">
+                        </div>
                     </div>
-                </div>
-                <div className="row-span-2 col-start-4 row-start-1 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
-                    <div className="flex justify-between gap-2 text-lg items-center">
+                    <div className="md:row-span-3 md:col-span-2 lg:col-start-4 lg:row-start-1 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
+                        <div className="flex justify-between gap-2 text-lg items-center">
+                        </div>
                     </div>
-                </div>
-                <div className="col-start-4 row-start-3 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
-                    <div className="flex justify-between gap-2 text-lg items-center">
+                    <div className="lg:col-start-4 lg:row-start-4 lg:row-span-2 md:row-span-3 bg-gray-50 rounded-[10px] p-5 shadow-lg hover:shadow-xl">
+                        <div className="flex justify-between gap-2 text-lg items-center">
+                        </div>
                     </div>
                 </div>
             </main>

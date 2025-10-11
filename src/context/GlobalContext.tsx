@@ -97,7 +97,8 @@ export interface Icons {
     iconTag: JSX.Element;
     iconRole: JSX.Element;
     iconClock: JSX.Element;
-    iconDashboard: JSX.Element
+    iconDashboard: JSX.Element;
+    iconPackage: JSX.Element;
 }
 
 const defaultIcons: Icons = {
@@ -138,7 +139,8 @@ const defaultIcons: Icons = {
     iconTag: <FaTag />,
     iconRole: <FaUserTie />,
     iconClock: <FaCalendarAlt />,
-    iconDashboard: <MdDashboard />
+    iconDashboard: <MdDashboard />,
+    iconPackage: <BiSolidPackage className="mx-auto" />
 }
 
 export interface Category {
@@ -318,6 +320,15 @@ export interface GlobalState {
     resCategoriesAdmin: Category[];// dung cho list
     setResCategoriesAdmin: React.Dispatch<React.SetStateAction<Category[]>>;
 
+    totalRevenues: number;
+    setTotalRevenues: (total: number) => void;
+
+    totalOrder: number;
+    setTotalOrder: (total: number) => void;
+
+    totalPurchases: number;
+    setTotalPurchases: (total: number) => void;
+
 }
 
 const GlobalContext = createContext<GlobalState | undefined>(undefined);
@@ -398,6 +409,10 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const [resProductAdmin, setResProductAdmin] = useState<ResProduct[]>([]);
     const [resCategoriesAdmin, setResCategoriesAdmin] = useState<Category[]>([]);
 
+    const [totalRevenues, setTotalRevenues] = useState<number>(0)
+    const [totalOrder, setTotalOrder] = useState<number>(0)
+    const [totalPurchases, setTotalPurchases] = useState<number>(0)
+
 
     const value = {
         icons: defaultIcons,
@@ -430,7 +445,8 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
         sidebarOpen, setSidbarOpen,
         selectPage, setSelectPage,
         resProductAdmin, setResProductAdmin,
-        resCategoriesAdmin, setResCategoriesAdmin
+        resCategoriesAdmin, setResCategoriesAdmin,
+        totalRevenues, setTotalRevenues, totalOrder, setTotalOrder, totalPurchases, setTotalPurchases
     }
 
     return (
