@@ -39,7 +39,7 @@ const ChartGauge: React.FC<GaugeProps> = ({ value, min, max, donvi, backgroundCo
   };
 
   return (
-    <div className="flex flex-col mx-auto items-center relative">
+    <div className="flex flex-col mx-auto items-center relative xl:w-70 xl:h-70 lg:w-52 lg:h-52 md:h-50 md:h-50">
       <Doughnut data={data} options={{ plugins: { legend: { display: false } } }} />
 
       {/* Hiển thị value + đơn vị ở giữa */}
