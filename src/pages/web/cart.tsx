@@ -13,7 +13,8 @@ const Cart: React.FC = () => {
         ordersList,
         setOrdersList,
         ordersNumber, setOrdersNumber,
-        // setTotalRevenues, setTotalOrder, 
+        setTotalRevenues, totalRevenues,
+        setTotalOrder, totalOrder,
         setTotalPurchases, totalPurchases
     } = useGlobal();
 
@@ -102,17 +103,35 @@ const Cart: React.FC = () => {
         0
     );
 
+    const currentDay = new Date().getDay();
+
     const handleCheckout = () => {
         if (ordersList.length === 0) {
             toast.error("There is no product in the cart")
         }
         else {
             toast.success("Successful order!");
-            setTotalPurchases(totalPurchases +1);
+            setTotalPurchases(totalPurchases + 1);
+            setTotalRevenues(totalRevenues + total);
+            setTotalOrder(totalOrder + ordersNumber)
             setOrdersList([]);
             setOrdersNumber(0)
         }
     }
+
+    // Lưu lại mỗi khi thay đổi
+    useEffect(() => {
+        const data = localStorage.getItem("dailyStats");
+        const parsed = data ? JSON.parse(data) : {};
+
+        parsed[currentDay] = {
+            totalPurchases,
+            totalRevenues,
+            totalOrder,
+        };
+
+        localStorage.setItem("dailyStats", JSON.stringify(parsed));
+    }, [currentDay, totalPurchases, totalRevenues, totalOrder]);
 
     return (
         <>
