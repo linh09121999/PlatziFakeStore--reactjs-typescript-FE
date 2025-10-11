@@ -629,9 +629,11 @@ const ProductsAdmin: React.FC = () => {
                                     >
                                         <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.id}</CTableDataCell>
                                         <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.title}</CTableDataCell>
-                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>$ {row.price}</CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>
+                                            <span className="text-orange-700  font-bold border-[1px] border-orange-700/20 p-1 bg-orange-700/10 rounded-full">$ {row.price}</span>
+                                        </CTableDataCell>
                                         <CTableDataCell className='text-center p-3 border-[1px] border-gray-200 text-justify'>{row.description}</CTableDataCell>
-                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.category.name}</CTableDataCell>
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200 break-all'>{row.category.name}</CTableDataCell>
                                         <CTableDataCell className='p-3 border-[1px] border-gray-200 w-fit'>
                                             <div className="grid gap-2 justify-center w-fit">
                                                 {row.images.map((image, id) => (

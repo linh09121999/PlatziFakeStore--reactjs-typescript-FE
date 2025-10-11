@@ -540,7 +540,7 @@ const CategoriesAdmin: React.FC = () => {
                                         }}
                                     >
                                         <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.id}</CTableDataCell>
-                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200'>{row.name}
+                                        <CTableDataCell className='text-center p-3 border-[1px] border-gray-200 break-all'>{row.name}
                                         </CTableDataCell>
                                         <CTableDataCell className='p-3 border-[1px] border-gray-200'>
                                             <img src={row.image} onError={handleImgError} className="w-12 h-12 object-cover rounded mx-auto" alt={`category ${row.id}`} />
