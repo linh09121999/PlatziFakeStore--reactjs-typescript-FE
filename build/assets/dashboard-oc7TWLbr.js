@@ -1,4 +1,4 @@
-import{r as Y,a0 as As,b as Rs,j as w,L as wn}from"./index-9lTwzIjY.js";import{C as Sn,a as kn,b as xi,c as Wt,d as Mn,e as Bt}from"./CTable-BtR64-KZ.js";/*!
+import{r as Y,a0 as As,b as Rs,j as w,L as wn}from"./index-CQ-Py5cF.js";import{C as Sn,a as kn,b as xi,c as Wt,d as Mn,e as Bt}from"./CTable-BvTOw2Tf.js";/*!
  * @kurkle/color v0.3.4
  * https://github.com/kurkle/color#readme
  * (c) 2024 Jukka Kurkela
