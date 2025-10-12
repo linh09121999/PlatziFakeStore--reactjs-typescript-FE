@@ -31,16 +31,26 @@ const ChartGauge: React.FC<GaugeProps> = ({ value, min, max, donvi, backgroundCo
         backgroundColor: backgroundColor,
         borderWidth: [0, 4, 0],
         borderColor: backgroundColor,
-        cutout: "85%", // tạo gauge rỗng ở giữa
+        cutout: "75%", // tạo gauge rỗng ở giữa
         rotation: -90, // bắt đầu từ -135 độ
         circumference: 180, // quét 270 độ
       },
     ],
   };
 
+  const options = {
+    responsive: true,           // ✅ tự fit container
+    maintainAspectRatio: false, // ✅ cho phép chart cao theo container
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: true },
+    },
+  };
+
+
   return (
-    <div className="flex flex-col mx-auto items-center relative xl:w-70 xl:h-70 lg:w-52 lg:h-52 md:h-50 md:h-50">
-      <Doughnut data={data} options={{ plugins: { legend: { display: false } } }} />
+    <div className="flex flex-col mx-auto items-center relative xl:w-70 lg:w-52 md:ư-50">
+      <Doughnut data={data} options={options} />
 
       {/* Hiển thị value + đơn vị ở giữa */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-0  text-center">

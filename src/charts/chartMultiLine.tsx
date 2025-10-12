@@ -10,7 +10,7 @@ import {
     Legend,
     // 👈 import type
 } from "chart.js";
-import type { ChartOptions, ChartData, ScriptableLineSegmentContext } from "chart.js";
+import type { ChartOptions, ChartData} from "chart.js";
 import { Line } from "react-chartjs-2";
 import { useGlobal } from "../context/GlobalContext";
 
