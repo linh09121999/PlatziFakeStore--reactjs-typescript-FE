@@ -96,13 +96,11 @@ const App: React.FC = () => {
           </Route>
           <Route path='/admin' element={<ProtectedRouteAdmin isAuthenticated={isAuthenticated}
             onLogout={handleLogout} />}>
-            <Route >
-              <Route index element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path='/admin/dashboard' element={<Admin />} />
-              <Route path='/admin/products' element={<ProductsAdmin />} />
-              <Route path='/admin/categories' element={<CategoriesAdmin />} />
-              <Route path='/admin/setting' element={<SettingAdmin />} />
-            </Route>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path='dashboard' element={<Admin />} />
+            <Route path='products' element={<ProductsAdmin />} />
+            <Route path='categories' element={<CategoriesAdmin />} />
+            <Route path='setting' element={<SettingAdmin />} />
           </Route>
         </Routes>
       </Suspense>

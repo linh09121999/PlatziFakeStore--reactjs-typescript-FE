@@ -765,7 +765,7 @@ const ProductsAdmin: React.FC = () => {
                     <div className="flex items-center gap-2 max-sm:justify-center">
                         <button
                             onClick={handlePreviousPage}
-                            className="h-[40px] px-2 md:p-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
+                            className="h-[40px] px-2 md:px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
                             disabled={currentPage === 1 || disabledCheck}
                         >
                             {isMobile ? icons.iconPrev : 'Previous'}
@@ -777,7 +777,7 @@ const ProductsAdmin: React.FC = () => {
 
                         <button
                             onClick={handleNextPage}
-                            className="h-[40px] px-2 md:p-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
+                            className="h-[40px] px-2 md:px-4 bg-orange-700 text-white rounded-[10px] shadow-lg disabled:opacity-50"
                             disabled={currentPage === totalPages || disabledCheck}
                         >
                             {isMobile ? icons.iconNext : 'Next'}

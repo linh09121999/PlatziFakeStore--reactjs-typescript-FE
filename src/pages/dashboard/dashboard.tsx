@@ -14,7 +14,7 @@ import {
 import { ToastContainer } from 'react-toastify';
 
 const Dashboard: React.FC = () => {
-    const { icons,imgs
+    const { icons, imgs
     } = useGlobal()
 
     const [totalRevenues, setTotalRevenues] = useState<number>(0)
@@ -85,7 +85,6 @@ const Dashboard: React.FC = () => {
 
     const getDataLineMulti = () => {
         const data = localStorage.getItem("dailyStats");
-        console.log(data)
         if (!data) return [[], []];
 
         const parsed = JSON.parse(data);
@@ -253,7 +252,7 @@ const Dashboard: React.FC = () => {
                         </div>
                         <div className="flex justify-between gap-2 items-center">
                             <p className="text-5xl font-bold">{totalPurchases}</p>
-                            <div>                                
+                            <div>
                                 <p className={`${percentPurchases >= 0 ? "text-green-600 bg-green-600/20" : "text-red-600 bg-red-600/20"} text-end font-bold w-fit ml-auto rounded-full px-1`}>{percentPurchases >= 0 ? "+" : ""}{percentPurchases}%</p>
                                 <p className="text-sm text-gray-600">Vs last weed</p>
                             </div>

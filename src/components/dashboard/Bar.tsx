@@ -22,7 +22,7 @@ const BarAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                             <ul className='flex flex-col gap-4'>
                                 {listPagesDashboard.map(page => (
                                     <li key={page.id}>
-                                        <button className={`${selectPage === page.title ? "bg-orange-700 text-white" : "text-black/70"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer hover:text-orange-700`}
+                                        <button className={`${selectPage === page.title ? "bg-orange-700 text-white" : "text-black/70 hover:text-orange-700"} ${sidebarOpen ? "justify-center" : ""} px-4 h-[50px] transition-all duration-300 ease-in-out relative flex w-full items-center gap-4 rounded-[10px] font-600 group menu-item-inactive cursor-pointer `}
                                             onClick={() => {
                                                 setSelectPage(page.title)
                                                 navigate(page.path)
