@@ -572,7 +572,7 @@ const Products: React.FC = () => {
             </div>
             <main className="bg-gray-100 min-h-[70vh]  p-5">
                 <div className="max-w-[1500px] mx-auto grid lg:grid-cols-[1fr_4fr] gap-5">
-                    <aside className="flex flex-col gap-6">
+                    <aside className="grid h-fit lg:sticky lg:top-[188px] gap-6">
                         <div className="flex flex-col gap-4">
                             <div className="items-center pb-2 border-b-[2px] border-b-gray-200">
                                 <h3 className="text-xl text-black">CATEGORIES</h3>

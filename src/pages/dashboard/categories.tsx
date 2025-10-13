@@ -447,7 +447,7 @@ const CategoriesAdmin: React.FC = () => {
                                             </StyledBadge >
                                         </Stack>
                                         <div className="w-full pt-[10px]">
-                                            <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload avatar</label>
+                                            <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload categate</label>
                                             <input
                                                 id="avataInput"
                                                 alt="category"
@@ -630,7 +630,7 @@ const CategoriesAdmin: React.FC = () => {
                                     </StyledBadge >
                                 </Stack>
                                 <div className="w-full pt-[10px]">
-                                    <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload avatar</label>
+                                    <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload categate</label>
                                     <input
                                         id="avataInput"
                                         alt="category"
