@@ -17,9 +17,9 @@ const Categories: React.FC = () => {
         try {
             const res = await getCategories()
             setResCategories(res.data)
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getCategories", error)
-            toast.error("Lỗi khi gọi API getCategories")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getCategories")
             setResCategories([])
         }
     }

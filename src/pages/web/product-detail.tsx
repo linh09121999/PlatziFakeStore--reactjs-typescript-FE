@@ -58,9 +58,9 @@ const ProductDetail: React.FC = () => {
         try {
             const res = await getProductsById(id)
             setResProductBy(res.data)
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getCategories", error)
-            toast.error("Lỗi khi gọi API getCategories")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getCategories")
             setResProductBy(undefined)
         }
     }
@@ -69,9 +69,9 @@ const ProductDetail: React.FC = () => {
         try {
             const res = await getProductsRelatedById(id)
             setResProductRelateBy(res.data)
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getProductsRelatedById", error)
-            toast.error("Lỗi khi gọi API getProductsRelatedById")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getProductsRelatedById")
             setResProductRelateBy([])
         }
     }

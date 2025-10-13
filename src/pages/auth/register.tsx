@@ -182,9 +182,8 @@ const Register: React.FC = () => {
                 setLoading(true);
                 setError("Register false")
             }
-        } catch (error) {
-            console.error('Error:', error);
-            setError("Register false")
+        } catch (err: any) {
+            setError(err.response?.data?.message || "Register false")
         } finally {
             setLoading(false);
         }
@@ -226,7 +225,7 @@ const Register: React.FC = () => {
                     <div className="bg-white py-4 pb-8 pt-4 shadow rounded-lg sm:px-10 px-4">
                         <p className="text-3xl font-600 text-orange-700 text-center mb-3 pb-[10px] border-b-[1px] border-b-gray-200">Register</p>
                         {error && (
-                            <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
+                            <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center justify-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
                                 {/* <span>{icons.iconError}</span> */}
                                 <p className="text-center ">
                                     {error} !

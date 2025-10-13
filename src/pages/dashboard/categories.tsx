@@ -165,9 +165,9 @@ const CategoriesAdmin: React.FC = () => {
         try {
             const res = await getCategories()
             setResCategoriesAdmin(res.data)
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getCategories", error)
-            toast.error("Lỗi khi gọi API getCategories")
+            toast.error(error.response?.data?.message ||"Lỗi khi gọi API getCategories")
             setResCategoriesAdmin([])
         }
     }
@@ -221,9 +221,9 @@ const CategoriesAdmin: React.FC = () => {
                 toast.success("Delete success")
                 getApiCategories()
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error("Lỗi khi gọi API deleteCategoriesById", error)
-            toast.error("Lỗi khi gọi API deleteCategoriesById")
+            toast.error(error.response?.data?.message ||"Lỗi khi gọi API deleteCategoriesById")
         }
     }
 
@@ -324,9 +324,9 @@ const CategoriesAdmin: React.FC = () => {
             } else {
                 setError("Add false")
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error('Error:', error);
-            setError("Add false")
+            setError(error.response?.data?.message ||"Add false")
         }
     }
 
@@ -364,9 +364,9 @@ const CategoriesAdmin: React.FC = () => {
             } else {
                 setError("Edit false")
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error('Error:', error);
-            setError("Edit false")
+            setError(error.response?.data?.message ||"Edit false")
         }
     }
 
@@ -401,7 +401,7 @@ const CategoriesAdmin: React.FC = () => {
                                 <h3 className="text-orange-700 text-3xl text-center">Add Category</h3>
                                 <div className="w-full h-[2px] bg-gray-300"></div>
                                 {error && (
-                                    <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
+                                    <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center justify-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
                                         {/* <span>{icons.iconError}</span> */}
                                         <p className="text-center ">
                                             {error} !
@@ -584,7 +584,7 @@ const CategoriesAdmin: React.FC = () => {
                         <h3 className="text-orange-700 text-3xl text-center">Edit Category</h3>
                         <div className="w-full h-[2px] bg-gray-300"></div>
                         {error && (
-                            <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
+                            <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center justify-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
                                 {/* <span>{icons.iconError}</span> */}
                                 <p className="text-center ">
                                     {error} !

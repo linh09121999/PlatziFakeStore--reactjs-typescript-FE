@@ -197,7 +197,8 @@ const Dashboard: React.FC = () => {
             if (current === 0) return 0;
             return 100; // hoặc Infinity nếu muốn hiển thị "tăng vô hạn"
         }
-        return ((current - previous) / previous) * 100;
+        const percent = ((current - previous) / previous) * 100;
+        return Math.round(percent);
     };
 
     const percentRevenue = calcPercentChange(

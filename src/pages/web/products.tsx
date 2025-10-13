@@ -171,9 +171,9 @@ const Products: React.FC = () => {
         try {
             const res = await getCategories()
             setResCategories(res.data)
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getCategories", error)
-            toast.error("Lỗi khi gọi API getCategories")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getCategories")
             setResCategories([])
         }
     }
@@ -205,9 +205,9 @@ const Products: React.FC = () => {
             });
 
             setSelectCateCategoryName("all")
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getProductsPage", error)
-            toast.error("Lỗi khi gọi API getProductsPage")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getProductsPage")
         } finally {
             setLoading(false)
         }
@@ -232,9 +232,9 @@ const Products: React.FC = () => {
             });
 
             setSelectCateCategoryName(title)
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getFilterProductByTitle_Page", error)
-            toast.error("Lỗi khi gọi API getFilterProductByTitle_Page")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getFilterProductByTitle_Page")
         } finally {
             setLoading(false)
         }
@@ -258,9 +258,9 @@ const Products: React.FC = () => {
                 return [...prev, ...newItems];
             });
 
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getFilterProductByCategoryId_Page", error)
-            toast.error("Lỗi khi gọi API getFilterProductByCategoryId_Page")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getFilterProductByCategoryId_Page")
         } finally {
             setLoading(false)
         }
@@ -334,9 +334,9 @@ const Products: React.FC = () => {
         try {
             const res = await getCategoriesById(id)
             setResCategoriesBy(res.data)
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getCategoriesById", error)
-            toast.error("Lỗi khi gọi API getCategoriesById")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getCategoriesById")
             setResCategoriesBy(undefined)
         }
     }
@@ -460,9 +460,9 @@ const Products: React.FC = () => {
             });
 
             setSelectCateCategoryName("all")
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getFilterPriceRange_Page", error)
-            toast.error("Lỗi khi gọi API getFilterPriceRange_Page")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getFilterPriceRange_Page")
         } finally {
             setLoading(false)
         }
@@ -485,9 +485,9 @@ const Products: React.FC = () => {
                 return [...prev, ...newItems];
             });
 
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getFilterPriceRange_Title_Page", error)
-            toast.error("Lỗi khi gọi API getFilterPriceRange_Title_Page")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getFilterPriceRange_Title_Page")
         } finally {
             setLoading(false)
         }
@@ -510,9 +510,9 @@ const Products: React.FC = () => {
                 return [...prev, ...newItems];
             });
 
-        } catch (error) {
+        } catch (error: any) {
             console.error("Lỗi khi gọi API getFilterPriceRange_CategoryId_Page", error)
-            toast.error("Lỗi khi gọi API getFilterPriceRange_CategoryId_Page")
+            toast.error(error.response?.data?.message || "Lỗi khi gọi API getFilterPriceRange_CategoryId_Page")
         } finally {
             setLoading(false)
         }

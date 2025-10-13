@@ -145,9 +145,9 @@ const ProductsAdmin: React.FC = () => {
         try {
             const res = await getProductsPage(offset, limit)
             setResProductAdmin(res.data)
-        } catch (error) {
+        } catch (error:any) {
             console.error("Lỗi khi gọi API getProductsPage", error)
-            toast.error("Lỗi khi gọi API getProductsPage")
+            toast.error(error.response?.data?.message ||"Lỗi khi gọi API getProductsPage")
         }
     }
 
@@ -155,9 +155,9 @@ const ProductsAdmin: React.FC = () => {
         try {
             const res = await getCategories()
             setResCategoriesAdmin(res.data)
-        } catch (error) {
+        } catch (error:any) {
             console.error("Lỗi khi gọi API getCategories", error)
-            toast.error("Lỗi khi gọi API getCategories")
+            toast.error(error.response?.data?.message ||"Lỗi khi gọi API getCategories")
             setResCategoriesAdmin([])
         }
     }
@@ -200,9 +200,9 @@ const ProductsAdmin: React.FC = () => {
                 toast.success("Delete success")
                 getApiProductPage(startItem, pageSize);
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error("Lỗi khi gọi API deltetProductById", error)
-            toast.error("Lỗi khi gọi API deltetProductById")
+            toast.error(error.response?.data?.message ||"Lỗi khi gọi API deltetProductById")
         }
     }
 
@@ -234,9 +234,9 @@ const ProductsAdmin: React.FC = () => {
                 const pages = Math.ceil(res.data.length / pageSize);
                 setTotalPages(pages);
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error("Lỗi khi gọi API getProducts", error)
-            toast.error("Lỗi khi gọi API getProducts")
+            toast.error(error.response?.data?.message ||"Lỗi khi gọi API getProducts")
         }
     }
 
@@ -263,9 +263,9 @@ const ProductsAdmin: React.FC = () => {
                 toast.error("There is no data to export to Excel!");
                 return;
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error("Lỗi khi gọi API getProducts", error)
-            toast.error("Lỗi khi gọi API getProducts")
+            toast.error(error.response?.data?.message ||"Lỗi khi gọi API getProducts")
         }
     }
 
@@ -365,9 +365,9 @@ const ProductsAdmin: React.FC = () => {
             } else {
                 setError("Add false")
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error('Error:', error);
-            setError("Add false")
+            setError(error.response?.data?.message ||"Add false")
         }
 
     }
@@ -396,9 +396,9 @@ const ProductsAdmin: React.FC = () => {
             } else {
                 setError("Edit false")
             }
-        } catch (error) {
+        } catch (error:any) {
             console.error('Error:', error);
-            setError("Edit false")
+            setError(error.response?.data?.message ||"Edit false")
         }
     }
 
@@ -433,7 +433,7 @@ const ProductsAdmin: React.FC = () => {
                                 <h3 className="text-orange-700 text-3xl text-center">Add Product</h3>
                                 <div className="w-full h-[2px] bg-gray-300"></div>
                                 {error && (
-                                    <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
+                                    <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center justify-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
                                         {/* <span>{icons.iconError}</span> */}
                                         <p className="text-center ">
                                             {error} !
@@ -680,7 +680,7 @@ const ProductsAdmin: React.FC = () => {
                             <h3 className="text-orange-700 text-3xl text-center">Edit Product</h3>
                             <div className="w-full h-[2px] bg-gray-300"></div>
                             {error && (
-                                <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
+                                <div className="bg-orange-700/20 border-[1px] border-orange-700/50 shadow-lg items-center justify-center mb-3 text-orange-700 text-lg py-1 rounded-[5px]">
                                     {/* <span>{icons.iconError}</span> */}
                                     <p className="text-center ">
                                         {error} !
