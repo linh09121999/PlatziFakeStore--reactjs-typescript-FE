@@ -423,7 +423,7 @@ const CategoriesAdmin: React.FC = () => {
                                                 >
                                                     <Avatar
                                                         src={avatarUrl}
-                                                        alt="avatar"
+                                                        alt="category"
                                                         sx={sxAvata}
                                                     />
                                                     <Box
@@ -435,11 +435,11 @@ const CategoriesAdmin: React.FC = () => {
                                                         </IconButton>
                                                     </Box>
                                                     <input
-                                                        alt="avata"
+                                                        alt="category"
                                                         type="file"
                                                         accept="image/*"
                                                         ref={inputRef}
-                                                        name="avatar"
+                                                        name="category"
                                                         className="hidden"
                                                         onChange={handleFileChange}
                                                     />
@@ -450,9 +450,9 @@ const CategoriesAdmin: React.FC = () => {
                                             <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload avatar</label>
                                             <input
                                                 id="avataInput"
-                                                alt="avata"
+                                                alt="category"
                                                 type="file"
-                                                name="avatar"
+                                                name="category"
                                                 accept="image/*"
                                                 ref={inputRef}
                                                 className="hidden"
@@ -606,7 +606,7 @@ const CategoriesAdmin: React.FC = () => {
                                         >
                                             <Avatar
                                                 src={avatarUrl}
-                                                alt="avatar"
+                                                alt="category"
                                                 sx={sxAvata}
                                             />
                                             <Box
@@ -618,11 +618,11 @@ const CategoriesAdmin: React.FC = () => {
                                                 </IconButton>
                                             </Box>
                                             <input
-                                                alt="avata"
+                                                alt="category"
                                                 type="file"
                                                 accept="image/*"
                                                 ref={inputRef}
-                                                name="avatar"
+                                                name="category"
                                                 className="hidden"
                                                 onChange={handleFileChange}
                                             />
@@ -633,9 +633,9 @@ const CategoriesAdmin: React.FC = () => {
                                     <label htmlFor="avataInput" className=" transition-all duration-300 ease cursor-pointer border-[1px] border-orange-700 text-orange-700 px-7 py-2 rounded-full hover:text-orange-600 hover:border-orange-600 hover:shadow-lg">Upload avatar</label>
                                     <input
                                         id="avataInput"
-                                        alt="avata"
+                                        alt="category"
                                         type="file"
-                                        name="avatar"
+                                        name="category"
                                         accept="image/*"
                                         ref={inputRef}
                                         className="hidden"
