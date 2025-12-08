@@ -200,7 +200,7 @@ const HeaderAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
                                 <Box sx={sxBox2Drawer}>
                                     <div className='flex justify-start items-end gap-2'>
                                         <img alt='logo' className='h-10 max-md:h-8' src={imgs.logoColor} />
-                                        <p className={`text-3xl text-orange-700 font-bold max-md:text-2xl transition-all duration-300 ease-in-out`}>SPEE</p>
+                                        <p className={`text-3xl text-orange-700 font-bold max-md:text-2xl transition-all duration-300 ease-in-out`}>Platzi Fake</p>
                                     </div>
                                     <IconButton onClick={toggleDrawer(false)} sx={sxIconButton}>
                                         {icons.iconClose}

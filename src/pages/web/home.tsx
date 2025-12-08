@@ -82,8 +82,8 @@ const Home: React.FC = () => {
                 <div className="max-w-[1500px] mx-auto flex flex-col gap-10">
                     <section className="flex justify-between bg-gradient-to-r to-orange-600 from-orange-700 py-5 px-20 rounded-[10px] gap-10 max-md:hidden">
                         <div className="flex flex-col gap-5 self-center">
-                            <h1 className="text-8xl font-bold text-white max-xl:text-7xl">Spee Shop</h1>
-                            <p className="text-xl text-white/70 max-xl:text-lg">Stop waiting. Start shopping. Spee provides a fast, smooth, and engaging online shopping experience. Featuring an optimized interface, a smart search system, and lightning-fast order processing, Spee is the go-to for smart shoppers who appreciate efficiency and class.</p>
+                            <h1 className="text-8xl font-bold text-white max-xl:text-7xl">Platzi Fake Store</h1>
+                            <p className="text-xl text-white/70 max-xl:text-lg">Stop waiting. Start shopping. Platzi Fake Store provides a fast, smooth, and engaging online shopping experience. Featuring an optimized interface, a smart search system, and lightning-fast order processing, Platzi Fake Store is the go-to for smart shoppers who appreciate efficiency and class.</p>
                             <button onClick={handleProduct}
                                 className="px-4 py-1 css-next bg-white rounded-[10px] max-xl:text-lg text-xl font-600 flex gap-2 items-center w-fit text-orange-700">BY NOW
                                 <span>{icons.iconNext}</span>

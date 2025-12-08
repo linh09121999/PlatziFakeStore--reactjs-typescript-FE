@@ -14,7 +14,7 @@ const BarAdmin: React.FC<propsLogOut> = ({ onLogout }) => {
             <aside className={` ${sidebarOpen ? "w-[90px]" : "w-[280px]"} max-lg:hidden  fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 -translate-x-full lg:translate-x-0`}>
                 <div className='py-8 flex justify-start items-end gap-2'>
                     <img alt='logo' className='h-10 max-md:h-8' src={imgs.logoColor} />
-                    <p className={`${sidebarOpen ? "hidden" : ""} text-3xl text-orange-700 font-bold max-md:text-2xl transition-all duration-300 ease-in-out`}>SPEE</p>
+                    <p className={`${sidebarOpen ? "hidden" : ""} text-3xl text-orange-700 font-bold max-md:text-2xl transition-all duration-300 ease-in-out`}>Platzi Fake</p>
                 </div>
                 <div className='flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar'>
                     <nav className='mb-6'>

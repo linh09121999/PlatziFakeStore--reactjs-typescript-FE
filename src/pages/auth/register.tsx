@@ -216,7 +216,7 @@ const Register: React.FC = () => {
             <header className="top-0 sticky z-100 px-5 bg-white">
                 <div className='max-w-[1500px] mx-auto py-5 flex items-end gap-4'>
                     <img alt='logo' className='h-12 max-md:h-10' src={imgs.logoColor} />
-                    <p className='text-3xl text-orange-700 font-bold max-md:text-2xl'>SPEE SHOP</p>
+                    <p className='text-3xl text-orange-700 font-bold max-md:text-2xl'>Platzi Fake Store</p>
                     <p className="text-3xl border-l-[2px] border-l-orange-700 pl-[20px] max-sm:hidden">Register</p>
                 </div>
             </header>

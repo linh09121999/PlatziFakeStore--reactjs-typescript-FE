@@ -213,7 +213,7 @@ const HeaderWeb: React.FC<propsLogOut> = ({ onLogout }) => {
                     <div className='flex justify-between'>
                         <div className='flex gap-2 items-end'>
                             <img alt='logo' className='h-12 max-md:h-10' src={imgs.logo} />
-                            <p className='text-3xl text-white font-bold max-md:text-2xl'>SPEE SHOP</p>
+                            <p className='text-3xl text-white font-bold max-md:text-2xl'>Platzi Fake Store</p>
                         </div>
                         <div className='flex items-center gap-5 md:hidden'>
                             <button className='content-end relative  css-icon'
